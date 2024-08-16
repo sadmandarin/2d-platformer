@@ -6,7 +6,7 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.GetComponent<Ground>())
         {
             _player.GroundChecker(true);
         }
@@ -14,7 +14,7 @@ public class GroundChecker : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.GetComponent<Ground>())
         {
             _player.GroundChecker(false);
         }

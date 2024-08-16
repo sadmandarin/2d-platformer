@@ -3,7 +3,6 @@ using UnityEngine;
 public class StairsChecker : MonoBehaviour
 {
     private Player _player;
-    private LayerMask _stairLayer = 7;
 
     private void Start()
     {
@@ -12,7 +11,7 @@ public class StairsChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == _stairLayer )
+        if (collision.gameObject.GetComponent<StairsZone>())
         {
             _player.IsTouchedStairs(true);
         }
@@ -20,7 +19,7 @@ public class StairsChecker : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == _stairLayer)
+        if (collision.gameObject.GetComponent<StairsZone>())
         {
             _player.IsTouchedStairs(false);
         }

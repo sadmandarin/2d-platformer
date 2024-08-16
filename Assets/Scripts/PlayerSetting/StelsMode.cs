@@ -5,7 +5,6 @@ public class StelsMode : MonoBehaviour
     private bool _canEnterStelsMode;
     private int _stelsObjectSortingOrder;
     private int _playerSortingOrder;
-    private int _stelsObjectLayer = 8;
 
     private Player _player;
     private SpriteRenderer _spriteRenderer;
@@ -37,7 +36,7 @@ public class StelsMode : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == _stelsObjectLayer)
+        if (collision.gameObject.GetComponent<StelsZone>())
         {
             _canEnterStelsMode = true;
             Debug.Log("Can enter StelsMode");
@@ -47,7 +46,7 @@ public class StelsMode : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == _stelsObjectLayer)
+        if (collision.gameObject.GetComponent<StelsZone>())
         {
             _canEnterStelsMode = false;
             ExitStelsMode();
