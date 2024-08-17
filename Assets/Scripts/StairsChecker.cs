@@ -6,7 +6,7 @@ public class StairsChecker : MonoBehaviour
 
     private void Start()
     {
-        _player = GetComponent<Player>();
+        _player = GetComponentInParent<Player>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

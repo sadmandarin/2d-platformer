@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _playerHp;
 
-    private bool _isOnGround = true;
+    [SerializeField] private bool _isOnGround = true;
     private bool _isOnStair;
     private bool _isInStelsMode;
 

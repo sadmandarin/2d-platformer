@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private PlatformEffector2D _effector;
 
     private float _horizontalInput;
     private float _verticalInput;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
     private Player _player;
+
 
     private void Start()
     {
@@ -30,6 +32,10 @@ public class PlayerMovement : MonoBehaviour
     {
         _horizontalInput = Input.GetAxis(_horizontalAxis);
         _verticalInput = Input.GetAxis(_verticalAxis);
+
+        //if (!_player.IsOnStair)
+        //    _effector.rotationalOffset = 0;
+
     }
 
     private void FixedUpdate()
@@ -63,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_horizontalInput != 0)
             _spriteRenderer.flipX = _horizontalInput > 0 ? false : true;
+
+        //_effector.rotationalOffset = (_verticalInput > 0) ? 0 : 180;
 
         _rb.velocity = new Vector2(_horizontalInput * _speed, _verticalInput * _speed);
     }

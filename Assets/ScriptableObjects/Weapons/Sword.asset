@@ -16,4 +16,4 @@ MonoBehaviour:
   AttackSpeed: 1
   QuickAttackDamage: 10
   StrongAttackDamage: 20
-  AttackRange: 0.5
+  AttackRange: 1

@@ -7,10 +7,7 @@ public abstract class WeaponsBase : ScriptableObject
     public int QuickAttackDamage;
     public int StrongAttackDamage;
 
-    public void TryAttack(int damage)
-    {
-        Attack(damage);
-    }
+    public abstract void QuickAttack(Transform attackpoint, MonoBehaviour owner);
+    public abstract void StrongAttack(Transform attackPoint, MonoBehaviour owner);
 
-    protected abstract void Attack(int damage);
 }

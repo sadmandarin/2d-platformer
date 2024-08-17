@@ -6,8 +6,13 @@ public class LongRangeWeapons : WeaponsBase
     public float ProjectileRange;
     public float ProjectileSpeed;
 
-    protected override void Attack(int damage)
+    public override void QuickAttack(Transform attackpoint, MonoBehaviour owner)
     {
-        Debug.Log("Attack by LongRange " + damage);
+        throw new System.NotImplementedException();
+    }
+
+    public override void StrongAttack(Transform attackPoint, MonoBehaviour owner)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.Rendering;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField] private Transform _attackPoint;
     [SerializeField] private WeaponsBase _currentMeleeWeapon;
     [SerializeField] private WeaponsBase _currentLongRangeWeapon;
 
@@ -14,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
 
     private float _startAttackingTime;
     private bool _isAttacking;
+
 
     private void Start()
     {
@@ -51,9 +53,17 @@ public class PlayerAttack : MonoBehaviour
         float duration = Time.time - _startAttackingTime;
 
         if (duration >= _timeToStrongAttack)
-            _activeWeapon?.TryAttack(_activeWeapon.StrongAttackDamage);
+            _activeWeapon?.StrongAttack(_attackPoint, this);
         else
-            _activeWeapon?.TryAttack(_activeWeapon.QuickAttackDamage);
+            _activeWeapon?.QuickAttack(_attackPoint, this);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (_attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(_attackPoint.position, 1f);
     }
 
     public void SwitchActiveWeapon()
