@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private PlatformEffector2D _effector;
+    [SerializeField] private GameObject _hpBar;
 
     private float _horizontalInput;
     private float _verticalInput;
@@ -55,20 +56,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (_horizontalInput != 0)
-            transform.rotation = _horizontalInput > 0 ? 
-                                 Quaternion.Euler(0, 0, 0) :
-                                 Quaternion.Euler(0, 180, 0);
+        Flip();
 
         _rb.velocity = new Vector2(_horizontalInput * _speed, _rb.velocity.y);
     }
 
     private void StairsMove()
     {
-        if (_horizontalInput != 0)
-            transform.rotation = _horizontalInput > 0 ?
-                                 Quaternion.Euler(0, 0, 0) :
-                                 Quaternion.Euler(0, 180, 0);
+        Flip();
 
         _rb.velocity = new Vector2(_horizontalInput * _speed, _verticalInput * _speed);
     }
@@ -76,5 +71,22 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+    }
+
+    private void Flip()
+    {
+        if (_horizontalInput != 0)
+        {
+            if (_horizontalInput > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                _hpBar.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else 
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                _hpBar.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        } 
     }
 }
