@@ -32,10 +32,6 @@ public class PlayerMovement : MonoBehaviour
     {
         _horizontalInput = Input.GetAxis(_horizontalAxis);
         _verticalInput = Input.GetAxis(_verticalAxis);
-
-        //if (!_player.IsOnStair)
-        //    _effector.rotationalOffset = 0;
-
     }
 
     private void FixedUpdate()
@@ -60,7 +56,9 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         if (_horizontalInput != 0)
-            _spriteRenderer.flipX = _horizontalInput > 0 ? false : true;
+            transform.rotation = _horizontalInput > 0 ? 
+                                 Quaternion.Euler(0, 0, 0) :
+                                 Quaternion.Euler(0, 180, 0);
 
         _rb.velocity = new Vector2(_horizontalInput * _speed, _rb.velocity.y);
     }
@@ -68,9 +66,9 @@ public class PlayerMovement : MonoBehaviour
     private void StairsMove()
     {
         if (_horizontalInput != 0)
-            _spriteRenderer.flipX = _horizontalInput > 0 ? false : true;
-
-        //_effector.rotationalOffset = (_verticalInput > 0) ? 0 : 180;
+            transform.rotation = _horizontalInput > 0 ?
+                                 Quaternion.Euler(0, 0, 0) :
+                                 Quaternion.Euler(0, 180, 0);
 
         _rb.velocity = new Vector2(_horizontalInput * _speed, _verticalInput * _speed);
     }

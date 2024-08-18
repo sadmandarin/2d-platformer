@@ -38,12 +38,18 @@ public class PlayerAttack : MonoBehaviour
                 _isAttacking = true;
             }
         }
+        
+    }
+
+    private void FixedUpdate()
+    {
         if (Input.GetKeyUp(KeyCode.F))
         {
             if (_isAttacking)
             {
                 PerformAttack();
                 _isAttacking = false;
+                _lastTimeAttack = Time.time;
             }
         }
     }

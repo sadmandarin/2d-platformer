@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b4e86bdcc50dc6418d71f2dfd31ad89, type: 3}
+  m_Script: {fileID: 11500000, guid: c65693fad98b5484abce5ddbd5b1ebbb, type: 3}
   m_Name: CrossBow
   m_EditorClassIdentifier: 
-  Name: Crossbow
+  Name: CrossBow
   AttackSpeed: 0.5
   QuickAttackDamage: 20
   StrongAttackDamage: 30
-  ProjectileRange: 5
-  ProjectileSpeed: 0
+  ProjectileRange: 10
+  ProjectileSpeed: 3
+  ProjectilePrefab: {fileID: 7374843256117424265, guid: 60b43c5fbc1474a49b9c40efc4a3c8a9, type: 3}

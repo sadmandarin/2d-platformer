@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MeleeWeapons", menuName = "ScriptableObjects/Weapons/MeleeWeapons", order = 1)]
-public class MeleeWeapons : WeaponsBase
+[CreateAssetMenu(fileName = "Sword", menuName = "ScriptableObjects/Weapons/Sword", order = 1)]
+public class Sword : WeaponsBase
 {
     public float AttackRange;
 
@@ -25,6 +25,6 @@ public class MeleeWeapons : WeaponsBase
                 enemy.GetComponent<Enemy>().TakeDamage(damage);
         }
 
-        Debug.Log("Attack by Melee " + damage);
+        Debug.Log("Attack by Sword " + damage);
     }
 }
