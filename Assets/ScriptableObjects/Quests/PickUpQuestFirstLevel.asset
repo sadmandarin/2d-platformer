@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestName: PickUpQuest1Level
   QuestDescription: "\u041F\u0440\u0438\u043D\u0435\u0441\u0442\u0438 \u043F\u0440\u0435\u0434\u043C\u0435\u0442"
-  IsQuestActiveNow: 1
-  IsCompleted: 1
+  IsQuestActiveNow: 0
+  IsCompleted: 0
   ObjectToSpawn: {fileID: 9033977670344535558, guid: de78938e943beb8488aad8915e77c43a, type: 3}
-  IsItemPickUp: 1
+  IsItemPickUp: 0
   RequiredItemName: Level1QuestItem

@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private string _horizontalAxis = "Horizontal";
     private string _verticalAxis = "Vertical";
 
+    private float _stopForce = 50;
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
     private Player _player;
@@ -58,7 +59,21 @@ public class PlayerMovement : MonoBehaviour
     {
         Flip();
 
-        _rb.velocity = new Vector2(_horizontalInput * _speed, _rb.velocity.y);
+        if (_horizontalInput != 0 && Mathf.Sign(_horizontalInput) == Mathf.Sign(_rb.velocity.x))
+        {
+            if (Mathf.Abs(_rb.velocity.x) < _speed)
+            {
+                _rb.AddForce(new Vector2(_horizontalInput * _speed, 0), ForceMode2D.Force);
+            }
+        }
+        else if (_horizontalInput != 0) 
+        {
+            _rb.AddForce(new Vector2(_horizontalInput * _stopForce  , 0), ForceMode2D.Force);
+        }
+        else 
+        {
+            _rb.velocity = new Vector2(0, _rb.velocity.y);
+        }
     }
 
     private void StairsMove()
