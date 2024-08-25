@@ -7,12 +7,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private WeaponsBase _currentMeleeWeapon;
     [SerializeField] private WeaponsBase _currentLongRangeWeapon;
-
+    [SerializeField] private AbilitySOBase _currentAbility;
+ 
     private WeaponsBase _activeWeapon;
 
     private float _timeToStrongAttack = 1f;
     private float _lastTimeAttack;
-
+    private float _magicAttackCooldown;
     private float _startAttackingTime;
     private bool _isAttacking;
 
@@ -62,6 +63,14 @@ public class PlayerAttack : MonoBehaviour
             _activeWeapon?.StrongAttack(_attackPoint, this);
         else
             _activeWeapon?.QuickAttack(_attackPoint, this);
+    }
+
+    public void MagicAttack()
+    {
+        if (_currentAbility != null)
+        {
+            //после того, как обсудим магические способности
+        }
     }
 
     void OnDrawGizmosSelected()

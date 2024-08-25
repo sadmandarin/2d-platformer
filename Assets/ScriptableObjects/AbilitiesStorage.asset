@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596c3502ec25b424a962771f69182a59, type: 3}
   m_Name: AbilitiesStorage
   m_EditorClassIdentifier: 
+  _abilitiesList: []
+  _weaponsList: []
