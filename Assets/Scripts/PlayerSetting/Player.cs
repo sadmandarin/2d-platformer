@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isOnGround = true;
     private bool _isOnStair;
     private bool _isInStelsMode;
+    [SerializeField] private bool _isTouchingWall;
 
     public int MaxHP = 100;
     public event Action OnTookDamage;
@@ -18,6 +17,8 @@ public class Player : MonoBehaviour
     public bool IsOnGround {  get { return _isOnGround; } private set {  _isOnGround = value; } }
     public bool IsOnStair { get {  return _isOnStair; } private set { _isOnStair = value; } }
     public bool IsInStelsMode { get {  return _isInStelsMode; } private set { _isInStelsMode = value; } }
+
+    public bool IsTouchingWall { get { return _isTouchingWall; } private set { _isTouchingWall = value; } }
 
     private void Update()
     {
@@ -30,6 +31,11 @@ public class Player : MonoBehaviour
     public void GroundChecker(bool isOnGround)
     {
         _isOnGround = isOnGround;
+    }
+
+    public void TouchedWall(bool touch)
+    {
+        IsTouchingWall = touch;
     }
 
     public void IsTouchedStairs(bool isOnStair)

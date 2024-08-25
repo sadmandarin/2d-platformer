@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private PlatformEffector2D _effector;
     [SerializeField] private GameObject _hpBar;
+    [SerializeField] private Transform _wallCheck;
 
     private float _horizontalInput;
     private float _verticalInput;
@@ -59,18 +60,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Flip();
 
-        if (_horizontalInput != 0 && Mathf.Sign(_horizontalInput) == Mathf.Sign(_rb.velocity.x))
+        if (_horizontalInput != 0 && !_player.IsTouchingWall)
         {
-            if (Mathf.Abs(_rb.velocity.x) < _speed)
-            {
-                _rb.AddForce(new Vector2(_horizontalInput * _speed, 0), ForceMode2D.Force);
-            }
+            _rb.velocity = new Vector2(_horizontalInput * _speed, _rb.velocity.y);
         }
-        else if (_horizontalInput != 0) 
-        {
-            _rb.AddForce(new Vector2(_horizontalInput * _stopForce  , 0), ForceMode2D.Force);
-        }
-        else 
+        else if (_player.IsTouchingWall && Mathf.Sign(_horizontalInput) == Mathf.Sign(_rb.velocity.x))
         {
             _rb.velocity = new Vector2(0, _rb.velocity.y);
         }
