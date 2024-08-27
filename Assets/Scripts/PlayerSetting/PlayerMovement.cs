@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using UnityEngine;
 
+[RequireComponent (typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -39,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _player.SetFallingState(_rb.velocity.y);
+        _player.SetMovingState(_horizontalInput == 0 ? 0 : 1);
+
         if (!_player.IsOnStair)
         {
             _rb.gravityScale = 1;
@@ -80,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+
+        _player.SetJumpingState(true);
     }
 
     private void Flip()

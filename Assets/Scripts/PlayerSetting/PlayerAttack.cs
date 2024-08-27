@@ -10,18 +10,20 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AbilitySOBase _currentAbility;
  
     private WeaponsBase _activeWeapon;
+    private Player _player;
 
     private float _timeToStrongAttack = 1f;
     private float _lastTimeAttack;
     private float _magicAttackCooldown;
     private float _startAttackingTime;
     private bool _isAttacking;
+    private int _valueOfQuickAttack = 0;
 
-
-    private void Start()
+    private void Awake()
     {
         _lastTimeAttack = Time.time;
         _activeWeapon = _currentMeleeWeapon;
+        _player = GetComponent<Player>();
     }
 
     private void Update()
@@ -36,20 +38,7 @@ public class PlayerAttack : MonoBehaviour
             if (Time.time >= _lastTimeAttack + 1/_activeWeapon.AttackSpeed)
             {
                 _startAttackingTime = Time.time;
-                _isAttacking = true;
-            }
-        }
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            if (_isAttacking)
-            {
                 PerformAttack();
-                _isAttacking = false;
                 _lastTimeAttack = Time.time;
             }
         }
@@ -62,7 +51,12 @@ public class PlayerAttack : MonoBehaviour
         if (duration >= _timeToStrongAttack)
             _activeWeapon?.StrongAttack(_attackPoint, this);
         else
+        {
             _activeWeapon?.QuickAttack(_attackPoint, this);
+            _valueOfQuickAttack++;
+            _player.SetQuickAttackState(_valueOfQuickAttack);
+        }
+            
     }
 
     public void MagicAttack()
