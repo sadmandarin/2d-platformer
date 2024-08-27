@@ -11,9 +11,9 @@ public class PlayerDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Player>())
+        if (collision.gameObject.GetComponent<Player>() && _enemy.IsPlayerDetected == false)
         {
-            _enemy.SetPlayerDetect(true);
+            _enemy.SetPlayerDetection(true);
             _enemy.SetPlayerTransform(collision.gameObject.transform);
         }
     }
