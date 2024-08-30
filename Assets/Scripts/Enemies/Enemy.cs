@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,6 +11,7 @@ public class Enemy : MonoBehaviour
     private bool _isObstacleAhead;
     private bool _canAttack;
     private bool _isOnStairs;
+    private bool _isDead = false;
     [SerializeField] private bool _isPlayerDetected;
     private Transform _playerTransform;
     private Animator _animator;
@@ -36,6 +39,7 @@ public class Enemy : MonoBehaviour
         }
     }
     public bool IsObstacleAhead { get { return _isObstacleAhead; } private set { _isObstacleAhead = value; } }
+    public bool IsDead { get { return _isDead; } private set { _isDead = value; } }
     public bool IsOnStairs { get { return _isOnStairs; } private set { _isOnStairs = value; } }
     public bool IsPlayerDetected { get { return _isPlayerDetected; } private set { _isPlayerDetected = value; } }
     public Transform PlayerTransform { get { return _playerTransform; } private set { _playerTransform = value; } }
@@ -84,10 +88,26 @@ public class Enemy : MonoBehaviour
     {
         Hp -= damage;
 
+        if (Hp <= 0 && !_isDead)
+        {
+            Die();
+        }
+
         Debug.Log($"Получено урона врагом: {damage}");
         Debug.Log($"Осталось HP у врага: {Hp}");
+    }
 
-        if (Hp <= 0)
-            Destroy(gameObject);
+    private void Die()
+    {
+        _isDead = true;
+        _animator.SetTrigger("Death");
+
+        StartCoroutine(DestroyEnemyOnDeath());
+    }
+
+    private IEnumerator DestroyEnemyOnDeath()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 }

@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
+[RequireComponent(typeof(Enemy))]
 public class EnemyAttack : MonoBehaviour
 {
     private Enemy _enemy;
-    private float _attackSpeed = 1;
+    private float _attackSpeed = 2;
     private float _lastTimeAttack;
     private float _startAttackingTime;
     private bool _isAttacking = false;
@@ -22,16 +20,20 @@ public class EnemyAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _enemy.CanAttack)
+        if (!_enemy.IsDead)
         {
-            if (!_isAttacking)
+            if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _enemy.CanAttack)
             {
-                _startAttackingTime = Time.time;
-                _isAttacking = true;
-                PerformAttack();
-                _lastTimeAttack = Time.time;
+                if (!_isAttacking)
+                {
+                    _startAttackingTime = Time.time;
+                    _isAttacking = true;
+                    PerformAttack();
+                    _lastTimeAttack = Time.time;
+                }
             }
         }
+        
         
     }
 
@@ -47,10 +49,11 @@ public class EnemyAttack : MonoBehaviour
                 enemy.GetComponent<Player>().TakeDamage(_enemy.Damage);
         }
 
-        _isAttacking = false;
-
-
         Debug.Log("Attack by Sword " + _enemy.Damage);
+    }
 
+    private void OnAttackAnimationComplete()
+    {
+        _isAttacking = false;
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   Name: Sword
-  AttackSpeed: 1
+  AttackSpeed: 3
   QuickAttackDamage: 10
   StrongAttackDamage: 20
   AttackRange: 1

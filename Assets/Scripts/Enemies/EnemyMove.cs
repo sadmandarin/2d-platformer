@@ -18,11 +18,25 @@ public class EnemyMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _enemy.SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
+        if (!_enemy.IsDead)
+        {
+            _enemy.SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
 
-        _rb.gravityScale = (_enemy.IsOnStairs) ? 0 : 1;
+            if (_enemy.IsOnStairs)
+            {
+                _rb.gravityScale = 0;
 
-        MoveTowardsPlayer();
+                StairsMove();
+            }
+
+            else
+            {
+                _rb.gravityScale = 1;
+
+                MoveTowardsPlayer();
+            }
+            
+        }
     }
 
     private void MoveTowardsPlayer()
@@ -38,6 +52,15 @@ public class EnemyMove : MonoBehaviour
                 _rb.velocity = new Vector2(direction.x * _speed, _rb.velocity.y);
             }
         }
+    }
+
+    private void StairsMove()
+    {
+        FlipX();
+
+        Vector2 direction = (_enemy.PlayerTransform.position - transform.position).normalized;
+
+        _rb.velocity = new Vector2(direction.x * _speed, direction.y * _speed);
     }
 
     private void FlipX()
