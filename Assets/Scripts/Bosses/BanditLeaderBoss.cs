@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BanditLeaderBoss : BossBase
@@ -12,16 +13,25 @@ public class BanditLeaderBoss : BossBase
     private bool _isBodyArmorDestroyed = false;
     private int _hitToBlock = 4;
     private int _hitCounter = 0;
-    private Player _player;
+    private bool _canDoAttack = true;
+    private bool _canDoSpecialAttack = true;
 
     protected override void Start()
     {
         base.Start();
     }
 
-    public void SetPlayer(Player player)
+    protected override void Update()
     {
-        _player = player;
+        base.Update();
+
+        if (Mathf.Abs(transform.position.x - _playerPosition.position.x) <= 2)
+        {
+            if (_canDoAttack)
+            {
+                _state = BossState.MeleeAttack;
+            }
+        }
     }
 
     public override void ArmorDamage(int damage, bool isRanged)
@@ -50,6 +60,23 @@ public class BanditLeaderBoss : BossBase
     {
         _animator.SetTrigger("Attack");
 
+        Debug.Log("Attack");
+
+        _canDoAttack = false;
+
+        StartCoroutine(ResetAttack());
+
+        switch (Random.Range(0, maxInclusive: 1))
+        {
+            case 0:
+                _state = BossState.NoAction;
+                break;
+            case 1:
+                _state = BossState.Retreat;
+                break;
+        }
+
+        
     }
 
     public override void Block()
@@ -62,23 +89,37 @@ public class BanditLeaderBoss : BossBase
     private IEnumerator EndBlock()
     {
         yield return new WaitForSeconds(1);
+
         _isBlocking = false;
+
+        _state = BossState.NoAction;
     }
 
     public override void SpecialAttack()
     {
-        GameObject specialAttack = Instantiate(_specialAttackPrefab, _spawnSpecialAttackTransform.position, Quaternion.identity);
+        if (_player != null)
+        {
+            Debug.Log("Специальная");
 
-        Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+            GameObject specialAttack = Instantiate(_specialAttackPrefab, _spawnSpecialAttackTransform.position, Quaternion.identity);
 
-        specialAttack.GetComponent<SpecialAttackProj>().Initialize(direction, _specialAttackDamage);
+            Vector2 direction = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+
+            specialAttack.GetComponent<SpecialAttackProj>().Initialize(direction, _specialAttackDamage);
+
+            _canDoSpecialAttack = false;
+
+            StartCoroutine(ResetSpecialAttack());
+
+            _state = BossState.NoAction;
+        }
     }
 
     public override void TakeDamage(int damage, bool isRanged)
     {
         if (_hitCounter % _hitToBlock == 0)
         {
-            Block();
+            _state = BossState.Block;
         }
 
         if (_isBlocking)
@@ -99,20 +140,6 @@ public class BanditLeaderBoss : BossBase
             ArmorDamage(damage, isRanged);
     }
 
-    protected override void Die()
-    {
-        _isDead = true;
-        _animator.SetTrigger("Death");
-        StartCoroutine(DestroyBossAfterDeath());
-    }
-
-    private IEnumerator DestroyBossAfterDeath()
-    {
-        yield return new WaitForSeconds(2f);
-
-        Destroy(gameObject);
-    }
-
     protected override void InitializeStats()
     {
         _baseDamage = 30;
@@ -124,13 +151,104 @@ public class BanditLeaderBoss : BossBase
         _bodyArmorHealth = _baseHealth;
     }
 
-    private IEnumerator AttackPattern()
+    protected override void MoveTowardsPlayer()
     {
-        yield return null;
+        Vector2 direction = (_playerPosition.position - transform.position).normalized;
+
+        _rb.velocity = new Vector2(direction.x * _baseSpeed, _rb.velocity.y);
+        
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(-2, 2, 2); 
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(2, 2, 2);
+        }
+
+        float specialAttack = Random.value;
+
+        if (specialAttack <= 0.1 && _state != BossState.SpecialAttack)
+        {
+            if (_canDoSpecialAttack)
+            {
+                _state = BossState.SpecialAttack;
+            }
+        }
     }
 
-    void MoveTowardsPlayer()
+    protected override void Retreat()
     {
+        Debug.Log("Убегаем");
 
+        Vector2 direction = (_playerPosition.position - transform.position).normalized;
+
+        _rb.velocity = new Vector2(-direction.x * _baseSpeed, _rb.velocity.y);
+
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(-2, 2, 2);
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(2, 2, 2);
+        }
+
+        if (Vector2.Distance(transform.position, _playerPosition.position) > 5)
+        {
+            _state = BossState.SpecialAttack;
+        }
+    }
+
+    protected override IEnumerator ComboMeleeAttack()
+    {
+        for (int i = 0; i < Random.Range(2, 4); i++)
+        {
+            _animator.SetTrigger("Attack");
+            Debug.Log("Комбо");
+
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        switch (Random.Range(0, 2))
+        {
+            case 0:
+                _state = BossState.NoAction;
+                break;
+            case 1:
+                _state = BossState.Retreat;
+                break;
+        }
+    }
+
+    public override void SetPlayer(Player player)
+    {
+        if (_player == null)
+        {
+            _player = player;
+
+            _playerPosition = player.gameObject.transform;
+
+            _state = BossState.SpecialAttack;
+        }
+    }
+
+    private IEnumerator ResetSpecialAttack()
+    {
+        yield return new WaitForSeconds(2);
+
+        _canDoSpecialAttack = true;
+    }
+
+    private IEnumerator ResetAttack()
+    {
+        yield return new WaitForSeconds(1);
+
+        _canDoAttack = true;
+    }
+
+    protected override IEnumerator AttackPattern()
+    {
+        throw new System.NotImplementedException();
     }
 }
