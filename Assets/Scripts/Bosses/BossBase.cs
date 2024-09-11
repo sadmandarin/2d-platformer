@@ -25,7 +25,6 @@ public abstract class BossBase : MonoBehaviour
 
     public enum BossState 
     {
-        NoAction,
         Idle,
         MeleeAttack,
         ComboMeleeAttack,
@@ -47,17 +46,9 @@ public abstract class BossBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        HandleState();
-
         if (_player != null)
         {
-            if (Vector2.Distance(transform.position, _playerPosition.transform.position) >= 2)
-            {
-                if (_state != BossState.Idle && _state != BossState.Retreat)
-                {
-                    MoveTowardsPlayer();
-                }
-            }
+            HandleState();
         }
     }
 
@@ -66,8 +57,7 @@ public abstract class BossBase : MonoBehaviour
         switch (_state)
         {
             case BossState.Idle:
-                break;
-            case BossState.NoAction:
+                Idle();
                 break;
             case BossState.MeleeAttack:
                 Attack();
@@ -101,15 +91,16 @@ public abstract class BossBase : MonoBehaviour
 
         Destroy(gameObject);
     }
+
     public abstract void SetPlayer(Player player);
     protected abstract void InitializeStats();
-    protected abstract IEnumerator AttackPattern();
-
+    protected abstract IEnumerator AttackInterval();
     public abstract void TakeDamage(int damage, bool isRanged);
     protected abstract void MoveTowardsPlayer();
+    protected abstract void Idle();
     protected abstract void Retreat();
     public abstract void Attack();
-    protected abstract IEnumerator ComboMeleeAttack(); 
+    protected abstract void ComboMeleeAttack(); 
     public abstract void SpecialAttack();
     public abstract void Block();
     public abstract void ArmorDamage(int damage, bool isRanged);

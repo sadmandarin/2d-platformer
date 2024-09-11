@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent (typeof(Rigidbody2D))]
@@ -19,9 +20,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
     private Player _player;
+    private BoxCollider2D _boxCollider;
 
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -32,6 +34,14 @@ public class PlayerMovement : MonoBehaviour
     {
         _horizontalInput = Input.GetAxis(_horizontalAxis);
         _verticalInput = Input.GetAxis(_verticalAxis);
+
+        if (_horizontalInput != 0 && Input.GetKeyDown(KeyCode.C))
+        {
+            if (!_player.IsRollingAnimationStart && _player.IsOnGround)
+            {
+                Roll();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -54,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    private void Roll()
+    {
+        _player.EnableRollingAnimationState();
     }
 
     private void Move()

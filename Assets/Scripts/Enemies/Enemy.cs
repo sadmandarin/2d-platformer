@@ -47,6 +47,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+
+        IsOnStairs = false;
     }
 
     public bool SetPlayerDetection(bool detect)

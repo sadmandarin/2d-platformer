@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animator), typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _playerHp;
@@ -11,15 +11,17 @@ public class Player : MonoBehaviour
     private bool _isInStelsMode;
     private float _isFalling;
     [SerializeField] private bool _isJumping;
+    [SerializeField] private bool _isRolling;
+    [SerializeField] private bool _isRollingAnimationStart;
     private bool _isTouchingWall;
     [SerializeField] private int _isMoving;
     private int _quickAttackState = 0;
 
     private Animator _animator;
+    private BoxCollider2D _boxCollider2D;
 
     public int MaxHP = 100;
     public event Action OnTookDamage;
-
 
     public bool IsJumping 
     {
@@ -33,6 +35,11 @@ public class Player : MonoBehaviour
             _animator.SetTrigger("Jump");
         }
     }
+
+    public bool IsRolling { get { return _isRolling; } private set { _isRolling = value; } }
+
+    public bool IsRollingAnimationStart { get { return _isRollingAnimationStart; } private set { _isRollingAnimationStart = value; } }
+
     public int IsMoving
     {
         get
@@ -99,6 +106,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -132,6 +140,34 @@ public class Player : MonoBehaviour
     public bool SetJumpingState(bool jumpingState)
     {
         return IsJumping = jumpingState;
+    }
+
+    public void EnableRollingAnimationState()
+    {
+        _animator.SetTrigger("Roll");
+
+        _boxCollider2D.offset = new Vector2(0, 0.36f);
+        _boxCollider2D.size = new Vector2(0.73f, 0.6f);
+
+        IsRollingAnimationStart = true;
+    }
+
+    public void DisableRollingAnimationState()
+    {
+        IsRollingAnimationStart = false;
+
+        _boxCollider2D.offset = new Vector2(0, 0.662f);
+        _boxCollider2D.size = new Vector2(0.73f, 1.2f);
+    }
+
+    public void SetRollingState()
+    {
+        IsRolling = true;
+    }
+
+    public void ResetRollingState()
+    {
+        IsRolling = false;
     }
 
     public int SetQuickAttackState(int quickAttackState)

@@ -58,9 +58,12 @@ public class EnemyMove : MonoBehaviour
     {
         FlipX();
 
-        Vector2 direction = (_enemy.PlayerTransform.position - transform.position).normalized;
+        if (_enemy.IsPlayerDetected)
+        {
+            Vector2 direction = (_enemy.PlayerTransform.position - transform.position).normalized;
 
-        _rb.velocity = new Vector2(direction.x * _speed, direction.y * _speed);
+            _rb.velocity = new Vector2(direction.x * _speed, direction.y * _speed);
+        }
     }
 
     private void FlipX()

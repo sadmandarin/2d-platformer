@@ -37,8 +37,12 @@ public class SpecialAttackProj : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            collision.gameObject.GetComponent<Player>().TakeDamage(_damage);
-            Destroy(gameObject);
+            var player = collision.gameObject.GetComponent<Player>();
+            if (!player.IsRolling)
+            {
+                collision.gameObject.GetComponent<Player>().TakeDamage(_damage);
+                Destroy(gameObject);
+            }
         }
     }
 }

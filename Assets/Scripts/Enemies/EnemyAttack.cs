@@ -46,7 +46,12 @@ public class EnemyAttack : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.GetComponent<Player>())
-                enemy.GetComponent<Player>().TakeDamage(_enemy.Damage);
+            {
+                var enemyCollider = enemy.GetComponent<Player>();
+
+                if (!enemyCollider.IsRolling)
+                    enemyCollider.TakeDamage(_enemy.Damage);
+            }
         }
 
         Debug.Log("Attack by Sword " + _enemy.Damage);
