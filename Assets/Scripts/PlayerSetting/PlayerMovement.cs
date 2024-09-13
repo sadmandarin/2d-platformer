@@ -42,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
                 Roll();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround)
+        {
+            Jump();
+        }
     }
 
     private void FixedUpdate()
@@ -58,11 +63,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.gravityScale = 0;
             StairsMove();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround)
-        {
-            Jump();
         }
     }
 
