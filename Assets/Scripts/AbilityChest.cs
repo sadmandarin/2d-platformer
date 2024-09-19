@@ -15,7 +15,7 @@ public class AbilityChest : ChestBase
             if (_abilitiesManager.Keys > 0)
             {
                 _abilitiesManager.AddAbility(_ability);
-                Debug.Log($"Способность {_ability.Ability_name}");
+                Debug.Log($"Способность {_ability.AbilityName}");
                 _isOpened = true;
             }
             else

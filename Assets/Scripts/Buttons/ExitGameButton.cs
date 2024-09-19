@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class ExitGameButton : ButtonBase
 {
-    protected override void Start()
+    protected override void Update()
     {
-        base.Start();
+        base.Update();
+
+        if (_isSelected)
+        {
+            Navigate();
+        }
     }
 
-    protected override void OnClick()
+    protected override void DoAction()
     {
         Application.Quit();
+    }
+
+    protected override void LoadSubMenu()
+    {
+        throw new System.NotImplementedException();
     }
 }

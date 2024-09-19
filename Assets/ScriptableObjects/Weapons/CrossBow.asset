@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: CrossBow
   m_EditorClassIdentifier: 
   Name: CrossBow
+  Icon: {fileID: 21300002, guid: f094595c900579d4c85a02612d8fa36c, type: 3}
+  ShortDescription: vcxdfhgjhngbfvdzcxcbhg
   AttackSpeed: 0.5
   QuickAttackDamage: 20
   StrongAttackDamage: 30
+  IsRanged: 1
   ProjectileRange: 10
   ProjectileSpeed: 3
   ProjectilePrefab: {fileID: 2283902853719701689, guid: 4538a5267f602a644a59b498d594b378, type: 3}

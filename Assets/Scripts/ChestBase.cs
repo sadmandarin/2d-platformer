@@ -2,11 +2,11 @@ using UnityEngine;
 
 public abstract class ChestBase : MonoBehaviour
 {
-    protected AbilitiesStorageManager _abilitiesManager;
+    protected OnLevelChestsStorageManager _abilitiesManager;
     protected bool _isOpened;
 
     public abstract void OpenChest();
-    public void SetAbilityManager(AbilitiesStorageManager abilityManager)
+    public void SetAbilityManager(OnLevelChestsStorageManager abilityManager)
     {
         _abilitiesManager = abilityManager;
     }

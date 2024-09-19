@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilitiesStorageManager : MonoBehaviour
+public class OnLevelChestsStorageManager : MonoBehaviour
 {
     [SerializeField] private List<ChestBase> _chest;
     [SerializeField] private List<Key> _keysList;

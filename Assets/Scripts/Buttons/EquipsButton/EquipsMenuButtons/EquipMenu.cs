@@ -1,8 +1,9 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class RestartLevelButton : ButtonBase
+public class EquipMenu : ButtonBase
 {
+    [SerializeField] protected GameObject _subMenu;
+
     protected override void Update()
     {
         base.Update();
@@ -15,11 +16,12 @@ public class RestartLevelButton : ButtonBase
 
     protected override void DoAction()
     {
-        SceneManager.LoadScene(1);
+        throw new System.NotImplementedException();
     }
 
     protected override void LoadSubMenu()
     {
-        throw new System.NotImplementedException();
+        _subMenu.SetActive(true);
+        Deselect();
     }
 }

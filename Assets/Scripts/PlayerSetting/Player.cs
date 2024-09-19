@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [RequireComponent(typeof(Animator), typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
@@ -17,11 +18,24 @@ public class Player : MonoBehaviour
     [SerializeField] private int _isMoving;
     private int _quickAttackState = 0;
 
+
+    [SerializeField] private WeaponsBase _currentMeleeWeapon;
+    [SerializeField] private WeaponsBase _currentLongRangeWeapon;
+    [SerializeField] private AbilitySOBase _currentAbility;
+    [SerializeField] private PlayerArmorBase _currentArmor;
+    [SerializeField] private PlayerSettingsSO _playerSettingsSO;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
 
     public int MaxHP = 100;
     public event Action OnTookDamage;
+
+    public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
+
+    public WeaponsBase CurrentLongRangeWeapon { get { return _currentLongRangeWeapon; } private set { _currentLongRangeWeapon = value; } }
+    
+    public AbilitySOBase CurrentAbility { get { return _currentAbility; } private set { _currentAbility = value; } }
+    public PlayerArmorBase CurrentArmor { get { return _currentArmor; } private set { _currentArmor = value; } }
 
     public bool IsJumping 
     {
@@ -107,6 +121,7 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        SetHaracteristicOnStart();
     }
 
     private void Update()
@@ -190,5 +205,24 @@ public class Player : MonoBehaviour
         PlayerHp -= damage;
         Debug.Log("Took damage" + damage);
         OnTookDamage?.Invoke();
+    }
+
+    public void ChangeMeleeWeapon(WeaponsBase newMeleeWeapon)
+    {
+        CurrentMeleeWeapon = newMeleeWeapon;
+    }
+
+    public void ChangeLongRangeWeapon(WeaponsBase newLongRangeWeapon)
+    {
+        CurrentLongRangeWeapon = newLongRangeWeapon;
+    }
+
+    private void SetHaracteristicOnStart()
+    {
+        PlayerHp = _playerSettingsSO.Hp;
+        CurrentMeleeWeapon = _playerSettingsSO.MeleeWeapon;
+        CurrentLongRangeWeapon = _playerSettingsSO.LongRangeWeapon;
+        CurrentAbility = _playerSettingsSO.Ability;
+        CurrentArmor = _playerSettingsSO.PlayerArmor;
     }
 }

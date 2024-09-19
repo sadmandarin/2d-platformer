@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Key : MonoBehaviour
 {
-    private AbilitiesStorageManager _abilitiesmanager;
+    private OnLevelChestsStorageManager _abilitiesmanager;
 
-    public void SetAbilityManager(AbilitiesStorageManager manager)
+    public void SetAbilityManager(OnLevelChestsStorageManager manager)
     {
         _abilitiesmanager = manager;
     }

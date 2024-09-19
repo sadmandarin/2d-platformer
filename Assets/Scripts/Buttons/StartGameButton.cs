@@ -2,13 +2,24 @@ using UnityEngine.SceneManagement;
 
 public class StartGameButton : ButtonBase
 {
-    protected override void Start()
+
+    protected override void Update()
     {
-        base.Start();
+        base.Update();
+
+        if (_isSelected)
+        {
+            Navigate();
+        }
     }
 
-    protected override void OnClick()
+    protected override void DoAction()
     {
         SceneManager.LoadScene(1);
+    }
+
+    protected override void LoadSubMenu()
+    {
+        throw new System.NotImplementedException();
     }
 }

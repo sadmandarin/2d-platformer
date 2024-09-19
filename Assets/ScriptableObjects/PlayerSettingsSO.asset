@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a27040818b1ff4f86f98fa79611396, type: 3}
+  m_Name: PlayerSettingsSO
+  m_EditorClassIdentifier: 
+  Hp: 100
+  MeleeWeapon: {fileID: 11400000, guid: 7a7566a65e92a004b95f5a687e4862cf, type: 2}
+  LongRangeWeapon: {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  Ability: {fileID: 0}
+  PlayerArmor: {fileID: 0}

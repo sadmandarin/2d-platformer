@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596c3502ec25b424a962771f69182a59, type: 3}
   m_Name: AbilitiesStorage
   m_EditorClassIdentifier: 
-  _abilitiesList: []
-  _weaponsList: []
+  _abilitiesList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _weaponsList:
+  - {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  - {fileID: 11400000, guid: 7a7566a65e92a004b95f5a687e4862cf, type: 2}
+  _longRangeWeaponList:
+  - {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  _armorList:
+  - {fileID: 0}
+  - {fileID: 0}

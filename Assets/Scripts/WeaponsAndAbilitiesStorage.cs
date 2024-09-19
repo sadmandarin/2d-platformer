@@ -6,10 +6,25 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
 {
     [SerializeField] private List<AbilitySOBase> _abilitiesList;
     [SerializeField] private List<WeaponsBase> _weaponsList;
+    [SerializeField] private List<WeaponsBase> _longRangeWeaponList;
+    [SerializeField] private List<PlayerArmorBase> _armorList;
 
     public void AddWeapon(WeaponsBase weapon)
     {
-        _weaponsList.Add(weapon);
+        if (weapon.IsRanged)
+        {
+            if (!_longRangeWeaponList.Contains(weapon))
+            {
+                _longRangeWeaponList.Add(weapon);
+            }
+        }
+        else
+        {
+            if (!_weaponsList.Contains(weapon))
+            {
+                _weaponsList.Add(weapon);
+            }
+        }
     }
 
     public void AddAbility(AbilitySOBase ability)
@@ -17,13 +32,29 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
         _abilitiesList.Add(ability);
     }
 
-    public List<AbilitySOBase> GetAllAbilities()
+    public List<WeaponsBase> GetAllLongRangeWeapons()
     {
-        return _abilitiesList;
+        return _longRangeWeaponList;
     }
 
-    public List<WeaponsBase> GetAllWeapons()
+    public List<T> GetListByType<T>()
     {
-        return _weaponsList;
+        if (typeof(T) == typeof(AbilitySOBase))
+        {
+            return _abilitiesList as List<T>;
+        }
+        else if (typeof(T) == typeof(WeaponsBase))
+        {
+            return _weaponsList as List<T>;
+        }
+        else if (typeof(T) == typeof(PlayerArmorBase))
+        {
+            return _armorList as List<T>;
+        }
+        else
+        {
+            Debug.LogError("Unknown type");
+            return null;
+        }
     }
 }

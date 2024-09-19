@@ -5,9 +5,6 @@ using UnityEngine.Rendering;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private Transform _attackPoint;
-    [SerializeField] private WeaponsBase _currentMeleeWeapon;
-    [SerializeField] private WeaponsBase _currentLongRangeWeapon;
-    [SerializeField] private AbilitySOBase _currentAbility;
  
     private WeaponsBase _activeWeapon;
     private Player _player;
@@ -22,8 +19,8 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         _lastTimeAttack = Time.time;
-        _activeWeapon = _currentMeleeWeapon;
         _player = GetComponent<Player>();
+        _activeWeapon = _player.CurrentMeleeWeapon;
     }
 
     private void Update()
@@ -61,7 +58,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void MagicAttack()
     {
-        if (_currentAbility != null)
+        if (_player.CurrentAbility != null)
         {
             //после того, как обсудим магические способности
         }
@@ -77,33 +74,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void SwitchActiveWeapon()
     {
-        if (_activeWeapon == _currentMeleeWeapon)
+        if (_activeWeapon == _player.CurrentMeleeWeapon)
         {
-            _activeWeapon = _currentLongRangeWeapon ?? _activeWeapon;
+            _activeWeapon = _player.CurrentLongRangeWeapon ?? _activeWeapon;
         }
         else
         {
-            _activeWeapon = _currentMeleeWeapon ?? _activeWeapon;
+            _activeWeapon = _player.CurrentMeleeWeapon ?? _activeWeapon;
         }
 
         Debug.Log("Current weapon" + _activeWeapon);
-    }
-
-    public void ChangeMeleeWeapon(WeaponsBase newMeleeWeapon)
-    {
-        if (_activeWeapon == _currentMeleeWeapon)
-        {
-            _activeWeapon = newMeleeWeapon;
-        }
-        _currentMeleeWeapon = newMeleeWeapon;     
-    }
-
-    public void ChangeLongRangeWeapon(WeaponsBase newLongRangeWeapon)
-    {
-        if (_activeWeapon == _currentLongRangeWeapon)
-        {
-            _activeWeapon = newLongRangeWeapon;
-        }
-        _currentLongRangeWeapon = newLongRangeWeapon;
     }
 }
