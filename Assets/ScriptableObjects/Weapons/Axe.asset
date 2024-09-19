@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10399a835948d694289ff2741b29a629, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  ShortDescription: 
-  AttackSpeed: 0
-  QuickAttackDamage: 0
-  StrongAttackDamage: 0
+  Name: Axe
+  Icon: {fileID: 2094815519824226833, guid: 19e07f9d107e445408633f50457d456e, type: 3}
+  ShortDescription: drel;m fwel;opgkajhr32qkprol;qe
+  AttackSpeed: 1.5
+  QuickAttackDamage: 15
+  StrongAttackDamage: 30
   IsRanged: 0
-  AttackRange: 0
+  AttackRange: 1

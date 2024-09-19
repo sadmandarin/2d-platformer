@@ -17,7 +17,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _weaponsList:
-  - {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  - {fileID: 11400000, guid: a3e88b612bfcf2a45a21427cd383f4eb, type: 2}
   - {fileID: 11400000, guid: 7a7566a65e92a004b95f5a687e4862cf, type: 2}
   _longRangeWeaponList:
   - {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}

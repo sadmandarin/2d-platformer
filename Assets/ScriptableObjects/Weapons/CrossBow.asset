@@ -20,5 +20,5 @@ MonoBehaviour:
   StrongAttackDamage: 30
   IsRanged: 1
   ProjectileRange: 10
-  ProjectileSpeed: 3
+  ProjectileSpeed: 6
   ProjectilePrefab: {fileID: 2283902853719701689, guid: 4538a5267f602a644a59b498d594b378, type: 3}
