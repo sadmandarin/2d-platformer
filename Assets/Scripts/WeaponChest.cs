@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс сундука с оружием
+/// </summary>
 public class WeaponChest : ChestBase
 {
     [SerializeField] private WeaponsBase _weapon;

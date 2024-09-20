@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Срела арбалета
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     public int Damage;

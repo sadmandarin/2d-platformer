@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Управление сундуками и ключами на уровне
+/// </summary>
 public class OnLevelChestsStorageManager : MonoBehaviour
 {
     [SerializeField] private List<ChestBase> _chest;
@@ -23,6 +26,9 @@ public class OnLevelChestsStorageManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Добавление ключей для открытия
+    /// </summary>
     public void AddKeys()
     {
         Keys++;
@@ -30,12 +36,20 @@ public class OnLevelChestsStorageManager : MonoBehaviour
         Debug.Log($"Ключей собрано {Keys}");
     }
 
+    /// <summary>
+    /// Подбор оружия из сундука
+    /// </summary>
+    /// <param name="weapon">Оружие</param>
     public void AddWeapon(WeaponsBase weapon)
     {
         if (weapon != null)
             _storage.AddWeapon(weapon);
     }
 
+    /// <summary>
+    /// Подбор умения из сундука
+    /// </summary>
+    /// <param name="ability">Умение</param>
     public void AddAbility(AbilitySOBase ability)
     {
         if (ability != null)

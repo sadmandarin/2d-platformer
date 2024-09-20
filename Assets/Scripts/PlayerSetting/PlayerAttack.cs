@@ -1,7 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
+/// <summary>
+/// Класс атаки игрока
+/// </summary>
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private Transform _attackPoint;
@@ -41,6 +42,9 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Атака
+    /// </summary>
     void PerformAttack()
     {
         float duration = Time.time - _startAttackingTime;
@@ -56,6 +60,9 @@ public class PlayerAttack : MonoBehaviour
             
     }
 
+    /// <summary>
+    /// Магическая атака
+    /// </summary>
     public void MagicAttack()
     {
         if (_player.CurrentAbility != null)
@@ -72,6 +79,9 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(_attackPoint.position, 1f);
     }
 
+    /// <summary>
+    /// Переключение типов оружия
+    /// </summary>
     public void SwitchActiveWeapon()
     {
         if (_activeWeapon == _player.CurrentMeleeWeapon)

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// перезагрузка уровня при проигрыше
+/// </summary>
 public class RestartLevelButton : ButtonBase
 {
     protected override void Update()

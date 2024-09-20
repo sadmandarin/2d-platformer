@@ -1,7 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Класс с основными характеристиками врага
+/// </summary>
 public class Enemy : MonoBehaviour
 {
     private float _hp = 100;
@@ -51,41 +53,75 @@ public class Enemy : MonoBehaviour
         IsOnStairs = false;
     }
 
+    /// <summary>
+    /// Обнаружение игрока
+    /// </summary>
+    /// <param name="detect"></param>
+    /// <returns></returns>
     public bool SetPlayerDetection(bool detect)
     {
         return IsPlayerDetected = detect;
     }
 
+    /// <summary>
+    /// Установка позиции игрока для преследования
+    /// </summary>
+    /// <param name="playerTransform">Transform игрока</param>
     public void SetPlayerTransform(Transform playerTransform)
     {
         PlayerTransform = playerTransform;
     }
 
+    /// <summary>
+    /// Установка флага возможности атаки
+    /// </summary>
+    /// <param name="canAttack"></param>
+    /// <returns></returns>
     public bool SetAttackState(bool canAttack)
     {
         return CanAttack = canAttack;
     }
 
+    /// <summary>
+    /// Анимация атаки
+    /// </summary>
     public void AttackAnim()
     {
         _animator.SetTrigger("Attack");
     }
 
+    /// <summary>
+    /// Проверка касания триггера лестницы
+    /// </summary>
+    /// <param name="isTouchedStairs"></param>
     public void IsTouchedStairs(bool isTouchedStairs)
     {
         IsOnStairs = isTouchedStairs;
     }
 
+    /// <summary>
+    /// Установка состояния движения
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
     public int SetMovingState(int state)
     {
         return IsMoving = state;
     }
 
+    /// <summary>
+    /// Установка флага соприкосновения с землей
+    /// </summary>
+    /// <param name="touchedGround"></param>
     public void GroundChecker(bool touchedGround)
     {
         IsOnGround = touchedGround;
     }
 
+    /// <summary>
+    /// Нанесение урона игроком
+    /// </summary>
+    /// <param name="damage">Количество нанесенного урона</param>
     public void TakeDamage(int damage)
     {
         Hp -= damage;
@@ -99,6 +135,9 @@ public class Enemy : MonoBehaviour
         Debug.Log($"Осталось HP у врага: {Hp}");
     }
 
+    /// <summary>
+    /// Смерть противника
+    /// </summary>
     private void Die()
     {
         _isDead = true;
@@ -107,6 +146,10 @@ public class Enemy : MonoBehaviour
         StartCoroutine(DestroyEnemyOnDeath());
     }
 
+    /// <summary>
+    /// Удаление врага с игрового поля через заданный интервал
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DestroyEnemyOnDeath()
     {
         yield return new WaitForSeconds(1.5f);

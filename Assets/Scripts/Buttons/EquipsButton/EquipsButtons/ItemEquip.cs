@@ -1,5 +1,11 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс кнопки в меню установки эквипа
+/// </summary>
+/// <remarks>
+/// Кнопка непосредственно устанавливающая эквип в SO с характеристиками
+///</remarks>
 public class ItemEquip : ButtonBase
 {
     [SerializeField] protected PlayerSettingsSO _playerSettingsSO;
@@ -25,7 +31,7 @@ public class ItemEquip : ButtonBase
         }
     }
 
-    [ContextMenu("My method")]
+    
     protected override void DoAction()
     {
         var item = GetComponent<ItemView>();
@@ -40,6 +46,9 @@ public class ItemEquip : ButtonBase
         SubMenuExit();
     }
 
+    /// <summary>
+    /// Выход из подменю
+    /// </summary>
     void SubMenuExit()
     {
         Deselect();

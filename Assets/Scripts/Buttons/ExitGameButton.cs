@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Выход из игры
+/// </summary>
 public class ExitGameButton : ButtonBase
 {
     protected override void Update()

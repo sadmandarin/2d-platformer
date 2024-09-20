@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Описание оружия топора 
+/// </summary>
 [CreateAssetMenu(fileName = "Axe", menuName = "ScriptableObjects/Weapons/Axe", order = 1)]
 public class Axe : WeaponsBase
 {

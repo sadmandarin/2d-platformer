@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Скрипт, отвечающий за атаку 
+/// </summary>
 [RequireComponent(typeof(Enemy))]
 public class EnemyAttack : MonoBehaviour
 {
@@ -37,6 +40,9 @@ public class EnemyAttack : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Атака
+    /// </summary>
     void PerformAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
@@ -57,6 +63,9 @@ public class EnemyAttack : MonoBehaviour
         Debug.Log("Attack by Sword " + _enemy.Damage);
     }
 
+    /// <summary>
+    /// Метод, вызываемый после завершения анимации атаки
+    /// </summary>
     private void OnAttackAnimationComplete()
     {
         _isAttacking = false;

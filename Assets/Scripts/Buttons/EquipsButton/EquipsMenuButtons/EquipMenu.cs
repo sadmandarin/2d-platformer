@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Кнопка в меню выбора эквипа, имеющая подменю
+/// </summary>
 public class EquipMenu : ButtonBase
 {
     [SerializeField] protected GameObject _subMenu;
@@ -19,6 +22,9 @@ public class EquipMenu : ButtonBase
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Загрузка подменю
+    /// </summary>
     protected override void LoadSubMenu()
     {
         _subMenu.SetActive(true);

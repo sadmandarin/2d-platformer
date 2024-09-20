@@ -1,6 +1,8 @@
-using System;
 using UnityEngine;
 
+/// <summary>
+/// Класс движения игрока
+/// </summary>
 [RequireComponent (typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -66,11 +68,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Кувырок
+    /// </summary>
     private void Roll()
     {
         _player.EnableRollingAnimationState();
     }
 
+    /// <summary>
+    /// Движение
+    /// </summary>
     private void Move()
     {
         Flip();
@@ -85,6 +93,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Движение по лестницам
+    /// </summary>
     private void StairsMove()
     {
         Flip();
@@ -92,6 +103,9 @@ public class PlayerMovement : MonoBehaviour
         _rb.velocity = new Vector2(_horizontalInput * _speed, _verticalInput * _speed);
     }
 
+    /// <summary>
+    /// Прыжок
+    /// </summary>
     private void Jump()
     {
         _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
@@ -99,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
         _player.SetJumpingState(true);
     }
 
+    /// <summary>
+    /// Поворот в сторону движения
+    /// </summary>
     private void Flip()
     {
         if (_horizontalInput != 0)

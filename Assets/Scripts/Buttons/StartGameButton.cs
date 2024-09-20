@@ -1,5 +1,8 @@
 using UnityEngine.SceneManagement;
 
+/// <summary>
+///  нопка старта игры в главном меню
+/// </summary>
 public class StartGameButton : ButtonBase
 {
 

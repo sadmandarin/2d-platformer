@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Описание меча
+/// </summary>
 [CreateAssetMenu(fileName = "Sword", menuName = "ScriptableObjects/Weapons/Sword", order = 1)]
 public class Sword : WeaponsBase
 {

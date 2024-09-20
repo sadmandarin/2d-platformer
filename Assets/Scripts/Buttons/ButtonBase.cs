@@ -23,6 +23,9 @@ public abstract class ButtonBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Выбор кнопки, как активной
+    /// </summary>
     public void SelectButton()
     {
         GetComponent<Image>().color = Color.blue;
@@ -32,6 +35,9 @@ public abstract class ButtonBase : MonoBehaviour
         _isSelected = true;
     }
 
+    /// <summary>
+    /// Сброс флага активности кнопки
+    /// </summary>
     public void Deselect()
     {
         GetComponent<Image>().color = Color.white;
@@ -41,6 +47,9 @@ public abstract class ButtonBase : MonoBehaviour
         _isSelected = false;
     }
 
+    /// <summary>
+    /// Метод, выполяющий проверку, имеет ли кнопка подменю
+    /// </summary>
     protected void OnClick()
     {
         if (_hasSubMenu)
@@ -49,6 +58,9 @@ public abstract class ButtonBase : MonoBehaviour
             DoAction();
     }
 
+    /// <summary>
+    /// Управление кнопками с помощью кнопок
+    /// </summary>
     protected void Navigate()
     {
         if (!_isNavigating && Input.GetKeyDown(KeyCode.LeftArrow) && _leftButton != null)
@@ -79,6 +91,10 @@ public abstract class ButtonBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// переход к следующей кнопке
+    /// </summary>
+    /// <param name="newButton"></param>
     private void NavigateToButton(ButtonBase newButton)
     {
         Deselect();
@@ -86,6 +102,13 @@ public abstract class ButtonBase : MonoBehaviour
         newButton.SelectButton();
     }
 
+    /// <summary>
+    /// Метод выполения действия при нажатия кнопки Enter, если нет подменю
+    /// </summary>
     protected abstract void DoAction();
+
+    /// <summary>
+    /// Загрузка подменю, если оно есть
+    /// </summary>
     protected abstract void LoadSubMenu();
 }

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Проверка касания лестниц
+/// </summary>
 public class StairsChecker : MonoBehaviour
 {
     private Player _player;

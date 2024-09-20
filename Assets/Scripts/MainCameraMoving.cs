@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Движение камеры за игроком
+/// </summary>
 public class MainCameraMoving : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;

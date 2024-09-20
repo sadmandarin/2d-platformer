@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Проверка касания земли
+/// </summary>
 public class GroundChecker : MonoBehaviour
 {
     [SerializeField] private Player _player;

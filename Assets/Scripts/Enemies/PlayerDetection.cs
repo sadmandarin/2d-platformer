@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Обнаружение игрока
+/// </summary>
 public class PlayerDetection : MonoBehaviour
 {
     private Enemy _enemy;

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Проверка соприкосновения со стеной
+/// </summary>
 public class WallChecker : MonoBehaviour
 {
     private Player _player;

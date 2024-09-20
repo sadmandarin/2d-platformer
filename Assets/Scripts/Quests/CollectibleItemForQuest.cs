@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс объекта для квеста
+/// </summary>
 public class CollectibleItemForQuest : MonoBehaviour
 {
     public string ItemName;

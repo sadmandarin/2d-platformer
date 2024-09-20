@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс для умений
+/// </summary>
 public abstract class AbilitySOBase : ScriptableObject
 {
     public string AbilityName;

@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
+/// <summary>
+/// Класс, описывающий основные характеристики игрока
+/// </summary>
 [RequireComponent(typeof(Animator), typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
 {
@@ -132,31 +134,58 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Проверка соприкосновения с землей
+    /// </summary>
+    /// <param name="isOnGround"></param>
+    /// <returns></returns>
     public bool GroundChecker(bool isOnGround)
     {
         return IsOnGround = isOnGround;
     }
 
+    /// <summary>
+    /// Проверка соприкосновения со стенами
+    /// </summary>
+    /// <param name="touch"></param>
     public void TouchedWall(bool touch)
     {
         IsTouchingWall = touch;
     }
 
+    /// <summary>
+    /// Установка состояния движения
+    /// </summary>
+    /// <param name="movingState"></param>
+    /// <returns></returns>
     public int SetMovingState(int movingState)
     {
         return IsMoving = movingState;
     }
 
+    /// <summary>
+    /// Состояние падения
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public float SetFallingState(float value)
     {
         return IsFalling = value;
     }
 
+    /// <summary>
+    /// Состояние прыжка
+    /// </summary>
+    /// <param name="jumpingState"></param>
+    /// <returns></returns>
     public bool SetJumpingState(bool jumpingState)
     {
         return IsJumping = jumpingState;
     }
 
+    /// <summary>
+    /// Состояние кувырка, уменьшение коллайдера
+    /// </summary>
     public void EnableRollingAnimationState()
     {
         _animator.SetTrigger("Roll");
@@ -167,6 +196,9 @@ public class Player : MonoBehaviour
         IsRollingAnimationStart = true;
     }
 
+    /// <summary>
+    /// Отключение состояния кувырка, возврат нормальных размеров коллайдеров
+    /// </summary>
     public void DisableRollingAnimationState()
     {
         IsRollingAnimationStart = false;
@@ -175,21 +207,36 @@ public class Player : MonoBehaviour
         _boxCollider2D.size = new Vector2(0.73f, 1.2f);
     }
 
+    /// <summary>
+    /// Включение состояния кувырка через AnimationEvent
+    /// </summary>
     public void SetRollingState()
     {
         IsRolling = true;
     }
 
+    /// <summary>
+    /// Отключение состояния кувырка через AnimationEvent
+    /// </summary>
     public void ResetRollingState()
     {
         IsRolling = false;
     }
 
+    /// <summary>
+    /// Состояние быстрой атаки
+    /// </summary>
+    /// <param name="quickAttackState"></param>
+    /// <returns></returns>
     public int SetQuickAttackState(int quickAttackState)
     {
         return QuickAttackState = quickAttackState;
     }
 
+    /// <summary>
+    /// Проверка касания лестниц
+    /// </summary>
+    /// <param name="isOnStair"></param>
     public void IsTouchedStairs(bool isOnStair)
     {
         IsOnStair = isOnStair;
@@ -200,6 +247,10 @@ public class Player : MonoBehaviour
         _isInStelsMode = stelsMode;
     }
 
+    /// <summary>
+    /// Прием урона от противников
+    /// </summary>
+    /// <param name="damage">Количество урона</param>
     public void TakeDamage(int damage)
     {
         PlayerHp -= damage;
@@ -207,16 +258,9 @@ public class Player : MonoBehaviour
         OnTookDamage?.Invoke();
     }
 
-    public void ChangeMeleeWeapon(WeaponsBase newMeleeWeapon)
-    {
-        CurrentMeleeWeapon = newMeleeWeapon;
-    }
-
-    public void ChangeLongRangeWeapon(WeaponsBase newLongRangeWeapon)
-    {
-        CurrentLongRangeWeapon = newLongRangeWeapon;
-    }
-
+    /// <summary>
+    /// Установка характеристик в начале уровня
+    /// </summary>
     private void SetHaracteristicOnStart()
     {
         PlayerHp = _playerSettingsSO.Hp;

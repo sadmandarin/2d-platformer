@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// ѕроверка соприкосновени€ с лестницей
+/// </summary>
 public class EnemyStairsCheck : MonoBehaviour
 {
     private Enemy _enemy;

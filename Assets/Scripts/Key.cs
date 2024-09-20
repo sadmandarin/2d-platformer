@@ -1,9 +1,16 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс ключа для открытия сундука с умениями
+/// </summary>
 public class Key : MonoBehaviour
 {
     private OnLevelChestsStorageManager _abilitiesmanager;
 
+    /// <summary>
+    /// Установка SO с умениями
+    /// </summary>
+    /// <param name="manager"></param>
     public void SetAbilityManager(OnLevelChestsStorageManager manager)
     {
         _abilitiesmanager = manager;

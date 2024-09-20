@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Первый босс
+/// </summary>
 public class BanditLeaderBoss : BossBase
 {
     [SerializeField] private GameObject _specialAttackPrefab;
@@ -95,6 +98,10 @@ public class BanditLeaderBoss : BossBase
         StartCoroutine(EndBlock());
     }
 
+    /// <summary>
+    /// Окончание состояния блока
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator EndBlock()
     {
         yield return new WaitForSeconds(1);
@@ -299,6 +306,13 @@ public class BanditLeaderBoss : BossBase
         }
     }
 
+    /// <summary>
+    /// Сброс состояния специальной атаки после заданного интервала ожидания
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>
+    /// После задержки в 2 секунды сбрасывает флаги, позволяя игроку или NPC снова выполнять действие и использовать специальную атаку.
+    /// </remarks>
     private IEnumerator ResetSpecialAttack()
     {
         yield return new WaitForSeconds(2);
@@ -308,6 +322,13 @@ public class BanditLeaderBoss : BossBase
         _canDoSpecialAttack = true;
     }
 
+    /// <summary>
+    /// Сброс состояния атаки после заданного интервала ожидания
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>
+    /// После задержки в 2 секунды сбрасывает флаги, позволяя игроку или NPC снова выполнять действие и использовать специальную атаку.
+    /// </remarks>
     private IEnumerator ResetAttack()
     {
         yield return new WaitForSeconds(0.5f);

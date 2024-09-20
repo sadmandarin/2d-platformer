@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс, отвечающий за движение противника
+/// </summary>
 [RequireComponent (typeof(Enemy), typeof(Rigidbody2D))]
 public class EnemyMove : MonoBehaviour
 {
@@ -39,6 +42,9 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Движение к игроку
+    /// </summary>
     private void MoveTowardsPlayer()
     {
         FlipX();
@@ -54,6 +60,9 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Передвижение по лестницам
+    /// </summary>
     private void StairsMove()
     {
         FlipX();
@@ -66,6 +75,9 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Поворот в сторону игрока
+    /// </summary>
     private void FlipX()
     {
         if (_enemy.PlayerTransform != null)

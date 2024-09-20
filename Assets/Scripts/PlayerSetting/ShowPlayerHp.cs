@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Отображение хп игрока
+/// </summary>
 public class ShowPlayerHp : MonoBehaviour
 {
     [SerializeField] Player _playerHp;

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Взятие квеста у NPC
+/// </summary>
 public class ActivateQuest : MonoBehaviour
 {
     private bool _isAvaiableToTakeQuest = false;

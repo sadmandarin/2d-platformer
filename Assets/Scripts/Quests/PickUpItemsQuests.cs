@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Квест на нахождение предмета
+/// </summary>
 [CreateAssetMenu(fileName = "PickUpQuest", menuName = "ScriptableObjects/Quests/PickUpQuest", order = 1)]
 public class PickUpItemsQuests : QuestsBase
 {
@@ -7,6 +10,7 @@ public class PickUpItemsQuests : QuestsBase
     public bool IsItemPickUp;
     public string RequiredItemName;
 
+    
     public override void CompleteQuest()
     {
         IsCompleted = true;
@@ -23,6 +27,10 @@ public class PickUpItemsQuests : QuestsBase
         Debug.Log("Quest is now running");
     }
 
+    /// <summary>
+    /// Метод, вызываемый при сборе предмета
+    /// </summary>
+    /// <param name="itemName"></param>
     public void CollectItem(string itemName)
     {
         if (itemName == RequiredItemName)

@@ -1,10 +1,16 @@
 using UnityEngine;
 
+/// <summary>
+/// Базовый класс для сундука с умениями/оружием
+/// </summary>
 public abstract class ChestBase : MonoBehaviour
 {
     protected OnLevelChestsStorageManager _abilitiesManager;
     protected bool _isOpened;
 
+    /// <summary>
+    /// Открытие сундука
+    /// </summary>
     public abstract void OpenChest();
     public void SetAbilityManager(OnLevelChestsStorageManager abilityManager)
     {

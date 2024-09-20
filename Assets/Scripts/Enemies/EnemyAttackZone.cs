@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс, обрабатывающий вход игрока в зону атаки врага
+/// </summary>
 public class EnemyAttackZone : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;

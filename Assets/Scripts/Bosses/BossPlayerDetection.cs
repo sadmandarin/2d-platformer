@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс обнаружения игрока боссом
+/// </summary>
 public class BossPlayerDetection : MonoBehaviour
 {
     private BossBase _bossBase;

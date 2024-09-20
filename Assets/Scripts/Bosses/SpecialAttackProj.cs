@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс, описывающий поведение специальной атаки первого босса
+/// </summary>
 [RequireComponent (typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public class SpecialAttackProj : MonoBehaviour
 {
@@ -16,6 +19,11 @@ public class SpecialAttackProj : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    /// <summary>
+    /// Установка параметров атаки
+    /// </summary>
+    /// <param name="direction">Направление атаки</param>
+    /// <param name="damage">Урон</param>
     public void Initialize(Vector2 direction, int damage)
     {
         _direction = direction;

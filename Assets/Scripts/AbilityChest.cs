@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Сундук умений для сбора на уровне
+/// </summary>
 public class AbilityChest : ChestBase
 {
     private AbilitySOBase _ability;

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Класс отвечающий за заполнение субменю в меню выбора снаряжения
+/// </summary>
 public class ScrollViewManager : MonoBehaviour
 {
     public WeaponsAndAbilitiesStorage myScriptableObject;
@@ -16,6 +19,9 @@ public class ScrollViewManager : MonoBehaviour
         PopulateScrollView();
     }
 
+    /// <summary>
+    /// Заполение подменю, и назначение активной кноки в субменю
+    /// </summary>
     public void PopulateScrollView()
     {
         List<object> items = new List<object>();

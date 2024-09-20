@@ -1,7 +1,9 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Класс описывающий NPC
+/// </summary>
 public class NPC : MonoBehaviour
 {
     public List<QuestsBase> Quests;

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Открытие двери
+/// </summary>
 public class TriggerToOpenDoor : MonoBehaviour
 {
     public GameObject Door;

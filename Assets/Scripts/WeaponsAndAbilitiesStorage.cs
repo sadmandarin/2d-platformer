@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Хранилище всех предметов 
+/// </summary>
 [CreateAssetMenu(fileName = "AbilitiesStorage", menuName = "ScriptableObjects/AbilitiesStorage", order = 1)]
 public class WeaponsAndAbilitiesStorage : ScriptableObject
 {
@@ -9,6 +12,10 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
     [SerializeField] private List<WeaponsBase> _longRangeWeaponList;
     [SerializeField] private List<PlayerArmorBase> _armorList;
 
+    /// <summary>
+    /// Добавление оружия в хранилище
+    /// </summary>
+    /// <param name="weapon"></param>
     public void AddWeapon(WeaponsBase weapon)
     {
         if (weapon.IsRanged)
@@ -27,16 +34,29 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Добавление умения в хранилище
+    /// </summary>
+    /// <param name="ability"></param>
     public void AddAbility(AbilitySOBase ability)
     {
         _abilitiesList.Add(ability);
     }
 
+    /// <summary>
+    /// Получение текущих доступных оружий дальнего боя
+    /// </summary>
+    /// <returns></returns>
     public List<WeaponsBase> GetAllLongRangeWeapons()
     {
         return _longRangeWeaponList;
     }
 
+    /// <summary>
+    /// Получение текущих предметов доступных в хранилище
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public List<T> GetListByType<T>()
     {
         if (typeof(T) == typeof(AbilitySOBase))

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Описание оружия арбалета
+/// </summary>
 [CreateAssetMenu(fileName = "CrossBow", menuName = "ScriptableObjects/Weapons/CrossBow", order = 2)]
 public class CrossBow : WeaponsBase
 {

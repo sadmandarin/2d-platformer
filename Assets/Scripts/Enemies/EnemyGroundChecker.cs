@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///  ласс, провер€ющий касание земли
+/// </summary>
 public class EnemyGroundChecker : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;
