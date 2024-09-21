@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
     public int MaxHP = 100;
     public event Action OnTookDamage;
+    public event Action OnDied;
 
     public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
 
@@ -83,7 +84,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float PlayerHp { get { return _playerHp; } private set { _playerHp = value; } }
+    public float PlayerHp 
+    { 
+        get
+        {
+            return _playerHp;
+        }
+        private set 
+        { 
+            _playerHp = value;
+            if (_playerHp <= 0)
+            {
+                Die();
+            }
+        } 
+    }
     public bool IsOnGround {
         get
         {
@@ -268,5 +283,11 @@ public class Player : MonoBehaviour
         CurrentLongRangeWeapon = _playerSettingsSO.LongRangeWeapon;
         CurrentAbility = _playerSettingsSO.Ability;
         CurrentArmor = _playerSettingsSO.PlayerArmor;
+    }
+
+    [ContextMenu("My method")]
+    private void Die()
+    {
+        OnDied?.Invoke();
     }
 }

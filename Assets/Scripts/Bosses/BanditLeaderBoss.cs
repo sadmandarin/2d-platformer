@@ -28,9 +28,9 @@ public class BanditLeaderBoss : BossBase
 
     private List<BossState> _avaiableState;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         Array values = Enum.GetValues(typeof(BossState));
 

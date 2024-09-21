@@ -26,6 +26,8 @@ public abstract class BossBase : MonoBehaviour
     protected Rigidbody2D _rb;
     protected BossState _state;
 
+    public event Action BossDead;
+
     /// <summary>
     /// Все состояния босса
     /// </summary>
@@ -40,13 +42,11 @@ public abstract class BossBase : MonoBehaviour
     }
 
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-
         _state = BossState.Idle;
-
         InitializeStats();
     }
 
@@ -87,6 +87,7 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
+    [ContextMenu("GameWin")]
     /// <summary>
     /// Выполняется, если HP босса меньше 0
     /// </summary>
@@ -103,8 +104,16 @@ public abstract class BossBase : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
+        GameWin();
+
         Destroy(gameObject);
     }
+
+    private void GameWin()
+    {
+        BossDead?.Invoke();
+    }
+
     /// <summary>
     /// Метод, устанавливающий игрока в качестве цели для врага
     /// </summary>
