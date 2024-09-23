@@ -24,8 +24,8 @@ public class Sword : WeaponsBase
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.GetComponent<Enemy>())
-                enemy.GetComponent<Enemy>().TakeDamage(damage);
+            if (enemy.GetComponent<DefaultEnemy>())
+                enemy.GetComponent<DefaultEnemy>().TakeDamage(damage);
         }
 
         Debug.Log("Attack by Sword " + damage);

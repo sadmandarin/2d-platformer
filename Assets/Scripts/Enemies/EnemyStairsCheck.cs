@@ -5,11 +5,11 @@ using UnityEngine;
 /// </summary>
 public class EnemyStairsCheck : MonoBehaviour
 {
-    private Enemy _enemy;
+    private EnemyBase _enemy;
 
     private void Start()
     {
-        _enemy = GetComponentInParent<Enemy>();
+        _enemy = GetComponentInParent<DefaultEnemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

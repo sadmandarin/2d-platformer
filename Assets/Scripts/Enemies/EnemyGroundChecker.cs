@@ -5,11 +5,11 @@ using UnityEngine;
 /// </summary>
 public class EnemyGroundChecker : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
+    [SerializeField] private EnemyBase _enemy;
 
     private void Start()
     {
-        _enemy = GetComponentInParent<Enemy>();
+        _enemy = GetComponentInParent<DefaultEnemy>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyAttackZone : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
+    [SerializeField] private EnemyBase _enemy;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

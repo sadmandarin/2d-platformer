@@ -16,8 +16,8 @@ public class Axe : WeaponsBase
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.GetComponent<Enemy>())
-                enemy.GetComponent<Enemy>().TakeDamage(QuickAttackDamage);
+            if (enemy.GetComponent<DefaultEnemy>())
+                enemy.GetComponent<DefaultEnemy>().TakeDamage(QuickAttackDamage);
         }
 
         Debug.Log("Attack by Sword " + QuickAttackDamage);
