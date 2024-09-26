@@ -6,17 +6,21 @@ using UnityEngine.UI;
 /// </summary>
 public class ShowPlayerHp : MonoBehaviour
 {
-    [SerializeField] Player _playerHp;
-
+    private Player _playerHp;
     private Text _text;
 
     private void OnEnable()
     {
+        _playerHp = FindFirstObjectByType<Player>();
+
         _text = GetComponent<Text>();
 
-        UpdateHPText();
-
         _playerHp.OnTookDamage += UpdateHPText;
+    }
+
+    private void Start()
+    {
+        UpdateHPText();
     }
 
     private void OnDisable()

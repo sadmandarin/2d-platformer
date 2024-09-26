@@ -14,7 +14,6 @@ public class PlayerAttack : MonoBehaviour
     private float _lastTimeAttack;
     private float _magicAttackCooldown;
     private float _startAttackingTime;
-    private bool _isAttacking;
     private int _valueOfQuickAttack = 0;
 
     private void Awake()

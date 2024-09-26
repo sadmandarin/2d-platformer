@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b50dbfc094172418358c4536ef6d41, type: 3}
+  m_Name: Bow
+  m_EditorClassIdentifier: 
+  Name: Bow
+  Icon: {fileID: 0}
+  ShortDescription: qwertyu;lkjhgfdzxvbn.kjht
+  AttackSpeed: 1
+  QuickAttackDamage: 10
+  StrongAttackDamage: 15
+  IsRanged: 1
+  ProjectileRange: 10
+  ProjectileSpeed: 6
+  ProjectilePrefab: {fileID: 2283902853719701689, guid: 4538a5267f602a644a59b498d594b378, type: 3}

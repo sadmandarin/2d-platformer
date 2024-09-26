@@ -48,7 +48,7 @@ public class SpecialAttackProj : MonoBehaviour
             var player = collision.gameObject.GetComponent<Player>();
             if (!player.IsRolling)
             {
-                collision.gameObject.GetComponent<Player>().TakeDamage(_damage);
+                player.TakeDamage(_damage);
                 Destroy(gameObject);
             }
         }

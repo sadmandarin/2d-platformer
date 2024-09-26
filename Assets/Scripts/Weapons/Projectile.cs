@@ -29,6 +29,8 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<DefaultEnemy>())
             collision.gameObject.GetComponent<DefaultEnemy>().TakeDamage(Damage);
+        else if (collision.gameObject.GetComponent<BossBase>())
+            collision.gameObject.GetComponent<BossBase>().TakeDamage(Damage, true);
     }
 
     public void SetProjectile(int damage, float range)

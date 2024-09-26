@@ -40,13 +40,15 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
     /// <param name="ability"></param>
     public void AddAbility(AbilitySOBase ability)
     {
-        _abilitiesList.Add(ability);
+        if (!_abilitiesList.Contains(ability))
+        {
+            _abilitiesList.Add(ability);
+        }
     }
 
     /// <summary>
     /// Получение текущих доступных оружий дальнего боя
     /// </summary>
-    /// <returns></returns>
     public List<WeaponsBase> GetAllLongRangeWeapons()
     {
         return _longRangeWeaponList;
@@ -55,8 +57,6 @@ public class WeaponsAndAbilitiesStorage : ScriptableObject
     /// <summary>
     /// Получение текущих предметов доступных в хранилище
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
     public List<T> GetListByType<T>()
     {
         if (typeof(T) == typeof(AbilitySOBase))

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Проверка препядствий впереди
+/// Проверка препятствий впереди
 /// </summary>
 public class ObstacleDetection : MonoBehaviour
 {

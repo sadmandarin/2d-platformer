@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private PlatformEffector2D _effector;
-    [SerializeField] private GameObject _hpBar;
     [SerializeField] private Transform _wallCheck;
 
     private float _horizontalInput;
@@ -18,17 +16,13 @@ public class PlayerMovement : MonoBehaviour
     private string _horizontalAxis = "Horizontal";
     private string _verticalAxis = "Vertical";
 
-    private float _stopForce = 50;
     private Rigidbody2D _rb;
-    private SpriteRenderer _spriteRenderer;
     private Player _player;
-    private BoxCollider2D _boxCollider;
 
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _player = GetComponent<Player>();
     }
 
@@ -45,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround)
+        if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround && !_player.IsRolling)
         {
             Jump();
         }
@@ -123,12 +117,10 @@ public class PlayerMovement : MonoBehaviour
             if (_horizontalInput > 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                _hpBar.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             else 
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
-                _hpBar.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         } 
     }

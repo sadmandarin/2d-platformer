@@ -101,15 +101,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.42857143
-    functionName: ResetRollingState
+  - time: 0.64285713
+    functionName: DisableRollingAnimationState
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.64285713
-    functionName: DisableRollingAnimationState
+    functionName: ResetRollingState
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

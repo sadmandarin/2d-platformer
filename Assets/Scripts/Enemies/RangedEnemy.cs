@@ -3,17 +3,35 @@ using UnityEngine;
 /// <summary>
 /// Класс дальнего врага
 /// </summary>
-public class RangedEnemy : MonoBehaviour
+public class RangedEnemy : EnemyBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void TakeDamage(int damage)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void FlipX()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    protected override void HandleState()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void MoveTowardsPlayer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void PerformAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void StairsMove()
+    {
+        throw new System.NotImplementedException();
     }
 }

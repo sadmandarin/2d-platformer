@@ -9,15 +9,15 @@ using UnityEngine;
 public class BanditLeaderBoss : BossBase
 {
     [SerializeField] private GameObject _specialAttackPrefab;
-    [SerializeField] private Transform _spawnSpecialAttackTransform;
+    [SerializeField] private Transform _SpecialAttackPointTransform;
 
-    private int _helmetArmorHealth;
-    private int _bodyArmorHealth;
+    
     private int _comboSteps = 0;
     private int _comboCount;
     private float _comboTimer = 0;
     private float _comboDelay = 0.5f;
     private bool _isComboActive = false;
+    private float _attackRange = 2f;
     private bool _isHelmetArmorDestroyed = false;
     private bool _isBodyArmorDestroyed = false;
     private int _hitToBlock = 4;
@@ -52,17 +52,26 @@ public class BanditLeaderBoss : BossBase
             _helmetArmorHealth -= (int)(damage * armorDamageMuptiplier);
 
             if (_helmetArmorHealth <= 0)
+            {
+                _helmetArmorHealth = 0;
+
                 _isHelmetArmorDestroyed = true;
+            }
             
         }
-
         else if (!_isBodyArmorDestroyed)
         {
-            _bodyArmorHealth = (int)(damage * armorDamageMuptiplier);
+            _bodyArmorHealth -= (int)(damage * armorDamageMuptiplier);
 
             if (_bodyArmorHealth <= 0)
+            {
+                _bodyArmorHealth = 0;
+
                 _isBodyArmorDestroyed = true;
+            }
         }
+
+        base.ArmorDamage(damage, isRanged);
     }
 
     public override void Attack()
@@ -77,7 +86,19 @@ public class BanditLeaderBoss : BossBase
             if (_canDoAttack)
             {
                 _animator.SetTrigger("Attack");
-                //Сделать проверку на IsRolling во время спавна зоны атаки
+
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPointTransform.position, _attackRange);
+
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    if (enemy.GetComponent<Player>())
+                    {
+                        if (!_player.IsRolling)
+                        {
+                            _player.TakeDamage(_baseDamage);
+                        }
+                    }
+                }
                 Debug.Log("Attack");
 
                 _canDoAttack = false;
@@ -93,9 +114,12 @@ public class BanditLeaderBoss : BossBase
 
     public override void Block()
     {
-        _isBlocking = true;
-        Debug.Log("Блок был");
-        StartCoroutine(EndBlock());
+        if (_isBlocking == false)
+        {
+            _isBlocking = true;
+
+            StartCoroutine(EndBlock());
+        }
     }
 
     /// <summary>
@@ -107,6 +131,8 @@ public class BanditLeaderBoss : BossBase
         yield return new WaitForSeconds(1);
 
         _isBlocking = false;
+
+        _state = BossState.Idle;
     }
 
     public override void SpecialAttack()
@@ -115,7 +141,7 @@ public class BanditLeaderBoss : BossBase
         {
             Debug.Log("Специальная");
 
-            GameObject specialAttack = Instantiate(_specialAttackPrefab, _spawnSpecialAttackTransform.position, Quaternion.identity);
+            GameObject specialAttack = Instantiate(_specialAttackPrefab, _SpecialAttackPointTransform.position, Quaternion.identity);
 
             Vector2 direction = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
 
@@ -145,9 +171,11 @@ public class BanditLeaderBoss : BossBase
 
         if (_isHelmetArmorDestroyed && _isBodyArmorDestroyed)
         {
-            _currenHp -= damage;
+            _baseHealth -= damage;
 
-            if (_currenHp <= 0)
+            base.TakeDamage(damage, isRanged);
+
+            if (_baseHealth <= 0)
             {
                 Die();
             }
@@ -159,12 +187,13 @@ public class BanditLeaderBoss : BossBase
     protected override void InitializeStats()
     {
         _baseDamage = 30;
-        _baseHealth = 800;
+        _baseHealth = 600;
+        _baseMaxHealth = 600;
         _baseSpeed = 4.4f;
 
-        _currenHp = _baseHealth;
         _helmetArmorHealth = 400;
         _bodyArmorHealth = _baseHealth;
+        _allArmorHealth = _helmetArmorHealth + _bodyArmorHealth;
     }
 
     protected override void Idle()

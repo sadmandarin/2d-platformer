@@ -26,6 +26,8 @@ public class Sword : WeaponsBase
         {
             if (enemy.GetComponent<DefaultEnemy>())
                 enemy.GetComponent<DefaultEnemy>().TakeDamage(damage);
+            else if (enemy.GetComponent<BossBase>())
+                enemy.GetComponent<BossBase>().TakeDamage(damage, false);
         }
 
         Debug.Log("Attack by Sword " + damage);

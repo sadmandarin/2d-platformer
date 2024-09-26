@@ -5,21 +5,26 @@ using UnityEngine;
 /// <summary>
 /// Абстрактный класс для всех боссов
 /// </summary>
-[RequireComponent (typeof(Animator), typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator), typeof(Rigidbody2D))]
 public abstract class BossBase : MonoBehaviour
 {
-    protected int _baseDamage;
-    protected int _specialAttackDamage;
-    protected int _baseHealth;
+    [SerializeField] protected int _baseDamage;
+    [SerializeField] protected int _specialAttackDamage;
+    [SerializeField] protected int _baseHealth;
+    [SerializeField] protected int _baseMaxHealth;
     protected float _baseSpeed;
+    [SerializeField] protected int _helmetArmorHealth;
+    [SerializeField] protected int _bodyArmorHealth;
+    [SerializeField] protected int _allArmorHealth;
     protected float _reduceDamageByBlock = 0.7f;
 
 
-    protected int _currenHp;
     protected bool _isBlocking;
     protected bool _isPlayerDetected;
     protected bool _isDead = false;
 
+
+    [SerializeField] protected Transform _attackPointTransform;
     protected Animator _animator;
     protected Player _player;
     protected Transform _playerPosition;
@@ -27,7 +32,14 @@ public abstract class BossBase : MonoBehaviour
     protected BossState _state;
 
     public event Action BossDead;
+    public event Action OnArmorTookDamage;
+    public event Action OnHealthTookDamage;
 
+    public int Health { get { return _baseHealth; } }
+    public int MaxHealth {  get { return _baseMaxHealth; } }
+    public int AllArmorHealth { get { return _allArmorHealth; } }
+    public int HelmetArmor { get { return _helmetArmorHealth; } }
+    public int BodyArmor {  get { return _bodyArmorHealth; } }
     /// <summary>
     /// Все состояния босса
     /// </summary>
@@ -56,6 +68,14 @@ public abstract class BossBase : MonoBehaviour
         {
             HandleState();
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (_attackPointTransform == null)
+            return;
+
+        Gizmos.DrawWireSphere(_attackPointTransform.position, 1.7f);
     }
 
     /// <summary>
@@ -130,12 +150,7 @@ public abstract class BossBase : MonoBehaviour
     /// </summary>
     protected abstract IEnumerator AttackInterval();
 
-    /// <summary>
-    /// Метод, обрабатывающий удары игрока по боссу, если нет брони
-    /// </summary>
-    /// <param name="damage">Дамаг, который приходит от игрока</param>
-    /// <param name="isRanged">Тип оружия, которым ударил игрок</param>
-    public abstract void TakeDamage(int damage, bool isRanged);
+    
 
     /// <summary>
     /// Движение к игроку
@@ -177,5 +192,23 @@ public abstract class BossBase : MonoBehaviour
     /// </summary>
     /// <param name="damage">Урон, приходящий от игрока</param>
     /// <param name="isRanged">Тип оружия, которым нанес удар игрок</param>
-    public abstract void ArmorDamage(int damage, bool isRanged);
+    public virtual void ArmorDamage(int damage, bool isRanged)
+    {
+        OnArmorTookDamage?.Invoke();
+
+        Debug.Log("ArmorDamage");
+    }
+
+    /// <summary>
+    /// Метод, обрабатывающий удары игрока по боссу, если нет брони
+    /// </summary>
+    /// <param name="damage">Дамаг, который приходит от игрока</param>
+    /// <param name="isRanged">Тип оружия, которым ударил игрок</param>
+    public virtual void TakeDamage(int damage, bool isRanged)
+    {
+        OnHealthTookDamage?.Invoke();
+
+        Debug.Log("HealthDamage");
+    }
+
 }
