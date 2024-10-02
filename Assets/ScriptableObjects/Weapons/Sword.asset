@@ -16,7 +16,7 @@ MonoBehaviour:
   Icon: {fileID: -5680157909926744962, guid: 157cbc340d2b7e64ab85168e80e95550, type: 3}
   ShortDescription: gfdgfgjydrgdxcv
   AttackSpeed: 3
-  QuickAttackDamage: 100
+  QuickAttackDamage: 15
   StrongAttackDamage: 20
   IsRanged: 0
   AttackRange: 1

@@ -169,15 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4453080305326406271, guid: c5b15db84e223ba488e4a729e78ea6fa, type: 3}
       propertyPath: m_Name
-      value: HeroKnight
-      objectReference: {fileID: 0}
-    - target: {fileID: 7060450993920367326, guid: c5b15db84e223ba488e4a729e78ea6fa, type: 3}
-      propertyPath: MaxHP
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 7060450993920367326, guid: c5b15db84e223ba488e4a729e78ea6fa, type: 3}
-      propertyPath: _playerHp
-      value: 0
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

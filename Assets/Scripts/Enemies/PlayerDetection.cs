@@ -9,10 +9,10 @@ public class PlayerDetection : MonoBehaviour
 
     private void Start()
     {
-        _enemy = GetComponentInParent<DefaultEnemy>();
+        _enemy = GetComponentInParent<EnemyBase>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>() && _enemy.IsPlayerDetected == false)
         {

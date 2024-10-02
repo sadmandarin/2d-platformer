@@ -9,7 +9,7 @@ public class EnemyStairsCheck : MonoBehaviour
 
     private void Start()
     {
-        _enemy = GetComponentInParent<DefaultEnemy>();
+        _enemy = GetComponentInParent<EnemyBase>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -39,7 +39,5 @@ public class PickUpItemsQuests : QuestsBase
 
             Debug.Log("Pick");
         }
-            
-        
     }
 }

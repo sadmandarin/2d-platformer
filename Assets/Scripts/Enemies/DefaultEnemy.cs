@@ -74,7 +74,7 @@ public class DefaultEnemy : EnemyBase
     {
         FlipX();
 
-        if (IsPlayerDetected && !CanAttack)
+        if (IsPlayerDetected && _states != States.Attack)
         {
             if (IsOnGround)
             {

@@ -28,37 +28,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _horizontalInput = Input.GetAxis(_horizontalAxis);
-        _verticalInput = Input.GetAxis(_verticalAxis);
-
-        if (_horizontalInput != 0 && Input.GetKeyDown(KeyCode.C))
+        if (!_player.IsStunned)
         {
-            if (!_player.IsRollingAnimationStart && _player.IsOnGround)
+            _horizontalInput = Input.GetAxis(_horizontalAxis);
+            _verticalInput = Input.GetAxis(_verticalAxis);
+
+            if (_horizontalInput != 0 && Input.GetKeyDown(KeyCode.C))
             {
-                Roll();
+                if (!_player.IsRollingAnimationStart && _player.IsOnGround)
+                {
+                    Roll();
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround && !_player.IsRolling)
-        {
-            Jump();
+            if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround && !_player.IsRolling)
+            {
+                Jump();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        _player.SetFallingState(_rb.velocity.y);
-        _player.SetMovingState(_horizontalInput == 0 ? 0 : 1);
+        if (!_player.IsStunned)
+        {
+            _player.SetFallingState(_rb.velocity.y);
+            _player.SetMovingState(_horizontalInput == 0 ? 0 : 1);
 
-        if (!_player.IsOnStair)
-        {
-            _rb.gravityScale = 1;
-            Move();
-        }
-        else
-        {
-            _rb.gravityScale = 0;
-            StairsMove();
+            if (!_player.IsOnStair)
+            {
+                _rb.gravityScale = 1;
+                Move();
+            }
+            else
+            {
+                _rb.gravityScale = 0;
+                StairsMove();
+            }
         }
     }
 

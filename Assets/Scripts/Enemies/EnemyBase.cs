@@ -3,21 +3,21 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    protected float _hp = 100;
-    protected float _speed = 3;
+    [SerializeField] protected float _hp;
+    [SerializeField] protected float _speed;
     [SerializeField] protected int _damage;
     [SerializeField] protected bool _isOnGround;
     [SerializeField] protected int _isMoving;
+    [SerializeField] protected float _attackSpeed;
+
     protected bool _isObstacleAhead;
-    protected bool _canAttack;
+    [SerializeField] protected bool _canAttack;
     protected bool _isOnStairs;
-    protected bool _isDead = false;
+    [SerializeField] protected bool _isDead = false;
     [SerializeField] protected bool _isPlayerDetected;
     protected Transform _playerTransform;
     protected Animator _animator;
     protected Rigidbody2D _rb;
-
-    protected float _attackSpeed = 2;
     protected float _lastTimeAttack;
     protected float _startAttackingTime;
     protected bool _isAttacking = false;
@@ -38,6 +38,7 @@ public abstract class EnemyBase : MonoBehaviour
         protected set
         {
             _isMoving = value;
+            _animator.SetInteger("AnimState", value);
         }
     }
     public bool CanAttack
@@ -118,15 +119,18 @@ public abstract class EnemyBase : MonoBehaviour
     public void SetAttackState(bool canAttack)
     {
         if (canAttack)
+        {
             _states = States.Attack;
-        else
-            _states = States.Idle;
+        }
+            
+        //else
+        //    _states = States.Idle;
     }
 
     /// <summary>
     /// Анимация атаки
     /// </summary>
-    public void AttackAnim()
+    protected void AttackAnim()
     {
         _animator.SetTrigger("Attack");
     }

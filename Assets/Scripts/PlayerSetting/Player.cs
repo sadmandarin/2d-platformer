@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isRollingAnimationStart;
     private bool _isTouchingWall;
     [SerializeField] private int _isMoving;
+    private bool _isStunned = false;
     private int _quickAttackState = 0;
 
 
@@ -114,7 +116,19 @@ public class Player : MonoBehaviour
     public bool IsOnStair { get {  return _isOnStair; } private set { _isOnStair = value; } }
     public bool IsInStelsMode { get {  return _isInStelsMode; } private set { _isInStelsMode = value; } }
     public bool IsTouchingWall { get { return _isTouchingWall; } private set { _isTouchingWall = value; } }
-
+    public bool IsStunned
+    {
+        get 
+        {
+            return _isStunned;
+        }
+        private set
+        {
+            _isStunned = value;
+            //Сделать анимацию стана и запускать ее здесь
+            //выходить из состояния стана по ивенту в конце анимации
+        }
+    }
     public int QuickAttackState
     {
         get
@@ -125,12 +139,10 @@ public class Player : MonoBehaviour
         {
             _quickAttackState = value;
 
-            if (value % 3 == 0)
+            if (value % 2 == 0)
                 _animator.SetTrigger("Attack1");
-            else if (value % 2 == 0)
-                _animator.SetTrigger("Attack2");
             else
-                _animator.SetTrigger("Attack3");
+                _animator.SetTrigger("Attack2");
         }
     }
 
@@ -238,6 +250,20 @@ public class Player : MonoBehaviour
         IsRolling = false;
     }
 
+    public void SetStunState()
+    {
+        IsStunned = true;
+
+        StartCoroutine(DisableStunState());
+    }
+
+    private IEnumerator DisableStunState()
+    {
+        yield return new WaitForSeconds(2);
+
+        IsStunned = false;
+    }
+
     /// <summary>
     /// Состояние быстрой атаки
     /// </summary>
@@ -246,6 +272,11 @@ public class Player : MonoBehaviour
     public int SetQuickAttackState(int quickAttackState)
     {
         return QuickAttackState = quickAttackState;
+    }
+
+    public void SetStrongAttack()
+    {
+        _animator.SetTrigger("Attack3");
     }
 
     /// <summary>

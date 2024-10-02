@@ -49,8 +49,8 @@ public abstract class BossBase : MonoBehaviour
         MeleeAttack,
         ComboMeleeAttack,
         SpecialAttack,
-        Block,
-        Retreat
+        Retreat,
+        TrapDeploy
     }
 
 
@@ -81,31 +81,7 @@ public abstract class BossBase : MonoBehaviour
     /// <summary>
     /// Метод, управляющий состояниями босса
     /// </summary>
-    protected void HandleState()
-    {
-        switch (_state)
-        {
-            case BossState.Idle:
-                Idle();
-                break;
-            case BossState.MeleeAttack:
-                Attack();
-                break;
-            case BossState.ComboMeleeAttack:
-                ComboMeleeAttack();
-                break;
-            case BossState.SpecialAttack:
-                SpecialAttack();
-                break;
-            case BossState.Block:
-                Block(); 
-                break;
-            case BossState.Retreat:
-                Retreat();
-                break;
-
-        }
-    }
+    protected abstract void HandleState();
 
     [ContextMenu("GameWin")]
     /// <summary>
@@ -153,14 +129,15 @@ public abstract class BossBase : MonoBehaviour
     
 
     /// <summary>
-    /// Движение к игроку
+    /// Движение к игроку перед атакой
     /// </summary>
-    protected abstract void MoveTowardsPlayer();
+    /// <param name="speed">Скорость сближения</param>
+    protected abstract void MoveTowardsPlayer(float speed, Vector2 destination);
 
     /// <summary>
     /// Состояние ожидания
     /// </summary>
-    protected abstract void Idle();
+    protected abstract void IdleMove();
 
     /// <summary>
     /// Разрыв дистанции с игроком

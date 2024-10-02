@@ -25,18 +25,34 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!_player.IsStunned)
         {
-            SwitchActiveWeapon();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (Time.time >= _lastTimeAttack + 1/_activeWeapon.AttackSpeed)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                _startAttackingTime = Time.time;
-                PerformAttack();
-                _lastTimeAttack = Time.time;
+                SwitchActiveWeapon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (Time.time >= _lastTimeAttack + 1 / _activeWeapon.AttackSpeed)
+                {
+                    if (!_player.IsRolling)
+                    {
+                        _startAttackingTime = Time.time;
+                    }
+                }
+            }
+
+            else if (Input.GetKeyUp(KeyCode.F))
+            {
+                if (Time.time >= _lastTimeAttack + 1 / _activeWeapon.AttackSpeed)
+                {
+                    if (!_player.IsRolling)
+                    {
+                        _lastTimeAttack = Time.time;
+                        PerformAttack();
+                    }
+                }
             }
         }
     }
@@ -46,10 +62,14 @@ public class PlayerAttack : MonoBehaviour
     /// </summary>
     void PerformAttack()
     {
-        float duration = Time.time - _startAttackingTime;
+        float duration = _lastTimeAttack - _startAttackingTime;
 
         if (duration >= _timeToStrongAttack)
+        {
             _activeWeapon?.StrongAttack(_attackPoint, this);
+            _player.SetStrongAttack();
+        }
+            
         else
         {
             _activeWeapon?.QuickAttack(_attackPoint, this);

@@ -15,9 +15,9 @@ public class BanditLeaderBoss : BossBase
     private int _comboSteps = 0;
     private int _comboCount;
     private float _comboTimer = 0;
-    private float _comboDelay = 0.5f;
+    private float _comboDelay = 1f;
     private bool _isComboActive = false;
-    private float _attackRange = 2f;
+    private float _attackRange = 1.7f;
     private bool _isHelmetArmorDestroyed = false;
     private bool _isBodyArmorDestroyed = false;
     private int _hitToBlock = 4;
@@ -35,12 +35,8 @@ public class BanditLeaderBoss : BossBase
         Array values = Enum.GetValues(typeof(BossState));
 
         _avaiableState = new List<BossState>((BossState[])values);
-        _avaiableState.Remove(BossState.Block);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
+        _avaiableState.Remove(BossState.Idle);
+        _avaiableState.Remove(BossState.TrapDeploy);
     }
 
     public override void ArmorDamage(int damage, bool isRanged)
@@ -78,7 +74,7 @@ public class BanditLeaderBoss : BossBase
     {
         if (Vector2.Distance(_playerPosition.position, transform.position) >= 0.5f)
         {
-            MoveTowardsPlayer();
+            MoveTowardsPlayer(7, _player.transform.position);
         }
 
         if (Mathf.Abs(transform.position.x - _playerPosition.position.x) <= 1)
@@ -105,7 +101,7 @@ public class BanditLeaderBoss : BossBase
 
                 _state = BossState.Idle;
 
-                _doAction = true;
+                _doAction = false; 
 
                 StartCoroutine(ResetAttack());
             }
@@ -128,11 +124,9 @@ public class BanditLeaderBoss : BossBase
     /// <returns></returns>
     private IEnumerator EndBlock()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         _isBlocking = false;
-
-        _state = BossState.Idle;
     }
 
     public override void SpecialAttack()
@@ -145,13 +139,13 @@ public class BanditLeaderBoss : BossBase
 
             Vector2 direction = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
 
-            specialAttack.GetComponent<SpecialAttackProj>().Initialize(direction, _specialAttackDamage);
+            specialAttack.GetComponent<EnemyLongRangeAttackArrow>().Initialize(direction, _specialAttackDamage);
 
             _canDoSpecialAttack = false;
 
             _state = BossState.Idle;
 
-            _doAction = true;
+            _doAction = false;
 
             StartCoroutine(ResetSpecialAttack());
         }
@@ -161,7 +155,7 @@ public class BanditLeaderBoss : BossBase
     {
         if (_hitCounter % _hitToBlock == 0)
         {
-            _state = BossState.Block;
+            Block();
         }
 
         if (_isBlocking)
@@ -190,25 +184,24 @@ public class BanditLeaderBoss : BossBase
         _baseHealth = 600;
         _baseMaxHealth = 600;
         _baseSpeed = 4.4f;
-
         _helmetArmorHealth = 400;
         _bodyArmorHealth = _baseHealth;
         _allArmorHealth = _helmetArmorHealth + _bodyArmorHealth;
     }
 
-    protected override void Idle()
+    protected override void IdleMove()
     {
         if (Vector2.Distance(_playerPosition.position, transform.position) >= 4f)
         {
-            MoveTowardsPlayer();
+            MoveTowardsPlayer(2.5f, _player.transform.position);   
         }
     }
 
-    protected override void MoveTowardsPlayer()
+    protected override void MoveTowardsPlayer(float speed, Vector2 destination)
     {
-        Vector2 direction = (_playerPosition.position - transform.position).normalized;
+        Vector2 direction = (destination - (Vector2)transform.position).normalized;
 
-        _rb.velocity = new Vector2(direction.x * _baseSpeed, _rb.velocity.y);
+        _rb.velocity = new Vector2(direction.x * speed, _rb.velocity.y);
         
         if (direction.x > 0)
         {
@@ -219,15 +212,15 @@ public class BanditLeaderBoss : BossBase
             transform.localScale = new Vector3(2, 2, 2);
         }
 
-        float specialAttack = UnityEngine.Random.value;
+        //float specialAttack = UnityEngine.Random.value;
 
-        if (specialAttack <= 0.1 && _state != BossState.SpecialAttack)
-        {
-            if (_canDoSpecialAttack)
-            {
-                _state = BossState.SpecialAttack;
-            }
-        }
+        //if (specialAttack <= 0.1 && _state != BossState.SpecialAttack)
+        //{
+        //    if (_canDoSpecialAttack)
+        //    {
+        //        _state = BossState.SpecialAttack;
+        //    }
+        //}
     }
 
     protected override IEnumerator AttackInterval()
@@ -253,6 +246,8 @@ public class BanditLeaderBoss : BossBase
     {
         Debug.Log("Убегаем");
 
+        _doAction = false;
+
         Vector2 direction = (_playerPosition.position - transform.position).normalized;
 
         _rb.velocity = new Vector2(-direction.x * _baseSpeed, _rb.velocity.y);
@@ -276,6 +271,8 @@ public class BanditLeaderBoss : BossBase
 
     protected override void ComboMeleeAttack()
     {
+        _doAction = false;
+
         if (!_isComboActive)
         {
             _animator.SetTrigger("Attack");
@@ -290,7 +287,7 @@ public class BanditLeaderBoss : BossBase
 
         if (Vector2.Distance(_playerPosition.position, transform.position) >= 1f)
         {
-            MoveTowardsPlayer();
+            MoveTowardsPlayer(7, _player.transform.position);
         }
 
         _comboTimer += Time.deltaTime;
@@ -365,5 +362,27 @@ public class BanditLeaderBoss : BossBase
         _doAction = true;
 
         _canDoAttack = true;
+    }
+
+    protected override void HandleState()
+    {
+        switch (_state)
+        {
+            case BossState.Idle:
+                IdleMove();
+                break;
+            case BossState.MeleeAttack:
+                Attack();
+                break;
+            case BossState.ComboMeleeAttack:
+                ComboMeleeAttack();
+                break;
+            case BossState.SpecialAttack:
+                SpecialAttack();
+                break;
+            case BossState.Retreat:
+                Retreat();
+                break;
+        }
     }
 }
