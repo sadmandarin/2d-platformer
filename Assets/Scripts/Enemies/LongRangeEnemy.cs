@@ -88,23 +88,37 @@ public class LongRangeEnemy : EnemyBase
         if (PlayerTransform != null)
         {
             if ((PlayerTransform.position - transform.position).normalized.x > 0)
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.localScale = new Vector3(2, 2, 2);
 
             else
-                transform.rotation = Quaternion.Euler(0, 180, 0);
+                transform.localScale = new Vector3(-2, 2, 2);
         }
     }
 
     protected override void HandleState()
+    {
+        switch (_states)
+        {
+            case States.Idle:
+                IdleMove();
+                break;
+            case States.Attack:
+                AttackState();
+                break;
+            case States.Retreat:
+                Retreat();
+                break;
+        }
+    }
+
+    protected void AttackState()
     {
         if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _states == States.Attack)
         {
             if (!_isAttacking)
             {
                 _startAttackingTime = Time.time;
-                _isAttacking = true;
                 PerformAttack();
-                _lastTimeAttack = Time.time;
             }
         }
     }
@@ -150,13 +164,11 @@ public class LongRangeEnemy : EnemyBase
 
         GameObject arrow = Instantiate(_arrowPrefab, _attackPoint.position, Quaternion.identity);
 
-        Vector2 direction = transform.localScale.x > 0 ? Vector2.left : Vector2.right;
+        Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         arrow.GetComponent<EnemyLongRangeAttackArrow>().Initialize(direction, _damage);
 
         _lastTimeAttack = Time.time;
-
-        _states = States.Idle;
     }
 
     protected override void StairsMove()
@@ -181,11 +193,11 @@ public class LongRangeEnemy : EnemyBase
 
         if (direction.x > 0)
         {
-            transform.localScale = new Vector3(-2, 2, 2);
+            transform.localScale = new Vector3(2, 2, 2);
         }
         else if (direction.x < 0)
         {
-            transform.localScale = new Vector3(2, 2, 2);
+            transform.localScale = new Vector3(-2, 2, 2);
         }
 
         if (Mathf.Abs(_playerTransform.position.x - transform.position.x) >= _distance)

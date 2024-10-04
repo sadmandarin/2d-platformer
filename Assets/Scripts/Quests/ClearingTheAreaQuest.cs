@@ -10,7 +10,6 @@ public class ClearingTheAreaQuest : QuestsBase
     [SerializeField] private GameObject _friendlyNPCPrefab;
     [SerializeField] private GameObject _enemyPrefab;
 
-
     public override void CompleteQuest()
     {
         throw new System.NotImplementedException();
@@ -18,20 +17,6 @@ public class ClearingTheAreaQuest : QuestsBase
 
     public override void StartQuest()
     {
-        IsQuestActiveNow = true;
-
-        for (int i = 0; i < 3; i++)
-        {
-            Instantiate(_enemyPrefab);
-        }
-
-        _friendlyNPC = Instantiate(_friendlyNPCPrefab);
-    }
-
-    private IEnumerator QuestTimer()
-    {
-        yield return new WaitForSeconds(_questTimeToLose);
-
-        Destroy(_friendlyNPC);
+        throw new System.NotImplementedException();
     }
 }

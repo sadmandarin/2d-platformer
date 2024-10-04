@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
                 Jump();
             }
         }
+
+        else
+            _rb.velocity = Vector2.zero;
     }
 
     private void FixedUpdate()
@@ -54,17 +57,22 @@ public class PlayerMovement : MonoBehaviour
         {
             _player.SetFallingState(_rb.velocity.y);
             _player.SetMovingState(_horizontalInput == 0 ? 0 : 1);
-
-            if (!_player.IsOnStair)
+            if (!_player.IsBlocking)
             {
-                _rb.gravityScale = 1;
-                Move();
+                if (!_player.IsOnStair)
+                {
+                    _rb.gravityScale = 1;
+                    Move();
+                }
+                else
+                {
+                    _rb.gravityScale = 0;
+                    StairsMove();
+                }
             }
             else
-            {
-                _rb.gravityScale = 0;
-                StairsMove();
-            }
+                _rb.velocity = Vector2.zero;
+            
         }
     }
 

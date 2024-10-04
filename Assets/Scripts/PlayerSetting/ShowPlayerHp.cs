@@ -15,7 +15,7 @@ public class ShowPlayerHp : MonoBehaviour
 
         _text = GetComponent<Text>();
 
-        _playerHp.OnTookDamage += UpdateHPText;
+        _playerHp.OnHPChanged += UpdateHPText;
     }
 
     private void Start()
@@ -25,7 +25,7 @@ public class ShowPlayerHp : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerHp.OnTookDamage -= UpdateHPText;
+        _playerHp.OnHPChanged -= UpdateHPText;
     }
 
     void UpdateHPText()

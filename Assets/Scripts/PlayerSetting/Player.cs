@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     private float _isFalling;
     [SerializeField] private bool _isJumping;
     [SerializeField] private bool _isRolling;
+    [SerializeField] private bool _isBlocking;
     [SerializeField] private bool _isRollingAnimationStart;
     private bool _isTouchingWall;
     [SerializeField] private int _isMoving;
@@ -27,12 +28,13 @@ public class Player : MonoBehaviour
     [SerializeField] private WeaponsBase _currentLongRangeWeapon;
     [SerializeField] private AbilitySOBase _currentAbility;
     [SerializeField] private PlayerArmorBase _currentArmor;
+    [SerializeField] private RecoveryItemBase _currentRecoveryItem;
     [SerializeField] private PlayerSettingsSO _playerSettingsSO;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
 
     public int MaxHP = 100;
-    public event Action OnTookDamage;
+    public event Action OnHPChanged;
     public event Action OnDied;
 
     public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
     
     public AbilitySOBase CurrentAbility { get { return _currentAbility; } private set { _currentAbility = value; } }
     public PlayerArmorBase CurrentArmor { get { return _currentArmor; } private set { _currentArmor = value; } }
+    public RecoveryItemBase CurrentRecoveryItem { get { return _currentRecoveryItem; } private set { _currentRecoveryItem = value; } }
 
     public bool IsJumping 
     {
@@ -129,6 +132,9 @@ public class Player : MonoBehaviour
             //выходить из состо€ни€ стана по ивенту в конце анимации
         }
     }
+
+    public bool IsBlocking { get { return _isBlocking; } private set { _isBlocking = value; } }
+
     public int QuickAttackState
     {
         get
@@ -155,9 +161,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightAlt))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            TakeDamage(5);
+            _isBlocking = true;
+            _animator.SetBool("IdleBlock", _isBlocking);
+        }
+        else if (Input.GetKeyUp(KeyCode.B))
+        {
+            _isBlocking = false;
+            _animator.SetBool("IdleBlock", _isBlocking);
         }
     }
 
@@ -279,6 +291,11 @@ public class Player : MonoBehaviour
         _animator.SetTrigger("Attack3");
     }
 
+    public void SetRecoveryItem(RecoveryItemBase recoveryItem)
+    {
+        CurrentRecoveryItem = recoveryItem;
+    }
+
     /// <summary>
     /// ѕроверка касани€ лестниц
     /// </summary>
@@ -299,9 +316,26 @@ public class Player : MonoBehaviour
     /// <param name="damage"> оличество урона</param>
     public void TakeDamage(int damage)
     {
-        PlayerHp -= damage;
-        Debug.Log("Took damage" + damage);
-        OnTookDamage?.Invoke();
+        if (_isBlocking)
+        {
+            PlayerHp -= damage * 0.5f;
+            _animator.SetBool("Block", true);
+            _animator.SetBool("IdleBlock", false);
+            Debug.Log("Took damage" + damage);
+        }
+        else
+        {
+            PlayerHp -= damage;
+            Debug.Log("TookD amage" + damage);
+        }
+
+        OnHPChanged?.Invoke();
+    }
+
+    public void OnBlockAnimEnd()
+    {
+        _animator.SetBool("IdleBlock", _isBlocking);
+        _animator.SetBool("Block", false);
     }
 
     /// <summary>
@@ -320,5 +354,31 @@ public class Player : MonoBehaviour
     private void Die()
     {
         OnDied?.Invoke();
+    }
+
+    internal void RecoverStats()
+    {
+        if (CurrentRecoveryItem is HealthRecovery)
+        {
+            if (CurrentRecoveryItem.ItemCount > 0)
+            {
+                if (PlayerHp <= MaxHP - CurrentRecoveryItem.AmountOfRecovery)
+                {
+                    PlayerHp += CurrentRecoveryItem.AmountOfRecovery;
+                }
+                else
+                {
+                    PlayerHp = MaxHP;
+                }
+                
+                CurrentRecoveryItem.ItemCount--;
+                OnHPChanged?.Invoke();
+            }
+            
+        }
+        else if (CurrentRecoveryItem is ManaRecovery)
+        {
+            
+        }
     }
 }

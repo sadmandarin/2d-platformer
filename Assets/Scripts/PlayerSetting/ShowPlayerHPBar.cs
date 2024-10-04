@@ -12,7 +12,7 @@ public class ShowPlayerHPBar : MonoBehaviour
 
         _image = GetComponent<Image>();
 
-        _playerHp.OnTookDamage += UpdateHPBar;
+        _playerHp.OnHPChanged += UpdateHPBar;
     }
 
     private void Start()
@@ -22,7 +22,7 @@ public class ShowPlayerHPBar : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerHp.OnTookDamage -= UpdateHPBar;
+        _playerHp.OnHPChanged -= UpdateHPBar;
     }
 
     void UpdateHPBar()

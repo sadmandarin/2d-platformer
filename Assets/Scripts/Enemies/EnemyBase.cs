@@ -122,9 +122,9 @@ public abstract class EnemyBase : MonoBehaviour
         {
             _states = States.Attack;
         }
-            
-        //else
-        //    _states = States.Idle;
+
+        else
+            _states = States.Idle;
     }
 
     /// <summary>
