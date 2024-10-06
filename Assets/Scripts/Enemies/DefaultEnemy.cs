@@ -14,25 +14,6 @@ public class DefaultEnemy : EnemyBase
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        
-        if (!IsDead)
-        {
-            SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
-
-            if (IsOnStairs)
-            {
-                _rb.gravityScale = 0;
-
-                StairsMove();
-            }
-
-            else
-            {
-                _rb.gravityScale = 1;
-
-                MoveTowardsPlayer();
-            }
-        }
     }
 
     /// <summary>

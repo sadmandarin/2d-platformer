@@ -1,4 +1,4 @@
-using Cinemachine.Editor;
+using System.Collections;
 using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
@@ -9,6 +9,7 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField] protected bool _isOnGround;
     [SerializeField] protected int _isMoving;
     [SerializeField] protected float _attackSpeed;
+    private float _idleMoveSpeed = 1.5f;
 
     protected bool _isObstacleAhead;
     [SerializeField] protected bool _canAttack;
@@ -21,10 +22,12 @@ public abstract class EnemyBase : MonoBehaviour
     protected float _lastTimeAttack;
     protected float _startAttackingTime;
     protected bool _isAttacking = false;
+    protected bool _isIdleCoroutineActive = false;
     protected States _states = States.Idle;
 
     [SerializeField] protected float _attackRange;
     [SerializeField] protected Transform _attackPoint;
+    [SerializeField] protected Vector2 _startPos;
 
     public float Hp { get { return _hp; } protected set { _hp = value; } }
     public int Damage { get { return _damage; } protected set { _damage = value; } }
@@ -59,6 +62,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         Idle,
         Attack, 
+        Chase,
         Retreat
     }
 
@@ -66,6 +70,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+        _startPos = transform.position;
 
         _lastTimeAttack = Time.time;
         IsOnStairs = false;
@@ -81,7 +86,34 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        
+        if (!IsDead && _states != States.Chase)
+        {
+            SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
+
+            if (IsOnStairs)
+            {
+                _rb.gravityScale = 0;
+
+                StairsMove();
+            }
+
+            else
+            {
+                _rb.gravityScale = 1;
+
+                MoveTowardsPlayer();
+            }
+        }
+
+        else if (_states == States.Attack)
+        {
+            SetMovingState(0);
+        }
+
+        if (_states == States.Idle)
+        {
+            IdleMove();
+        }
     }
 
     /// <summary>
@@ -120,11 +152,12 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (canAttack)
         {
+            StopCoroutine(IEIdleMove());
             _states = States.Attack;
         }
 
-        else
-            _states = States.Idle;
+        else if (_isPlayerDetected)
+            _states = States.Chase;
     }
 
     /// <summary>
@@ -193,4 +226,50 @@ public abstract class EnemyBase : MonoBehaviour
     /// Управлениями состояниями
     /// </summary>
     protected abstract void HandleState();
+
+    /// <summary>
+    /// Движение до обнаружения игрока
+    /// </summary>
+    protected void IdleMove()
+    {
+        if (!_isIdleCoroutineActive && _isOnGround)
+        {
+            StartCoroutine(IEIdleMove());
+        }
+    }
+
+    private IEnumerator IEIdleMove()
+    {
+        bool forward = true;
+        _isIdleCoroutineActive = true;
+        SetMovingState(2);
+        while (true)
+        {
+            if (forward)
+            {
+                _rb.velocity = new Vector2(_idleMoveSpeed, _rb.velocity.y);
+
+                if ((transform.position.x  >= _startPos.x + 3))
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y);
+
+                    forward = false;
+                }
+            }
+
+            else
+            {
+                _rb.velocity = new Vector2(-_idleMoveSpeed, _rb.velocity.y);
+
+                if ((transform.position.x <= _startPos.x - 3))
+                {
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y);
+
+                    forward = true;
+                }
+            }
+
+            yield return null;
+        }
+    }
 }

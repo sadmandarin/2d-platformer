@@ -19,29 +19,6 @@ public class LongRangeEnemy : EnemyBase
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        if (!IsDead && _states != States.Attack)
-        {
-            SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
-
-            if (IsOnStairs)
-            {
-                _rb.gravityScale = 0;
-
-                StairsMove();
-            }
-
-            else
-            {
-                _rb.gravityScale = 1;
-
-                MoveTowardsPlayer();
-            }
-        }
-        else if (_states == States.Attack)
-        {
-            SetMovingState(0);
-        }
     }
 
     public override void TakeDamage(int damage)
@@ -105,6 +82,9 @@ public class LongRangeEnemy : EnemyBase
             case States.Attack:
                 AttackState();
                 break;
+            case States.Chase:
+                MoveTowardsPlayer();
+                break;                
             case States.Retreat:
                 Retreat();
                 break;
@@ -121,11 +101,6 @@ public class LongRangeEnemy : EnemyBase
                 PerformAttack();
             }
         }
-    }
-
-    private void IdleMove()
-    {
-
     }
 
     protected override void MoveTowardsPlayer()
