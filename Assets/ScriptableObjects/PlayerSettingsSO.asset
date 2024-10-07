@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 100
   MeleeWeapon: {fileID: 11400000, guid: 7a7566a65e92a004b95f5a687e4862cf, type: 2}
-  LongRangeWeapon: {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  LongRangeWeapon: {fileID: 9033977670344535558, guid: cf4c459882f81484c9a137d6ae16c444, type: 3}
   Ability: {fileID: 0}
   PlayerArmor: {fileID: 0}

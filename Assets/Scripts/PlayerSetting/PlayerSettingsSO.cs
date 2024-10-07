@@ -8,7 +8,7 @@ public class PlayerSettingsSO : ScriptableObject
 {
     public int Hp;
     public WeaponsBase MeleeWeapon;
-    public WeaponsBase LongRangeWeapon;
+    public GameObject LongRangeWeapon;
     public AbilitySOBase Ability;
     public PlayerArmorBase PlayerArmor;
 
@@ -27,14 +27,12 @@ public class PlayerSettingsSO : ScriptableObject
     /// <param name="weapon"></param>
     public void SetHaracterictic(WeaponsBase weapon)
     {
-        if (weapon.IsRanged)
-        {
-            LongRangeWeapon = weapon;
-        }
-        else
-        {
-            MeleeWeapon = weapon;
-        }
+        //if (weapon.IsRanged)
+        //{
+        //    LongRangeWeapon = weapon;
+        //}
+        MeleeWeapon = weapon;
+        
     }
 
     /// <summary>

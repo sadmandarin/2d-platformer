@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -27,10 +28,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!_player.IsStunned)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                SwitchActiveWeapon();
-            }
+            //if (Input.GetKeyDown(KeyCode.Q))
+            //{
+            //    SwitchActiveWeapon();
+            //}
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -54,7 +55,20 @@ public class PlayerAttack : MonoBehaviour
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                ThrowingWeapons();
+            }
         }
+    }
+
+    private void ThrowingWeapons()
+    {
+        var throwWeapon = Instantiate(_player.CurrentLongRangeWeapon, _attackPoint.position, Quaternion.identity);
+
+        var throwWeaponScript = throwWeapon.GetComponent<ThrowingWeaponBase>();
+        StartCoroutine(throwWeaponScript.ThrowingTrajectory((int)transform.localScale.x, _attackPoint.position));
     }
 
     /// <summary>
@@ -101,17 +115,17 @@ public class PlayerAttack : MonoBehaviour
     /// <summary>
     /// Переключение типов оружия
     /// </summary>
-    public void SwitchActiveWeapon()
-    {
-        if (_activeWeapon == _player.CurrentMeleeWeapon)
-        {
-            _activeWeapon = _player.CurrentLongRangeWeapon ?? _activeWeapon;
-        }
-        else
-        {
-            _activeWeapon = _player.CurrentMeleeWeapon ?? _activeWeapon;
-        }
+    //public void SwitchActiveWeapon()
+    //{
+    //    //if (_activeWeapon == _player.CurrentMeleeWeapon)
+    //    //{
+    //    //    _activeWeapon = _player.CurrentLongRangeWeapon ?? _activeWeapon;
+    //    //}
+        
+    //    {
+    //        _activeWeapon = _player.CurrentMeleeWeapon ?? _activeWeapon;
+    //    }
 
-        Debug.Log("Current weapon" + _activeWeapon);
-    }
+    //    Debug.Log("Current weapon" + _activeWeapon);
+    //}
 }

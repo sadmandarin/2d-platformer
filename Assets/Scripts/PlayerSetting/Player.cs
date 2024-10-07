@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
 
     [SerializeField] private WeaponsBase _currentMeleeWeapon;
-    [SerializeField] private WeaponsBase _currentLongRangeWeapon;
+    [SerializeField] private GameObject _currentLongRangeWeapon;
     [SerializeField] private AbilitySOBase _currentAbility;
     [SerializeField] private PlayerArmorBase _currentArmor;
     [SerializeField] private RecoveryItemBase _currentRecoveryItem;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
     public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
 
-    public WeaponsBase CurrentLongRangeWeapon { get { return _currentLongRangeWeapon; } private set { _currentLongRangeWeapon = value; } }
+    public GameObject CurrentLongRangeWeapon { get { return _currentLongRangeWeapon; } private set { _currentLongRangeWeapon = value; } }
     
     public AbilitySOBase CurrentAbility { get { return _currentAbility; } private set { _currentAbility = value; } }
     public PlayerArmorBase CurrentArmor { get { return _currentArmor; } private set { _currentArmor = value; } }
