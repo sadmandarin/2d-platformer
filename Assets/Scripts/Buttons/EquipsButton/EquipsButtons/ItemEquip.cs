@@ -40,8 +40,8 @@ public class ItemEquip : ButtonBase
             _playerSettingsSO.SetHaracterictic(item.TypeOfItem as WeaponsBase);
         else if (item.TypeOfItem is PlayerArmorBase)
             _playerSettingsSO.SetHaracterictic(item.TypeOfItem as PlayerArmorBase);
-        else if (item.TypeOfItem is AbilitySOBase)
-            _playerSettingsSO.SetHaracterictic(item.TypeOfItem as AbilitySOBase);
+        else if (item.TypeOfItem is GameObject)
+            _playerSettingsSO.SetHaracterictic(item.TypeOfItem as GameObject);
 
         SubMenuExit();
     }

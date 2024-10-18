@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Открытие двери
@@ -10,17 +11,27 @@ public class TriggerToOpenDoor : MonoBehaviour
     public GameObject Door;
     private bool _canOpenTheDoor;
     private bool _isDoorOpen;
+    private Inputs _inputs;
 
-    private void Start()
+    private void Awake()
     {
+        _inputs = new Inputs();
+
         _isDoorOpen = false;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-            if (_canOpenTheDoor)
-                OpenTheDoor();
+        _inputs.GamePlay.Interaction.performed += OpenTheDoor;
+
+        _inputs.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputs.GamePlay.Interaction.performed -= OpenTheDoor;
+
+        _inputs.Disable();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,10 +51,13 @@ public class TriggerToOpenDoor : MonoBehaviour
         }
     }
 
-    void OpenTheDoor()
+    void OpenTheDoor(InputAction.CallbackContext cotext)
     {
-        Door.SetActive(false);
-        _canOpenTheDoor = false;
-        _isDoorOpen = true;
+        if (_canOpenTheDoor)
+        {
+            Door.SetActive(false);
+            _canOpenTheDoor = false;
+            _isDoorOpen = true;
+        }
     }
 }

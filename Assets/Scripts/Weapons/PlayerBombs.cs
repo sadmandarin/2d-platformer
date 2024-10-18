@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerBombs : ThrowingWeaponBase
 {
     private bool _isOnGround = false;
+    private bool _isExploded = false;
 
     public override IEnumerator ThrowingTrajectory(int direction, Vector2 attackPoint)
     {
@@ -12,7 +13,7 @@ public class PlayerBombs : ThrowingWeaponBase
         float velocityY = 4.0f; // Ќачальна€ скорость по оси Y (регулирует высоту параболы)
 
 
-        while (!_isOnGround)
+        while (!_isOnGround && !_isExploded)
         {
             // ”величиваем положение по оси X линейно
             float x = transform.position.x + velocityX * Time.deltaTime;
@@ -69,6 +70,8 @@ public class PlayerBombs : ThrowingWeaponBase
             else if (enemy.GetComponent<BossBase>())
                 enemy.GetComponent<BossBase>().TakeDamage(4, true);
         }
+
+        _isExploded = true;
 
         Destroy(gameObject);
     }

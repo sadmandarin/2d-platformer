@@ -48,7 +48,7 @@ public class EnemyLongRangeAttackArrow : MonoBehaviour
             var player = collision.gameObject.GetComponent<Player>();
             if (!player.IsRolling)
             {
-                player.TakeDamage(_damage);
+                player.TakeDamage(_damage, transform);
                 Destroy(gameObject);
             }
         }

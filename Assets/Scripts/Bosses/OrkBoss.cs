@@ -77,7 +77,7 @@ public class OrkBoss : BossBase
             {
                 if (!_player.IsRolling)
                 {
-                    _player.TakeDamage(_baseDamage);
+                    _player.TakeDamage(_baseDamage, transform);
                 }
             }
         }

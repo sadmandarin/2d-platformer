@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Класс движения игрока
@@ -10,43 +11,60 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private Transform _wallCheck;
 
-    private float _horizontalInput;
-    private float _verticalInput;
+    //private float _horizontalInput;
+    //private float _verticalInput;
 
-    private string _horizontalAxis = "Horizontal";
-    private string _verticalAxis = "Vertical";
+    //private string _horizontalAxis = "Horizontal";
+    //private string _verticalAxis = "Vertical";
 
     private Rigidbody2D _rb;
     private Player _player;
+    private Inputs _inputs;
 
+    private bool _isJumping;
+    private Vector2 _moveInput;
+    private bool _jumpInput;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _player = GetComponent<Player>();
+        _inputs = new Inputs();
+    }
+
+    private void OnEnable()
+    {
+        //Actions
+        _inputs.GamePlay.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
+        _inputs.GamePlay.Move.canceled += ctx => _moveInput = Vector2.zero;
+
+        _inputs.GamePlay.Jump.performed += OnJumpPerform;
+        //_inputs.GamePlay.Jump.canceled += ctx => _jumpInput = false;
+
+        _inputs.GamePlay.Roll.performed += OnRollPerform;
+
+        _inputs.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputs.GamePlay.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
+        _inputs.GamePlay.Move.canceled -= ctx => _moveInput = Vector2.zero;
+
+        _inputs.GamePlay.Jump.performed -= OnJumpPerform;
+        //_inputs.GamePlay.Jump.canceled -= ctx => _jumpInput = false;
+
+        _inputs.GamePlay.Roll.performed -= OnRollPerform;
+
+        _inputs.Disable();
     }
 
     private void Update()
     {
         if (!_player.IsStunned)
         {
-            _horizontalInput = Input.GetAxis(_horizontalAxis);
-            _verticalInput = Input.GetAxis(_verticalAxis);
-
-            if (_horizontalInput != 0 && Input.GetKeyDown(KeyCode.C))
-            {
-                if (!_player.IsRollingAnimationStart && _player.IsOnGround)
-                {
-                    Roll();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) && _player.IsOnGround && !_player.IsRolling)
-            {
-                Jump();
-            }
+            
         }
-
         else
             _rb.velocity = Vector2.zero;
     }
@@ -56,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_player.IsStunned)
         {
             _player.SetFallingState(_rb.velocity.y);
-            _player.SetMovingState(_horizontalInput == 0 ? 0 : 1);
+            _player.SetMovingState(_moveInput.x == 0 ? 0 : 1);
             if (!_player.IsBlocking)
             {
                 if (!_player.IsOnStair)
@@ -76,6 +94,34 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnJumpPerform(InputAction.CallbackContext context)
+    {
+        if (!_player.IsStunned)
+        {
+            if (_player.IsOnGround && !_player.IsRolling)
+            {
+                if (!_player.IsJumping)
+                {
+                    Jump();
+                }
+            }
+        }
+    }
+
+    private void OnRollPerform(InputAction.CallbackContext context)
+    {
+        if (!_player.IsStunned)
+        {
+            if (_moveInput.x != 0)
+            {
+                if (!_player.IsRollingAnimationStart && _player.IsOnGround)
+                {
+                    Roll();
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Кувырок
     /// </summary>
@@ -91,11 +137,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Flip();
 
-        if (_horizontalInput != 0 && !_player.IsTouchingWall)
+        if (_moveInput.x != 0 && !_player.IsTouchingWall)
         {
-            _rb.velocity = new Vector2(_horizontalInput * _speed, _rb.velocity.y);
+            _rb.velocity = new Vector2(_moveInput.x * _speed, _rb.velocity.y);
         }
-        else if (_player.IsTouchingWall && Mathf.Sign(_horizontalInput) == Mathf.Sign(_rb.velocity.x))
+        else if (_player.IsTouchingWall && Mathf.Sign(_moveInput.x) == Mathf.Sign(_rb.velocity.x))
         {
             _rb.velocity = new Vector2(0, _rb.velocity.y);
         }
@@ -108,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Flip();
 
-        _rb.velocity = new Vector2(_horizontalInput * _speed, _verticalInput * _speed);
+        _rb.velocity = new Vector2(_moveInput.x * _speed, _moveInput.y * _speed);
     }
 
     /// <summary>
@@ -126,9 +172,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Flip()
     {
-        if (_horizontalInput != 0)
+        if (_moveInput.x != 0)
         {
-            if (_horizontalInput > 0)
+            if (_moveInput.x > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
             }

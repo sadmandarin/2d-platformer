@@ -78,16 +78,16 @@ public class DefaultEnemy : EnemyBase
         }
     }
 
-    
+
     protected override void FlipX()
     {
         if (PlayerTransform != null)
         {
             if ((PlayerTransform.position - transform.position).normalized.x > 0)
-                transform.rotation = Quaternion.Euler(0, 180, 0);
+                transform.localScale = new Vector3(1, 1, 1);
 
             else
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
@@ -104,7 +104,7 @@ public class DefaultEnemy : EnemyBase
                 var enemyCollider = enemy.GetComponent<Player>();
 
                 if (!enemyCollider.IsRolling)
-                    enemyCollider.TakeDamage(Damage);
+                    enemyCollider.TakeDamage(Damage, transform);
             }
         }
 

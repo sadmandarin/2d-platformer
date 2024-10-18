@@ -240,7 +240,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     private IEnumerator IEIdleMove()
     {
-        bool forward = true;
+        bool forward = transform.localScale.x > 0 ? true : false;
         _isIdleCoroutineActive = true;
         SetMovingState(2);
         while (true)

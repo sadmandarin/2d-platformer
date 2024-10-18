@@ -7,16 +7,17 @@ using UnityEngine;
 public class PlayerSettingsSO : ScriptableObject
 {
     public int Hp;
+    public int Mp;
     public WeaponsBase MeleeWeapon;
     public GameObject LongRangeWeapon;
-    public AbilitySOBase Ability;
+    public GameObject Ability;
     public PlayerArmorBase PlayerArmor;
 
     /// <summary>
     /// Установка текущего магического умения
     /// </summary>
     /// <param name="ability"></param>
-    public void SetHaracterictic(AbilitySOBase ability)
+    public void SetHaracterictic(GameObject ability)
     {
         Ability = ability;
     }

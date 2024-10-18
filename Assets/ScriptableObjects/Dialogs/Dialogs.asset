@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fab43c1d1b2c594ca5a1296f844ec6d, type: 3}
+  m_Name: Dialogs
+  m_EditorClassIdentifier: 
+  Dialogs:
+  - SpeakerName: Me
+    Line: rcdkaflksdklfnsdfhfjfnsdjkfsdklfnsdfnsdkl
+    HasChoices: 0
+    Choices:
+    - 
+    NextDialogs: []
+  - SpeakerName: Him
+    Line: rgywvn,dsvcxvncxvxc,.vmxcvxcvc;xvkl;xc
+    HasChoices: 0
+    Choices:
+    - 
+    NextDialogs: []
+  - SpeakerName: Him
+    Line: 1234567890-pokjnfmskdivcjhbxnmxv,kskcivjusd
+    HasChoices: 1
+    Choices:
+    - First
+    - Second
+    NextDialogs:
+    - {fileID: 11400000, guid: 84aac0596e15f3243a1b60f4f2f9ab92, type: 2}
+    - {fileID: 11400000, guid: d42f4b754e9846d4d8e78bb0ac60aa5a, type: 2}

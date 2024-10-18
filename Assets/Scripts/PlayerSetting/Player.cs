@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 /// <summary>
 /// Класс, описывающий основные характеристики игрока
@@ -9,6 +11,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _playerHp;
+    [SerializeField] private float _playerMp;
 
     [SerializeField] private bool _isOnGround = true;
     private bool _isOnStair;
@@ -26,24 +29,30 @@ public class Player : MonoBehaviour
 
     [SerializeField] private WeaponsBase _currentMeleeWeapon;
     [SerializeField] private GameObject _currentLongRangeWeapon;
-    [SerializeField] private AbilitySOBase _currentAbility;
+    [SerializeField] private GameObject _currentAbility;
     [SerializeField] private PlayerArmorBase _currentArmor;
-    [SerializeField] private RecoveryItemBase _currentRecoveryItem;
+    [SerializeField] private HealthRecovery _currentHealingItem;
+    [SerializeField] private ManaRecovery _currentManaRecoveryItem;
     [SerializeField] private PlayerSettingsSO _playerSettingsSO;
     private Animator _animator;
     private BoxCollider2D _boxCollider2D;
+    private Inputs _inputs;
+    private PlayerAttack _playerAttack;
 
     public int MaxHP = 100;
+    public int MaxMP = 100;
+    private bool _isFacingRight = true;
+
     public event Action OnHPChanged;
+    public event Action OnMPChanged;
     public event Action OnDied;
 
     public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
 
     public GameObject CurrentLongRangeWeapon { get { return _currentLongRangeWeapon; } private set { _currentLongRangeWeapon = value; } }
     
-    public AbilitySOBase CurrentAbility { get { return _currentAbility; } private set { _currentAbility = value; } }
+    public GameObject CurrentAbility { get { return _currentAbility; } private set { _currentAbility = value; } }
     public PlayerArmorBase CurrentArmor { get { return _currentArmor; } private set { _currentArmor = value; } }
-    public RecoveryItemBase CurrentRecoveryItem { get { return _currentRecoveryItem; } private set { _currentRecoveryItem = value; } }
 
     public bool IsJumping 
     {
@@ -104,6 +113,13 @@ public class Player : MonoBehaviour
             }
         } 
     }
+
+    public float PlayerMp
+    {
+        get { return _playerMp; }   
+        private set { _playerMp = value;}
+    }
+
     public bool IsOnGround {
         get
         {
@@ -156,21 +172,44 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _inputs = new Inputs();
+        _playerAttack = GetComponent<PlayerAttack>();
+
         SetHaracteristicOnStart();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            _isBlocking = true;
-            _animator.SetBool("IdleBlock", _isBlocking);
-        }
-        else if (Input.GetKeyUp(KeyCode.B))
-        {
-            _isBlocking = false;
-            _animator.SetBool("IdleBlock", _isBlocking);
-        }
+        _inputs.GamePlay.Block.performed += OnBlockPerform;
+        _inputs.GamePlay.Block.canceled += OnBlockCanceled;
+
+        _inputs.GamePlay.Healing.performed += OnHeal;
+        _inputs.GamePlay.ManaRecovery.performed += OnManaRecovery;
+
+        _inputs.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputs.GamePlay.Block.canceled -= OnBlockPerform;
+        _inputs.GamePlay.Block.canceled -= OnBlockCanceled;
+
+        _inputs.GamePlay.Healing.performed -= OnHeal;
+        _inputs.GamePlay.ManaRecovery.performed -= OnManaRecovery;
+
+        _inputs.Disable();
+    }
+
+    private void OnBlockPerform(InputAction.CallbackContext context)
+    {
+        _isBlocking = true;
+        _animator.SetBool("IdleBlock", _isBlocking);
+    }
+
+    private void OnBlockCanceled(InputAction.CallbackContext context)
+    {
+        _isBlocking = false;
+        _animator.SetBool("IdleBlock", _isBlocking);
     }
 
     /// <summary>
@@ -180,6 +219,7 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public bool GroundChecker(bool isOnGround)
     {
+        _isJumping = false;
         return IsOnGround = isOnGround;
     }
 
@@ -293,7 +333,15 @@ public class Player : MonoBehaviour
 
     public void SetRecoveryItem(RecoveryItemBase recoveryItem)
     {
-        CurrentRecoveryItem = recoveryItem;
+        if (recoveryItem is HealthRecovery recovery)
+        {
+            _currentHealingItem = recovery;
+        }
+
+        else if (recoveryItem is ManaRecovery manaRecovery)
+        {
+            _currentManaRecoveryItem = manaRecovery;
+        }
     }
 
     /// <summary>
@@ -305,18 +353,13 @@ public class Player : MonoBehaviour
         IsOnStair = isOnStair;
     }
 
-    public void ChangeStelsMode(bool stelsMode)
-    {
-        _isInStelsMode = stelsMode;
-    }
-
     /// <summary>
     /// Прием урона от противников
     /// </summary>
     /// <param name="damage">Количество урона</param>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Transform enemyPosition)
     {
-        if (_isBlocking)
+        if (_isBlocking && !IsAttackFromBehind(enemyPosition))
         {
             PlayerHp -= damage * 0.5f;
             _animator.SetBool("Block", true);
@@ -332,6 +375,21 @@ public class Player : MonoBehaviour
         OnHPChanged?.Invoke();
     }
 
+    private bool IsAttackFromBehind(Transform enemyPos)
+    {
+        Vector2 directionToEnemy = (enemyPos.position - transform.position).normalized;
+
+        bool isFacingRight = transform.localScale.x > 0;
+
+        Vector2 playerForward = isFacingRight ? Vector2.right : Vector2.left;
+
+        // Вычисляем угол между направлением игрока и врага
+        float angle = Vector2.Angle(playerForward, directionToEnemy);
+
+        // Если угол больше 90 градусов, значит враг атакует сзади
+        return angle > 90;
+    }
+
     public void OnBlockAnimEnd()
     {
         _animator.SetBool("IdleBlock", _isBlocking);
@@ -344,10 +402,14 @@ public class Player : MonoBehaviour
     private void SetHaracteristicOnStart()
     {
         PlayerHp = _playerSettingsSO.Hp;
+        PlayerMp = _playerSettingsSO.Mp;
         CurrentMeleeWeapon = _playerSettingsSO.MeleeWeapon;
         CurrentLongRangeWeapon = _playerSettingsSO.LongRangeWeapon;
         CurrentAbility = _playerSettingsSO.Ability;
+        _playerAttack._activeAbility = CurrentAbility.GetComponent<AbilitySOBase>();
         CurrentArmor = _playerSettingsSO.PlayerArmor;
+        MaxHP = 100;
+        MaxMP = 100;
     }
 
     [ContextMenu("My method")]
@@ -356,29 +418,51 @@ public class Player : MonoBehaviour
         OnDied?.Invoke();
     }
 
-    internal void RecoverStats()
+    private void OnHeal(InputAction.CallbackContext context)
     {
-        if (CurrentRecoveryItem is HealthRecovery)
+        if (_currentHealingItem.ItemCount > 0)
         {
-            if (CurrentRecoveryItem.ItemCount > 0)
+            if (PlayerHp <= MaxHP - _currentHealingItem.AmountOfRecovery)
             {
-                if (PlayerHp <= MaxHP - CurrentRecoveryItem.AmountOfRecovery)
-                {
-                    PlayerHp += CurrentRecoveryItem.AmountOfRecovery;
-                }
-                else
-                {
-                    PlayerHp = MaxHP;
-                }
-                
-                CurrentRecoveryItem.ItemCount--;
-                OnHPChanged?.Invoke();
+                PlayerHp += _currentHealingItem.AmountOfRecovery;
             }
-            
+            else
+            {
+                PlayerHp = MaxHP;
+            }
+
+            _currentHealingItem.ItemCount--;
+            OnHPChanged?.Invoke();
         }
-        else if (CurrentRecoveryItem is ManaRecovery)
+    }
+
+    private void OnManaRecovery(InputAction.CallbackContext context)
+    {
+        Debug.Log("mana recovery");
+
+        if (_currentManaRecoveryItem.ItemCount > 0)
         {
-            
+            if (PlayerMp <= MaxMP - _currentManaRecoveryItem.AmountOfRecovery)
+            {
+                PlayerHp += _currentHealingItem.AmountOfRecovery;
+            }
+            else
+            {
+                PlayerMp = MaxMP;
+            }
+
+            _currentManaRecoveryItem.ItemCount--;
+            OnMPChanged?.Invoke();
         }
+    }
+
+    public void DecreaseMana(int mana)
+    {
+        Debug.Log("Decrease mana");
+
+        if (PlayerMp >= mana)
+            PlayerMp -= mana;
+        else
+            PlayerMp = 0;
     }
 }
