@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d4b3152cf2d7845a6f4066623bf3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 2827115798653877759}
 --- !u!1 &4818946765968184637
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +398,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.4442983, y: 2.675317, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7933345842521586074}
@@ -528,7 +527,7 @@ BoxCollider2D:
   m_Offset: {x: -0.056532502, y: -0.20855951}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.45, y: 0}
     oldSize: {x: 1.28, y: 0.96}
     newSize: {x: 1.28, y: 0.96}
     adaptiveTilingThreshold: 0.5
@@ -571,12 +570,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390872842221ae24ba0dc28229a2200d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hp: 0
+  _speed: 0
   _damage: 0
   _isOnGround: 0
   _isMoving: 0
+  _attackSpeed: 0
+  _canAttack: 0
+  _isDead: 0
   _isPlayerDetected: 0
   _attackRange: 0
   _attackPoint: {fileID: 7933345842521586074}
+  _startPos: {x: 0, y: 0}
+  _arrowPrefab: {fileID: 0}
 --- !u!114 &9195231861449428980
 MonoBehaviour:
   m_ObjectHideFlags: 0
