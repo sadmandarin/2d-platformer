@@ -24,6 +24,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected bool _isAttacking = false;
     protected bool _isIdleCoroutineActive = false;
     protected States _states = States.Idle;
+    protected Coroutine _idleMoveCoroutine = null;
 
     [SerializeField] protected float _attackRange;
     [SerializeField] protected Transform _attackPoint;
@@ -78,42 +79,44 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!IsDead)
-        {
-            HandleState();
-        }
+        
     }
 
     protected virtual void FixedUpdate()
     {
-        if (!IsDead && _states != States.Chase)
+        if (!IsDead)
         {
-            SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
-
-            if (IsOnStairs)
-            {
-                _rb.gravityScale = 0;
-
-                StairsMove();
-            }
-
-            else
-            {
-                _rb.gravityScale = 1;
-
-                MoveTowardsPlayer();
-            }
+            HandleState();
         }
 
-        else if (_states == States.Attack)
-        {
-            SetMovingState(0);
-        }
+        //if (!IsDead && _states == States.Chase)
+        //{
+        //    SetMovingState(_rb.velocity.x == 0 ? 0 : 2);
 
-        if (_states == States.Idle)
-        {
-            IdleMove();
-        }
+        //    if (IsOnStairs)
+        //    {
+        //        _rb.gravityScale = 0;
+
+        //        StairsMove();
+        //    }
+
+        //    else
+        //    {
+        //        _rb.gravityScale = 1;
+
+        //        MoveTowardsPlayer();
+        //    }
+        //}
+
+        //else if (_states == States.Attack)
+        //{
+        //    SetMovingState(0);
+        //}
+
+        //if (_states == States.Idle)
+        //{
+        //    IdleMove();
+        //}
     }
 
     /// <summary>
@@ -131,6 +134,8 @@ public abstract class EnemyBase : MonoBehaviour
     /// <returns></returns>
     public bool SetPlayerDetection(bool detect)
     {
+        _states = States.Chase;
+
         return IsPlayerDetected = detect;
     }
 
@@ -152,12 +157,22 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (canAttack)
         {
-            StopCoroutine(IEIdleMove());
+            if (_idleMoveCoroutine != null)
+            {
+                StopCoroutine(_idleMoveCoroutine);
+                _idleMoveCoroutine = null;
+            }
+          
             _states = States.Attack;
+            Debug.Log(_states);
         }
 
         else if (_isPlayerDetected)
+        {
             _states = States.Chase;
+            Debug.Log(_states);
+        }
+            
     }
 
     /// <summary>
@@ -232,15 +247,15 @@ public abstract class EnemyBase : MonoBehaviour
     /// </summary>
     protected void IdleMove()
     {
-        if (!_isIdleCoroutineActive && _isOnGround)
+        if (_idleMoveCoroutine == null && _isOnGround)
         {
-            StartCoroutine(IEIdleMove());
+            _idleMoveCoroutine = StartCoroutine(IEIdleMove());
         }
     }
 
     private IEnumerator IEIdleMove()
     {
-        bool forward = transform.localScale.x > 0 ? true : false;
+        bool forward = transform.localScale.x > 0;
         _isIdleCoroutineActive = true;
         SetMovingState(2);
         while (true)

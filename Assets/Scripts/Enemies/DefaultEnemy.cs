@@ -111,7 +111,7 @@ public class DefaultEnemy : EnemyBase
         Debug.Log("Attack by Sword " + Damage);
     }
 
-    protected override void HandleState()
+    private void AttackState()
     {
         if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _states == States.Attack)
         {
@@ -122,6 +122,22 @@ public class DefaultEnemy : EnemyBase
                 PerformAttack();
                 _lastTimeAttack = Time.time;
             }
+        }
+    }
+
+    protected override void HandleState()
+    {
+        switch (_states)
+        {
+            case States.Idle:
+                IdleMove();
+                break;
+            case States.Attack:
+                AttackState();
+                break;
+            case States.Chase:
+                MoveTowardsPlayer();
+                break;
         }
     }
 }
