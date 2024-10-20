@@ -32,33 +32,6 @@ public class PlayerMovement : MonoBehaviour
         _inputs = new Inputs();
     }
 
-    private void OnEnable()
-    {
-        //Actions
-        _inputs.GamePlay.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _inputs.GamePlay.Move.canceled += ctx => _moveInput = Vector2.zero;
-
-        _inputs.GamePlay.Jump.performed += OnJumpPerform;
-        //_inputs.GamePlay.Jump.canceled += ctx => _jumpInput = false;
-
-        _inputs.GamePlay.Roll.performed += OnRollPerform;
-
-        _inputs.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputs.GamePlay.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _inputs.GamePlay.Move.canceled -= ctx => _moveInput = Vector2.zero;
-
-        _inputs.GamePlay.Jump.performed -= OnJumpPerform;
-        //_inputs.GamePlay.Jump.canceled -= ctx => _jumpInput = false;
-
-        _inputs.GamePlay.Roll.performed -= OnRollPerform;
-
-        _inputs.Disable();
-    }
-
     private void Update()
     {
         if (!_player.IsStunned)
@@ -120,6 +93,33 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Subscription()
+    {
+        //Actions
+        _inputs.GamePlay.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
+        _inputs.GamePlay.Move.canceled += ctx => _moveInput = Vector2.zero;
+
+        _inputs.GamePlay.Jump.performed += OnJumpPerform;
+        //_inputs.GamePlay.Jump.canceled += ctx => _jumpInput = false;
+
+        _inputs.GamePlay.Roll.performed += OnRollPerform;
+
+        _inputs.Enable();
+    }
+
+    public void Unsubscription()
+    {
+        _inputs.GamePlay.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
+        _inputs.GamePlay.Move.canceled -= ctx => _moveInput = Vector2.zero;
+
+        _inputs.GamePlay.Jump.performed -= OnJumpPerform;
+        //_inputs.GamePlay.Jump.canceled -= ctx => _jumpInput = false;
+
+        _inputs.GamePlay.Roll.performed -= OnRollPerform;
+
+        _inputs.Disable();
     }
 
     /// <summary>

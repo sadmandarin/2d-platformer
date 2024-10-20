@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private GameObject _dialogWindow;
     [SerializeField] private Text _speakerName;
     [SerializeField] private Text _line;
+    [SerializeField] private List<TextMeshProUGUI> _textMeshPro;
     [SerializeField] private List<GameObject> _choices;
 
     private float _letterDelay = 0.05f;
@@ -25,39 +27,45 @@ public class DialogManager : MonoBehaviour
     private Inputs _inputs;
     private GameManager _gameManager;
 
-    public bool IsDialogActive;
-
     private void Awake()
     {
         _gameManager = FindFirstObjectByType<GameManager>();
+
+        _inputs = new Inputs();
     }
 
     public void StartDialog()
     {
         _gameManager.EnterDialog();
 
-        _inputs = new Inputs();
         _dialogWindow.SetActive(true);
-        IsDialogActive = true;
         _currentDialog = _mainDialog;
         _currentLineIndex = 0;
 
-        _inputs.Dialogs.Interaction.performed += ManageDialog;
-        _inputs.Dialogs.Option1.performed += FirstChoice;
-        _inputs.Dialogs.Option2.performed += SecondChoice;
-        _inputs.Dialogs.Option3.performed += ThirdChoice;
-
-        _inputs.Enable();
+        Subscription();
 
         ShowNextLine();
     }
 
-    private void OnDestroy()
+
+    public void Subscription()
     {
-        _inputs.GamePlay.Interaction.performed -= ManageDialog;
+        _inputs.Dialogs.Interaction.performed += ManageDialog;
+        _inputs.Dialogs.Option1.performed += FirstChoice;
+        _inputs.Dialogs.Option2.performed += SecondChoice;
+        _inputs.Dialogs.Option3.performed += ThirdChoice;
+        _inputs.Dialogs.ExitDialog.performed += CloseDialog;
+
+        _inputs.Enable();
+    }
+
+    public void Unsubscription()
+    {
+        _inputs.Dialogs.Interaction.performed -= ManageDialog;
         _inputs.Dialogs.Option1.performed -= FirstChoice;
         _inputs.Dialogs.Option2.performed -= SecondChoice;
         _inputs.Dialogs.Option3.performed -= ThirdChoice;
+        _inputs.Dialogs.ExitDialog.performed -= CloseDialog;
 
         _inputs.Disable();
     }
@@ -101,7 +109,6 @@ public class DialogManager : MonoBehaviour
 
         if (curentSpeech.HasChoices)
             ShowDialogOptions();
-
     }
 
     private void ManageDialog(InputAction.CallbackContext context)
@@ -134,6 +141,7 @@ public class DialogManager : MonoBehaviour
         for (int i = 0; i < currentSpeech.Choices.Count; i++)
         {
             _choices[i].SetActive(true);
+            _textMeshPro[i].text = currentSpeech.Choices[i];
             _activeChoices[i] = true;
         }
     }
@@ -183,6 +191,15 @@ public class DialogManager : MonoBehaviour
         {
             ExitSubDialog();
         }
+    }
+
+    private void CloseDialog(InputAction.CallbackContext context)
+    {
+        _line.text = "";
+        _speakerName.text = "";
+        Debug.Log("Диалог завершен");
+        _gameManager.ExitDialogs();
+        _dialogWindow.SetActive(false);
     }
 
     private void EnterSubDialog(int number)

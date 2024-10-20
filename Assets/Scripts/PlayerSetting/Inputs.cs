@@ -347,6 +347,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExitDialog"",
+                    ""type"": ""Button"",
+                    ""id"": ""744a1162-bdba-48f9-ab3c-6e9cb06e4649"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -393,6 +402,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c05ee11-5dde-4614-b850-c329ce5ead1d"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitDialog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -429,6 +449,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Dialogs_Option2 = m_Dialogs.FindAction("Option2", throwIfNotFound: true);
         m_Dialogs_Option3 = m_Dialogs.FindAction("Option3", throwIfNotFound: true);
         m_Dialogs_Interaction = m_Dialogs.FindAction("Interaction", throwIfNotFound: true);
+        m_Dialogs_ExitDialog = m_Dialogs.FindAction("ExitDialog", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -612,6 +633,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dialogs_Option2;
     private readonly InputAction m_Dialogs_Option3;
     private readonly InputAction m_Dialogs_Interaction;
+    private readonly InputAction m_Dialogs_ExitDialog;
     public struct DialogsActions
     {
         private @Inputs m_Wrapper;
@@ -620,6 +642,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         public InputAction @Option2 => m_Wrapper.m_Dialogs_Option2;
         public InputAction @Option3 => m_Wrapper.m_Dialogs_Option3;
         public InputAction @Interaction => m_Wrapper.m_Dialogs_Interaction;
+        public InputAction @ExitDialog => m_Wrapper.m_Dialogs_ExitDialog;
         public InputActionMap Get() { return m_Wrapper.m_Dialogs; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -641,6 +664,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @ExitDialog.started += instance.OnExitDialog;
+            @ExitDialog.performed += instance.OnExitDialog;
+            @ExitDialog.canceled += instance.OnExitDialog;
         }
 
         private void UnregisterCallbacks(IDialogsActions instance)
@@ -657,6 +683,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @ExitDialog.started -= instance.OnExitDialog;
+            @ExitDialog.performed -= instance.OnExitDialog;
+            @ExitDialog.canceled -= instance.OnExitDialog;
         }
 
         public void RemoveCallbacks(IDialogsActions instance)
@@ -702,5 +731,6 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnOption2(InputAction.CallbackContext context);
         void OnOption3(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnExitDialog(InputAction.CallbackContext context);
     }
 }

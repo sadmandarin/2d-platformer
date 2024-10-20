@@ -33,9 +33,9 @@ public class PlayerAttack : MonoBehaviour
         
     }
 
-    private void OnEnable()
+    public void Subscription()
     {
-        _inputs.GamePlay.Attack.performed +=OnAttackPerformed;
+        _inputs.GamePlay.Attack.performed += OnAttackPerformed;
         _inputs.GamePlay.Attack.canceled += OnAttackCanceled;
 
         _inputs.GamePlay.MagicAbilty.performed += MagicAttack;
@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
         _inputs.Enable();
     }
 
-    private void OnDisable()
+    public void Unsubscription()
     {
         _inputs.GamePlay.Attack.performed -= OnAttackPerformed;
         _inputs.GamePlay.Attack.canceled -= OnAttackCanceled;

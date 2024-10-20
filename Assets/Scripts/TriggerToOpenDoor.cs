@@ -20,20 +20,6 @@ public class TriggerToOpenDoor : MonoBehaviour
         _isDoorOpen = false;
     }
 
-    private void OnEnable()
-    {
-        _inputs.GamePlay.Interaction.performed += OpenTheDoor;
-
-        _inputs.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputs.GamePlay.Interaction.performed -= OpenTheDoor;
-
-        _inputs.Disable();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_isDoorOpen && collision.gameObject.GetComponent<Player>())
@@ -49,6 +35,20 @@ public class TriggerToOpenDoor : MonoBehaviour
         {
             _canOpenTheDoor = false;
         }
+    }
+
+    public void Subscription()
+    {
+        _inputs.GamePlay.Interaction.performed += OpenTheDoor;
+
+        _inputs.Enable();
+    }
+
+    public void Unsubscription()
+    {
+        _inputs.GamePlay.Interaction.performed -= OpenTheDoor;
+
+        _inputs.Disable();
     }
 
     void OpenTheDoor(InputAction.CallbackContext cotext)

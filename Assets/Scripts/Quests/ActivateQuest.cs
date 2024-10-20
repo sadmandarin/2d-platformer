@@ -11,21 +11,23 @@ public class ActivateQuest : MonoBehaviour
     private NPC _avaiableQuest;
     private Inputs _inputs;
     private DialogManager _dialogManager;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _inputs = new Inputs();
         _questManager = GetComponent<QuestManager>();
+        _gameManager = FindFirstObjectByType<GameManager>();
     }
 
-    private void OnEnable()
+    public void Subscription()
     {
         _inputs.GamePlay.Interaction.performed += OnTakeQuest;
 
         _inputs.Enable();
     }
 
-    private void OnDisable()
+    public void Unsubscription()
     {
         _inputs.GamePlay.Interaction.performed -= OnTakeQuest;
 
@@ -63,14 +65,13 @@ public class ActivateQuest : MonoBehaviour
                 if (!_avaiableQuest.IsQuestComplete)
                     if (_avaiableQuest.IsQuestActive == false && _dialogManager != null)
                     {
-                        if (!_dialogManager.IsDialogActive)
+                        if (!_gameManager.IsDialogActive)
                         {
                             Debug.Log("Taked");
                             _dialogManager.StartDialog();
-                            //_questManager.AddQuestToQuestList(_avaiableQuest.Quests[0]);
-                            //_avaiableQuest.IsQuestActive = true;
                         }
                     }
+
                     else
                     {
                         Debug.Log("Gived");

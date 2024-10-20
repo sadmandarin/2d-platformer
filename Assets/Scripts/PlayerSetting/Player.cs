@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
         SetHaracteristicOnStart();
     }
 
-    private void OnEnable()
+    public void Subscription()
     {
         _inputs.GamePlay.Block.performed += OnBlockPerform;
         _inputs.GamePlay.Block.canceled += OnBlockCanceled;
@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
         _inputs.Enable();
     }
 
-    private void OnDisable()
+    public void Unsubscription()
     {
         _inputs.GamePlay.Block.canceled -= OnBlockPerform;
         _inputs.GamePlay.Block.canceled -= OnBlockCanceled;

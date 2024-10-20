@@ -18,20 +18,6 @@ public class DoorToSubLocation : MonoBehaviour
         _inputs = new Inputs();
     }
 
-    private void OnEnable()
-    {
-        _inputs.GamePlay.Interaction.performed += StartTeleport;
-
-        _inputs.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputs.GamePlay.Interaction.performed -= StartTeleport;
-
-        _inputs.Disable();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>())
@@ -48,6 +34,20 @@ public class DoorToSubLocation : MonoBehaviour
             _isPlayerNear = false;
             _player = null;
         }
+    }
+
+    public void Subscription()
+    {
+        _inputs.GamePlay.Interaction.performed += StartTeleport;
+
+        _inputs.Enable();
+    }
+
+    public void Unsubscription()
+    {
+        _inputs.GamePlay.Interaction.performed -= StartTeleport;
+
+        _inputs.Disable();
     }
 
     private void StartTeleport(InputAction.CallbackContext context)
