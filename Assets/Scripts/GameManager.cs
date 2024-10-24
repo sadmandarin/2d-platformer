@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
         _inputs = new Inputs();
 
         _player.OnDied += LevelLost;
-        _boss.BossDead += LevelWin;
+        
+        if(_boss != null)
+            _boss.BossDead += LevelWin;
     }
 
     private void OnEnable()
@@ -65,7 +67,9 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         _player.OnDied -= LevelLost;
-        _boss.BossDead -= LevelWin;
+
+        if (_boss != null)
+            _boss.BossDead -= LevelWin;
     }
 
     public void EnterDialog()
@@ -142,31 +146,31 @@ public class GameManager : MonoBehaviour
 
     private void SubscribeAllGamePlayAction()
     {
-        _player.Subscription();
-        _playerAttack.Subscription();
-        _movement.Subscription();
-        _activateQuest.Subscription();
-        _triggerToOpenDoor.Subscription();
-        _doorToSubLocation.Subscription();
+        _player?.Subscription();
+        _playerAttack?.Subscription();
+        _movement?.Subscription();
+        _activateQuest?.Subscription();
+        _triggerToOpenDoor?.Subscription();
+        _doorToSubLocation?.Subscription();
     }
 
     private void UnsubscribeAllGamePlayAction()
     {
-        _player.Unsubscription();
-        _playerAttack.Unsubscription();
-        _movement.Unsubscription();
-        _activateQuest.Unsubscription();
-        _triggerToOpenDoor.Unsubscription();
-        _doorToSubLocation.Unsubscription();
+        _player?.Unsubscription();
+        _playerAttack?.Unsubscription();
+        _movement?.Unsubscription();
+        _activateQuest?.Unsubscription();
+        _triggerToOpenDoor?.Unsubscription();
+        _doorToSubLocation?.Unsubscription();
     }
 
     private void SubscribeDialogAction()
     {
-        _dialogManager.Subscription();
+        _dialogManager?.Subscription();
     }
 
     private void UnsubscribeDialogAction()
     {
-        _dialogManager.Unsubscription();
+        _dialogManager?.Unsubscription();
     }
 }
