@@ -21,6 +21,11 @@ public class HostageReleaseQuest : QuestsBase
         IsCompleted = true;
     }
 
+    public void QuestFailure()
+    {
+        Destroy(_friendlyNPC);
+    }
+
     public override void StartQuest()
     {
         IsQuestActiveNow = true;
@@ -38,7 +43,7 @@ public class HostageReleaseQuest : QuestsBase
     {
         yield return new WaitForSeconds(_timeForQuest);
 
-        Destroy(_friendlyNPC);
+        
     }
 
 }

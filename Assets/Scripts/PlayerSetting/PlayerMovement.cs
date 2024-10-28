@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isJumping;
     private Vector2 _moveInput;
     private bool _jumpInput;
+    private float swingForce = 5f;
 
     private void Awake()
     {
@@ -32,33 +33,28 @@ public class PlayerMovement : MonoBehaviour
         _inputs = new Inputs();
     }
 
-    private void Update()
-    {
-        if (!_player.IsStunned)
-        {
-            
-        }
-        else
-            _rb.velocity = Vector2.zero;
-    }
-
     private void FixedUpdate()
     {
         if (!_player.IsStunned)
         {
             _player.SetFallingState(_rb.velocity.y);
-            _player.SetMovingState(_moveInput.x == 0 ? 0 : 1);
             if (!_player.IsBlocking)
             {
-                if (!_player.IsOnStair)
+                if (!_player.IsOnStair && !_player.IsOnRope)
                 {
                     _rb.gravityScale = 1;
+                    _player.SetMovingState(_moveInput.x == 0 ? 0 : 1);
                     Move();
                 }
-                else
+                else if(_player.IsOnStair)
                 {
                     _rb.gravityScale = 0;
+                    _player.SetMovingState(_moveInput.x == 0 ? 0 : 1);
                     StairsMove();
+                }
+                else if (_player.IsOnRope)
+                {
+                    RopeSwing();
                 }
             }
             else
@@ -71,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_player.IsStunned)
         {
-            if (_player.IsOnGround && !_player.IsRolling)
+            if ((_player.IsOnGround || _player.IsOnRope) && !_player.IsRolling)
             {
                 if (!_player.IsJumping)
                 {
@@ -157,14 +153,25 @@ public class PlayerMovement : MonoBehaviour
         _rb.velocity = new Vector2(_moveInput.x * _speed, _moveInput.y * _speed);
     }
 
+    private void RopeSwing()
+    {
+        _rb.AddForce(Vector2.right * _moveInput.x * swingForce);
+    }
+
     /// <summary>
     /// Ïðûæîê
     /// </summary>
     private void Jump()
     {
-        _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+        if (!_player.IsOnRope)
+        {
+            _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
 
-        _player.SetJumpingState(true);
+            _player.SetJumpingState(true);
+        }
+        else
+            _player.DetachFromRope();
+        
     }
 
     /// <summary>

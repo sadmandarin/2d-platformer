@@ -1,18 +1,44 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneFallTraps : MonoBehaviour
+public class StoneFallTraps : TrapsBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 _startPos;
+    private float _timeToDeactivate = 0.4f;
+
+    private void OnEnable()
     {
-        
+        TrapAction();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        transform.position = _startPos;
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<Player>())
+        {
+            collision.gameObject.GetComponent<Player>().TakeDamage(_damage, transform);
+            gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.GetComponent<Ground>())
+        {
+            StartCoroutine(DeactivateTrap());
+        }
+    }
+
+    private IEnumerator DeactivateTrap()
+    {
+        yield return new WaitForSeconds(_timeToDeactivate);
+
+        gameObject.SetActive(false);
+    }
+
+    protected override void TrapAction()
+    {
+        _startPos = transform.position;
+        _damage = 20;
     }
 }

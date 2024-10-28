@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isBlocking;
     [SerializeField] private bool _isRollingAnimationStart;
     private bool _isTouchingWall;
+    private bool _isOnRope;
     [SerializeField] private int _isMoving;
     private bool _isStunned = false;
     private int _quickAttackState = 0;
@@ -42,6 +43,11 @@ public class Player : MonoBehaviour
     public int MaxHP = 100;
     public int MaxMP = 100;
     private bool _isFacingRight = true;
+    private bool _canAttachToRope = true;
+    private Transform _ropeAttachPoint;
+    private HingeJoint2D _ropeJoint;
+    private Rigidbody2D _rb;
+    private float _swingForceMultiplier = 4f;
 
     public event Action OnHPChanged;
     public event Action OnMPChanged;
@@ -135,6 +141,17 @@ public class Player : MonoBehaviour
     public bool IsOnStair { get {  return _isOnStair; } private set { _isOnStair = value; } }
     public bool IsInStelsMode { get {  return _isInStelsMode; } private set { _isInStelsMode = value; } }
     public bool IsTouchingWall { get { return _isTouchingWall; } private set { _isTouchingWall = value; } }
+
+    public bool IsOnRope
+    {
+        get { return _isOnRope; }
+        private set
+        {
+            _isOnRope = value;
+            _animator.SetBool("WallSlide", value);
+        }
+    }
+
     public bool IsStunned
     {
         get 
@@ -172,6 +189,7 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _inputs = new Inputs();
         _playerAttack = GetComponent<PlayerAttack>();
 
@@ -240,6 +258,44 @@ public class Player : MonoBehaviour
     public int SetMovingState(int movingState)
     {
         return IsMoving = movingState;
+    }
+
+    public bool AttachToRope(Rigidbody2D ropeSegment, Transform attachPoint)
+    {
+        if (_canAttachToRope)
+        {
+            if (_ropeJoint == null)
+            {
+                _ropeJoint = gameObject.AddComponent<HingeJoint2D>();
+                _ropeAttachPoint = attachPoint;
+            }
+
+            _ropeJoint.connectedBody = ropeSegment;
+
+            return IsOnRope = true;
+        }
+        return false;
+    }
+
+    public bool DetachFromRope()
+    {
+        Vector2 ropeSwingDirection = (Vector2)_ropeAttachPoint.position - (Vector2)transform.position;
+        ropeSwingDirection.Normalize(); // Нормализуем, чтобы использовать как направление
+
+        // Применяем силу в направлении движения с коэффициентом (например, 5f)
+        _rb.AddForce(ropeSwingDirection * _swingForceMultiplier, ForceMode2D.Impulse);
+
+        Destroy(_ropeJoint);
+        _canAttachToRope = false;
+        StartCoroutine(EnableReattach());
+
+        return IsOnRope = false;
+    }
+
+    private IEnumerator EnableReattach()
+    {
+        yield return new WaitForSeconds(1);
+        _canAttachToRope = true;
     }
 
     /// <summary>

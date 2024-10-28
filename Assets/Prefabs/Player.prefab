@@ -150,10 +150,10 @@ GameObject:
   - component: {fileID: 1459961990431559137}
   - component: {fileID: 5476393787249281611}
   - component: {fileID: 7060450993920367326}
-  - component: {fileID: 3033227361735492396}
   - component: {fileID: 4931260603258405533}
   - component: {fileID: 2588041637227630938}
   - component: {fileID: 888713389509263203}
+  - component: {fileID: 1772733547006174470}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -358,29 +358,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHp: 0
+  _playerMp: 0
   _isOnGround: 1
   _isJumping: 0
   _isRolling: 0
+  _isBlocking: 0
   _isRollingAnimationStart: 0
   _isMoving: 0
   _currentMeleeWeapon: {fileID: 11400000, guid: 7a7566a65e92a004b95f5a687e4862cf, type: 2}
-  _currentLongRangeWeapon: {fileID: 11400000, guid: f8700f6f272f7a94a8be88af80608d5d, type: 2}
+  _currentLongRangeWeapon: {fileID: 0}
   _currentAbility: {fileID: 0}
   _currentArmor: {fileID: 0}
+  _currentHealingItem: {fileID: 0}
+  _currentManaRecoveryItem: {fileID: 0}
   _playerSettingsSO: {fileID: 11400000, guid: 13c089ea243d68b498d3143e6e722309, type: 2}
   MaxHP: 200
---- !u!114 &3033227361735492396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4453080305326406271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3f5e45ef2f3a545b2f50fca909c5fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  MaxMP: 100
 --- !u!114 &4931260603258405533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackPoint: {fileID: 6380153883660220545}
+  _activeAbility: {fileID: 0}
 --- !u!114 &2588041637227630938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +410,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6b9479ea7eaa2b4699d188c1a120ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1772733547006174470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4453080305326406271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68851897e8bcf7f49a532c8fc75f245e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6800600026074421164

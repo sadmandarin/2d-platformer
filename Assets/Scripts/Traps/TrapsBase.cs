@@ -1,17 +1,11 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class TrapsBase : MonoBehaviour
 {
-    protected Player _player;
-    protected float _timeToActivateTrap = 2;
+    [SerializeField] protected int _damage;
 
-    public IEnumerator ActivateAfterDelay()
-    {
-        yield return new WaitForSeconds(_timeToActivateTrap);
+    protected abstract void TrapAction();
 
-        ActivateTrap();
-    }
+    protected abstract void OnTriggerEnter2D(Collider2D collision);
 
-    protected abstract void ActivateTrap();
 }
