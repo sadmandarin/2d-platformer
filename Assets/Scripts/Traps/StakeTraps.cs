@@ -18,10 +18,10 @@ public class StakqqqeTraps : TrapsBase
 
     private void OnEnable()
     {
-        TrapAction();
-
         _isWorkedOnce = false;
         _startPos = transform.position;
+
+        TrapAction();
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
@@ -43,7 +43,7 @@ public class StakqqqeTraps : TrapsBase
 
     private IEnumerator OpeningTheTrap()
     {
-        while (transform.position.y < _maxPosition.y)
+        while (transform.position.y < _startPos.y + _maxPosition.y)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, 1 * _speed);
 
@@ -54,7 +54,7 @@ public class StakqqqeTraps : TrapsBase
 
     private IEnumerator ClosingTheTrap()
     {
-        while (transform.position.y > _maxPosition.y)
+        while (transform.position.y > _startPos.y)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, -1 * _speed);
 

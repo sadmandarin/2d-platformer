@@ -106,11 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6016920897640321758, guid: f0d3e0e3c387af74eb6cb58042fc8015, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6506180242339938286, guid: f0d3e0e3c387af74eb6cb58042fc8015, type: 3}
       propertyPath: m_Name
-      value: StoneFallTrap Variant
+      value: StakeTrap
       objectReference: {fileID: 0}
     - target: {fileID: 8203000048932351950, guid: f0d3e0e3c387af74eb6cb58042fc8015, type: 3}
       propertyPath: _trap
@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 0
-  _maxPosition: {x: 2.31, y: -0.35, z: 0}
+  _maxPosition: {x: 2.31, y: 0.65, z: 0}

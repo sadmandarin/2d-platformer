@@ -11,12 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private Transform _wallCheck;
 
-    //private float _horizontalInput;
-    //private float _verticalInput;
-
-    //private string _horizontalAxis = "Horizontal";
-    //private string _verticalAxis = "Vertical";
-
     private Rigidbody2D _rb;
     private Player _player;
     private Inputs _inputs;
@@ -95,10 +89,10 @@ public class PlayerMovement : MonoBehaviour
     {
         //Actions
         _inputs.GamePlay.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
+
         _inputs.GamePlay.Move.canceled += ctx => _moveInput = Vector2.zero;
 
         _inputs.GamePlay.Jump.performed += OnJumpPerform;
-        //_inputs.GamePlay.Jump.canceled += ctx => _jumpInput = false;
 
         _inputs.GamePlay.Roll.performed += OnRollPerform;
 
@@ -108,10 +102,10 @@ public class PlayerMovement : MonoBehaviour
     public void Unsubscription()
     {
         _inputs.GamePlay.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
+
         _inputs.GamePlay.Move.canceled -= ctx => _moveInput = Vector2.zero;
 
         _inputs.GamePlay.Jump.performed -= OnJumpPerform;
-        //_inputs.GamePlay.Jump.canceled -= ctx => _jumpInput = false;
 
         _inputs.GamePlay.Roll.performed -= OnRollPerform;
 
