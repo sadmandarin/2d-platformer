@@ -52,14 +52,25 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             else
+            {
+                if (_player.IsOnGround)
+                {
+                    _rb.velocity = Vector2.zero;
+                }
+            }
+        }
+        else
+        {
+            if (_player.IsOnGround)
+            {
                 _rb.velocity = Vector2.zero;
-            
+            }
         }
     }
 
     private void OnJumpPerform(InputAction.CallbackContext context)
     {
-        if (!_player.IsStunned)
+        if (!_player.IsStunned && !_player.IsBlocking)
         {
             if ((_player.IsOnGround || _player.IsOnRope) && !_player.IsRolling)
             {
@@ -73,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnRollPerform(InputAction.CallbackContext context)
     {
-        if (!_player.IsStunned)
+        if (!_player.IsStunned && !_player.IsBlocking)
         {
             if (_moveInput.x != 0)
             {

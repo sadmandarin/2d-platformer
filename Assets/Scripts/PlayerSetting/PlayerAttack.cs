@@ -59,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnAttackPerformed(InputAction.CallbackContext context)
     {
-        if (!_player.IsStunned)
+        if (!_player.IsStunned && !_player.IsBlocking)
         {
             if (Time.time >= _lastTimeAttack + 1 / _activeWeapon.AttackSpeed)
             {
@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnAttackCanceled(InputAction.CallbackContext context)
     {
-        if (!_player.IsStunned)
+        if (!_player.IsStunned && !_player.IsBlocking)
         {
             if (Time.time >= _lastTimeAttack + 1 / _activeWeapon.AttackSpeed)
             {
@@ -91,10 +91,13 @@ public class PlayerAttack : MonoBehaviour
     /// </summary>
     private void ThrowingWeapons(InputAction.CallbackContext context)
     {
-        var throwWeapon = Instantiate(_player.CurrentLongRangeWeapon, _attackPoint.position, Quaternion.identity);
+        if (!_player.IsStunned && !_player.IsBlocking)
+        {
+            var throwWeapon = Instantiate(_player.CurrentLongRangeWeapon, _attackPoint.position, Quaternion.identity);
 
-        var throwWeaponScript = throwWeapon.GetComponent<ThrowingWeaponBase>();
-        StartCoroutine(throwWeaponScript.ThrowingTrajectory((int)transform.localScale.x, _attackPoint.position));
+            var throwWeaponScript = throwWeapon.GetComponent<ThrowingWeaponBase>();
+            StartCoroutine(throwWeaponScript.ThrowingTrajectory((int)transform.localScale.x, _attackPoint.position));
+        }
     }
 
     /// <summary>
