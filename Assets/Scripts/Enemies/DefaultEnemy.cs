@@ -6,11 +6,6 @@ using UnityEngine;
 /// </summary>
 public class DefaultEnemy : EnemyBase
 {
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void FixedUpdate()
     {
         base.FixedUpdate();

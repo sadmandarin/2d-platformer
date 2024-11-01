@@ -75,12 +75,10 @@ public abstract class EnemyBase : MonoBehaviour
 
         _lastTimeAttack = Time.time;
         IsOnStairs = false;
+
+        _speed *= Mathf.Round(Random.Range(0.95f, 1.05f) * 100) / 100;
     }
 
-    protected virtual void Update()
-    {
-        
-    }
 
     protected virtual void FixedUpdate()
     {

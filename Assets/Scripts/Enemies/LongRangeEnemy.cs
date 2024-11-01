@@ -11,11 +11,6 @@ public class LongRangeEnemy : EnemyBase
     private float _distance = 8;
     private int _hitCount = 0;
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
