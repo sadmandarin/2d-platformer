@@ -12,7 +12,7 @@ public class HostageReleaseQuest : QuestsBase
     [SerializeField] private GameObject _questTriggerZone;
     [SerializeField] private int _timeForQuest;
 
-    public List<GameObject> SpawnedEnemies;
+    private List<GameObject> SpawnedEnemies;
 
     public override void CompleteQuest()
     {
@@ -37,6 +37,13 @@ public class HostageReleaseQuest : QuestsBase
         }
 
         _friendlyNPC = Instantiate(_hostageToRelease);
+    }
+
+    // Присваивать в поле QuestEnemy название или ID квеста, искать в списках квестах по названию
+    //Удалять противника из списка, по очищению списка завершать квест
+     private void RemoveEnemyFromList()
+    {
+
     }
 
     private IEnumerator QuestTimer()

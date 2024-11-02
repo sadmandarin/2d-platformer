@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class QuestManager : MonoBehaviour
 {
-    private List<QuestsBase> _activeQuests = new List<QuestsBase>();
+    public List<QuestsBase> _activeQuests = new List<QuestsBase>();
 
     /// <summary>
     /// Добавление квеста в список активных
@@ -45,5 +45,14 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    //Hostage Release Quests Methods
+    #region
+    public void KillEnemy()
+    {
+
+    }
+
+    #endregion
 }
-    
+
