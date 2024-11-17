@@ -17,6 +17,7 @@ public class DialogsSOEditor : Editor
         _dialogsList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
         {
             SerializedProperty element = _dialogsList.serializedProperty.GetArrayElementAtIndex(index);
+
             EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
                 element.FindPropertyRelative("SpeakerName"), new GUIContent("Speaker"));
 
@@ -25,11 +26,14 @@ public class DialogsSOEditor : Editor
                 element.FindPropertyRelative("Line"), new GUIContent("Line"));
 
             rect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+                element.FindPropertyRelative("HasQuest"), new GUIContent("Has Quest")); // Добавлено поле _hasQuest
+
+            rect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
             SerializedProperty hasChoicesProp = element.FindPropertyRelative("HasChoices");
             EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
                 hasChoicesProp, new GUIContent("Has Choices"));
 
-            // Отображение Choices и NextDialogIndexes только если HasChoices = true
             if (hasChoicesProp.boolValue)
             {
                 rect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -42,11 +46,10 @@ public class DialogsSOEditor : Editor
             }
         };
 
-        // Задаем высоту элементов
         _dialogsList.elementHeightCallback = (index) =>
         {
             var element = _dialogsList.serializedProperty.GetArrayElementAtIndex(index);
-            float height = EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
+            float height = EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing * 3; // Увеличили базовую высоту
 
             if (element.FindPropertyRelative("HasChoices").boolValue)
             {

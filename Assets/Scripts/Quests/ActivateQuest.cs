@@ -22,6 +22,8 @@ public class ActivateQuest : MonoBehaviour
 
     public void Subscription()
     {
+        Debug.Log("Podписка");
+
         _inputs.GamePlay.Interaction.performed += OnTakeQuest;
 
         _inputs.Enable();
@@ -29,6 +31,8 @@ public class ActivateQuest : MonoBehaviour
 
     public void Unsubscription()
     {
+        Debug.Log("Отписка");
+
         _inputs.GamePlay.Interaction.performed -= OnTakeQuest;
 
         _inputs.Disable();
@@ -40,6 +44,7 @@ public class ActivateQuest : MonoBehaviour
         {
             _avaiableQuest = collision.gameObject.GetComponent<NPC>();
             _dialogManager = collision.gameObject.GetComponent<DialogManager>();
+            Subscription();
 
             _isAvaiableToTakeQuest = true;
 
@@ -53,6 +58,7 @@ public class ActivateQuest : MonoBehaviour
         {
             _avaiableQuest = null;
             _dialogManager = null;
+            Unsubscription();
 
             _isAvaiableToTakeQuest = false;
         }

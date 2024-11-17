@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _player = GetComponent<Player>();
+        _player = GetComponentInChildren<Player>();
         _inputs = new Inputs();
     }
 
@@ -170,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_player.IsOnRope)
         {
+            _rb.drag = 1f;
+
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
 
             _player.SetJumpingState(true);

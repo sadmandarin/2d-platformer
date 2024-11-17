@@ -9,6 +9,7 @@ public class NPC : MonoBehaviour
     public List<QuestsBase> Quests;
     public bool IsQuestActive;
     public bool IsQuestComplete;
+    public bool IsQuestFailure;
 
     private void Start()
     {
@@ -21,6 +22,14 @@ public class NPC : MonoBehaviour
         IsQuestComplete = true;
         IsQuestActive = false;
         Quests[0].CompleteQuest();
+        Quests.Clear();
+    }
+
+    public void QuestFailure()
+    {
+        IsQuestFailure = true;
+        IsQuestActive = false;
+        Quests[0].QuestFailure();
         Quests.Clear();
     }
 }

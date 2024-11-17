@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -7,7 +8,7 @@ using UnityEngine.Windows;
 /// <summary>
 /// Класс, описывающий основные характеристики игрока
 /// </summary>
-[RequireComponent(typeof(Animator), typeof(BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _playerHp;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     private bool _isInStelsMode;
     private float _isFalling;
     [SerializeField] private bool _isJumping;
+    private Vector3 _endFallingState;
     [SerializeField] private bool _isRolling;
     [SerializeField] private bool _isBlocking;
     [SerializeField] private bool _isRollingAnimationStart;
@@ -52,6 +54,9 @@ public class Player : MonoBehaviour
     public event Action OnHPChanged;
     public event Action OnMPChanged;
     public event Action OnDied;
+
+    public LayerMask IgnoredLayer;
+    private Vector3 _startFallingState;
 
     public WeaponsBase CurrentMeleeWeapon { get { return _currentMeleeWeapon; } private set { _currentMeleeWeapon = value; } }
 
@@ -187,11 +192,12 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInParent<Animator>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
-        _rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponentInParent<Rigidbody2D>();
+        Physics2D.IgnoreLayerCollision(10, 13);
         _inputs = new Inputs();
-        _playerAttack = GetComponent<PlayerAttack>();
+        _playerAttack = GetComponentInParent<PlayerAttack>();
 
         SetHaracteristicOnStart();
     }
@@ -238,7 +244,31 @@ public class Player : MonoBehaviour
     public bool GroundChecker(bool isOnGround)
     {
         _isJumping = false;
+        
+        if (!isOnGround)
+        {
+            _startFallingState = transform.position;
+            _rb.drag = 1f;
+        }
+
+        else
+        {
+            _rb.drag = 5f;
+            _endFallingState = transform.position;
+            CheckIfDyingFromFalling();
+        }
+        
         return IsOnGround = isOnGround;
+    }
+
+    private void CheckIfDyingFromFalling()
+    {
+        var fallDistance = _endFallingState - _startFallingState;
+
+        if (Mathf.Abs(fallDistance.y) > 5)
+        {
+            Die();
+        }
     }
 
     /// <summary>
@@ -358,16 +388,18 @@ public class Player : MonoBehaviour
         IsRolling = false;
     }
 
-    public void SetStunState()
+    public void SetStunState(float stunTime)
     {
+        Debug.Log("Stun!");
+
         IsStunned = true;
 
-        StartCoroutine(DisableStunState());
+        StartCoroutine(DisableStunState(stunTime));
     }
 
-    private IEnumerator DisableStunState()
+    private IEnumerator DisableStunState(float stunTime)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(stunTime);
 
         IsStunned = false;
     }
@@ -413,7 +445,7 @@ public class Player : MonoBehaviour
     /// Прием урона от противников
     /// </summary>
     /// <param name="damage">Количество урона</param>
-    public void TakeDamage(int damage, Transform enemyPosition)
+    public void TakeDamage(float damage, Transform enemyPosition)
     {
         if (_isBlocking && !IsAttackFromBehind(enemyPosition))
         {
@@ -471,6 +503,8 @@ public class Player : MonoBehaviour
     [ContextMenu("My method")]
     private void Die()
     {
+        Debug.Log("Die");
+
         OnDied?.Invoke();
     }
 
@@ -520,5 +554,19 @@ public class Player : MonoBehaviour
             PlayerMp -= mana;
         else
             PlayerMp = 0;
+    }
+
+    public void AddLayer(int layerIndex)
+    {
+        IgnoredLayer |= (1 << layerIndex);
+
+        _rb.excludeLayers = IgnoredLayer;
+    }
+
+    public void RemoveLayer(int layerIndex)
+    {
+        IgnoredLayer &= ~(1 << layerIndex);
+
+        _rb.excludeLayers = IgnoredLayer;
     }
 }

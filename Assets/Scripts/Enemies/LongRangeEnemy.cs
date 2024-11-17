@@ -118,6 +118,7 @@ public class LongRangeEnemy : EnemyBase
 
     protected override void PerformAttack()
     {
+        Retreat();
         if (Time.time >= _lastTimeAttack + 1 / _attackSpeed)
         {
             if (!_isAttacking)
@@ -153,7 +154,7 @@ public class LongRangeEnemy : EnemyBase
         }
     }
 
-    private void Retreat()
+    protected override void Retreat()
     {
         Debug.Log("Убегаем");
 

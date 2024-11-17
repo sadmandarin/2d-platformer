@@ -17,6 +17,8 @@ public struct Speech
     [Tooltip("Его реплика")]
     public string Line;
 
+    public bool HasQuest;
+
     [Tooltip("Если есть выбор ответа, укажите варианты")]
     public bool HasChoices;
 

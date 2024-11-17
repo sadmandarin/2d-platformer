@@ -8,6 +8,7 @@ public class EnemyLongRangeAttackArrow : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _maxDistance;
+    [SerializeField] private float _criticalDamageMultiplayer;
 
     private Vector2 _direction;
     private Vector2 _startPos;
@@ -48,7 +49,18 @@ public class EnemyLongRangeAttackArrow : MonoBehaviour
             var player = collision.gameObject.GetComponent<Player>();
             if (!player.IsRolling)
             {
-                player.TakeDamage(_damage, transform);
+                var chanceForBonus = Random.value;
+
+                if (chanceForBonus < 0.05f)
+                {
+                    player.TakeDamage(_damage * _criticalDamageMultiplayer, transform);
+                }
+
+                else if (chanceForBonus < 0.1f)
+                {
+                    player.TakeDamage(_damage, transform);
+                    player.SetStunState(0.3f);
+                }
                 Destroy(gameObject);
             }
         }

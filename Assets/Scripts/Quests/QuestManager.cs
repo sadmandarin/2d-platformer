@@ -8,6 +8,8 @@ public class QuestManager : MonoBehaviour
 {
     public List<QuestsBase> _activeQuests = new List<QuestsBase>();
 
+    private HostageReleaseQuest _releaseHostage = null;
+
     /// <summary>
     /// Добавление квеста в список активных
     /// </summary>
@@ -15,6 +17,12 @@ public class QuestManager : MonoBehaviour
     public void AddQuestToQuestList(QuestsBase quest)
     {
         _activeQuests.Add(quest);
+
+        if (quest is HostageReleaseQuest releaseQuest)
+        {
+            _releaseHostage = releaseQuest;
+        }
+
         quest.StartQuest();
     }
 
@@ -48,9 +56,9 @@ public class QuestManager : MonoBehaviour
 
     //Hostage Release Quests Methods
     #region
-    public void KillEnemy()
+    public void KillEnemy(EnemyBase enemy)
     {
-
+        _releaseHostage.RemoveEnemyFromList(enemy);
     }
 
     #endregion

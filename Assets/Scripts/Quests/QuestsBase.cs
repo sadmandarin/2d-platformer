@@ -19,4 +19,5 @@ public abstract class QuestsBase : ScriptableObject
     /// выполнение квеста
     /// </summary>
     public abstract void CompleteQuest();
+    public abstract void QuestFailure();
 }

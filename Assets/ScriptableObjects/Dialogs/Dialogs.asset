@@ -13,24 +13,12 @@ MonoBehaviour:
   m_Name: Dialogs
   m_EditorClassIdentifier: 
   Dialogs:
-  - SpeakerName: Me
-    Line: rcdkaflksdklfnsdfhfjfnsdjkfsdklfnsdfnsdkl
-    HasChoices: 0
-    Choices:
-    - 
-    NextDialogs: []
-  - SpeakerName: Him
-    Line: rgywvn,dsvcxvncxvxc,.vmxcvxcvc;xvkl;xc
-    HasChoices: 0
-    Choices:
-    - 
-    NextDialogs: []
-  - SpeakerName: Him
-    Line: 1234567890-pokjnfmskdivcjhbxnmxv,kskcivjusd
+  - SpeakerName: rewrewr
+    Line: erwerewrewrewrwerew
+    HasQuest: 0
     HasChoices: 1
     Choices:
-    - First
-    - Second
+    - gfdgfdgdfg
+    - gfdgfd
     NextDialogs:
-    - {fileID: 11400000, guid: 84aac0596e15f3243a1b60f4f2f9ab92, type: 2}
-    - {fileID: 11400000, guid: d42f4b754e9846d4d8e78bb0ac60aa5a, type: 2}
+    - {fileID: 11400000, guid: bb12bb7d5fb31a74ea9a48333a76a905, type: 2}

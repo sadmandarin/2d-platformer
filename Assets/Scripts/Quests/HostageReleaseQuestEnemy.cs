@@ -14,6 +14,6 @@ public class HostageReleaseQuestEnemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+        _questManager.KillEnemy(_enemy);
     }
 }

@@ -7,12 +7,7 @@ using UnityEngine;
 /// </summary>
 public class WallChecker : MonoBehaviour
 {
-    private Player _player;
-
-    private void Start()
-    {
-        _player = GetComponentInParent<Player>();
-    }
+    [SerializeField] private Player _player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

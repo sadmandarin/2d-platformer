@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         _movement = FindFirstObjectByType<PlayerMovement>();
         _player = FindFirstObjectByType<Player>();
         _playerAttack = FindFirstObjectByType<PlayerAttack>();
-        _activateQuest = FindFirstObjectByType<ActivateQuest>();
+        //  _activateQuest = FindFirstObjectByType<ActivateQuest>();
         _triggerToOpenDoor = FindFirstObjectByType<TriggerToOpenDoor>();
         _doorToSubLocation = FindFirstObjectByType<DoorToSubLocation>();
 

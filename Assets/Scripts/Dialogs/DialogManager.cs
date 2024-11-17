@@ -153,6 +153,12 @@ public class DialogManager : MonoBehaviour
         for (int i = 0; i < currentSpeech.Choices.Count; i++)
         {
             _choices[i].SetActive(false);
+
+            if (currentSpeech.HasQuest)
+            {
+                gameObject.GetComponent<NPC>().Quests[0].StartQuest();
+            }
+
             _activeChoices[i] = false;
         }
     }
@@ -219,6 +225,11 @@ public class DialogManager : MonoBehaviour
     private void ExitSubDialog()
     {
         HideDialogOption();
+
+        //if (_currentDialog.HasQuest)
+        //{
+        //    gameObject.GetComponent<NPC>().Quests[0].StartQuest();
+        //}
 
         _currentLineIndex = _mainDialogLastLineIndex;
 

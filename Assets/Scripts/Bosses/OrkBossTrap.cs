@@ -39,7 +39,7 @@ public class OrkBossTrap : MonoBehaviour
 
         Debug.Log("Попался");
 
-        player.SetStunState();
+        player.SetStunState(1.7f);
 
         Destroy(gameObject);
     }

@@ -40,4 +40,9 @@ public class PickUpItemsQuests : QuestsBase
             Debug.Log("Pick");
         }
     }
+
+    public override void QuestFailure()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -239,6 +239,7 @@ public abstract class EnemyBase : MonoBehaviour
     /// Управлениями состояниями
     /// </summary>
     protected abstract void HandleState();
+    protected abstract void Retreat();
 
     /// <summary>
     /// Движение до обнаружения игрока

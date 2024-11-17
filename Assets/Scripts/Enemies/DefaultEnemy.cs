@@ -108,14 +108,21 @@ public class DefaultEnemy : EnemyBase
 
     private void AttackState()
     {
-        if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _states == States.Attack)
+        if (Vector2.Distance(_playerTransform.position, transform.position) <= 0.7)
         {
-            if (!_isAttacking)
+            Retreat();
+        }
+        else
+        {
+            if (Time.time >= _lastTimeAttack + 1 / _attackSpeed && _states == States.Attack)
             {
-                _startAttackingTime = Time.time;
-                _isAttacking = true;
-                PerformAttack();
-                _lastTimeAttack = Time.time;
+                if (!_isAttacking)
+                {
+                    _startAttackingTime = Time.time;
+                    _isAttacking = true;
+                    PerformAttack();
+                    _lastTimeAttack = Time.time;
+                }
             }
         }
     }
@@ -133,6 +140,25 @@ public class DefaultEnemy : EnemyBase
             case States.Chase:
                 MoveTowardsPlayer();
                 break;
+        }
+    }
+
+    protected override void Retreat()
+    {
+        if (_isPlayerDetected)
+        {
+            Vector2 direction = (_playerTransform.position - transform.position).normalized;
+
+            _rb.velocity = new Vector2(-direction.x * _speed * 2, _rb.velocity.y);
+
+            if (direction.x > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else if (direction.x < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
         }
     }
 }

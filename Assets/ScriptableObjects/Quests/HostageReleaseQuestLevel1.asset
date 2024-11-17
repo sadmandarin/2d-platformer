@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283a5950941de0940b08db9684b1db50, type: 3}
+  m_Name: HostageReleaseQuestLevel1
+  m_EditorClassIdentifier: 
+  QuestName: HostageRelease
+  QuestDescription: sfdsfds
+  IsQuestActiveNow: 0
+  IsCompleted: 0
+  _enemyToSpawn:
+  - {fileID: 1961949800618277594, guid: ad5dd6bb87a10aa409ac3c94193c5024, type: 3}
+  _enemyPositions:
+  - {x: -7, y: 0}
+  _hostageToRelease: {fileID: 0}
+  _hostage: {fileID: 5373330553216305747, guid: bef830e91c1190b4c9d6e834ace51fe4, type: 3}
+  _questTriggerZone: {fileID: 8082705219114785211, guid: de961af3d3f377d49a61a800c9ba7247, type: 3}
+  _questTriggerZonePosition: {x: -9, y: -1}
+  _timeForQuest: 12

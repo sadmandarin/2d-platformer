@@ -15,6 +15,11 @@ public class ClearingTheAreaQuest : QuestsBase
         throw new System.NotImplementedException();
     }
 
+    public override void QuestFailure()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void StartQuest()
     {
         throw new System.NotImplementedException();

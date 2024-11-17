@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _lastTimeAttack = Time.time;
 
-        _player = GetComponent<Player>();
+        _player = GetComponentInChildren<Player>();
 
         _activeWeapon = _player.CurrentMeleeWeapon;
 
