@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
 
     public AbilitySOBase _activeAbility;
 
-    private void Awake()
+    private void OnEnable()
     {
         _lastTimeAttack = Time.time;
 
@@ -30,7 +30,8 @@ public class PlayerAttack : MonoBehaviour
         _activeWeapon = _player.CurrentMeleeWeapon;
 
         _inputs = new Inputs();
-        
+        GameManager.Instance.InitializeComponent(this);
+
     }
 
     public void Subscription()

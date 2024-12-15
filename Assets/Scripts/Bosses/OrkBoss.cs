@@ -112,6 +112,8 @@ public class OrkBoss : BossBase
 
             _playerPosition = player.gameObject.transform;
 
+            OnTakeBestiary();
+
             StartCoroutine(AttackInterval());
         }
     }

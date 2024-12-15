@@ -108,7 +108,7 @@ public class DefaultEnemy : EnemyBase
 
     private void AttackState()
     {
-        if (Vector2.Distance(_playerTransform.position, transform.position) <= 0.7)
+        if (Vector2.Distance(_playerTransform.position, transform.position) <= 0.3)
         {
             Retreat();
         }

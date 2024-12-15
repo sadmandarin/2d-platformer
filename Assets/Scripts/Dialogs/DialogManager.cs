@@ -25,18 +25,17 @@ public class DialogManager : MonoBehaviour
 
     private Coroutine _typingCoroutine;
     private Inputs _inputs;
-    private GameManager _gameManager;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _gameManager = FindFirstObjectByType<GameManager>();
-
         _inputs = new Inputs();
+
+        GameManager.Instance.InitializeComponent(this);
     }
 
     public void StartDialog()
     {
-        _gameManager.EnterDialog();
+        GameManager.Instance.EnterDialog();
 
         _dialogWindow.SetActive(true);
         _currentDialog = _mainDialog;
@@ -204,7 +203,7 @@ public class DialogManager : MonoBehaviour
         _line.text = "";
         _speakerName.text = "";
         Debug.Log("Диалог завершен");
-        _gameManager.ExitDialogs();
+        GameManager.Instance.ExitDialogs();
         _dialogWindow.SetActive(false);
     }
 
@@ -248,7 +247,7 @@ public class DialogManager : MonoBehaviour
             _line.text = "";
             _speakerName.text = "";
             Debug.Log("Диалог завершен");
-            _gameManager.ExitDialogs();
+            GameManager.Instance.ExitDialogs();
             _dialogWindow.SetActive(false);
         }
         else

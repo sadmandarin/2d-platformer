@@ -328,6 +328,8 @@ public class BanditLeaderBoss : BossBase
 
             _playerPosition = player.gameObject.transform;
 
+            OnTakeBestiary();
+
             StartCoroutine(AttackInterval());
         }
     }

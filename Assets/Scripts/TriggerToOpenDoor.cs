@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,11 +11,13 @@ public class TriggerToOpenDoor : MonoBehaviour
     private bool _isDoorOpen;
     private Inputs _inputs;
 
-    private void Awake()
+    private void OnEnable()
     {
         _inputs = new Inputs();
 
         _isDoorOpen = false;
+
+        GameManager.Instance.InitializeComponent(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

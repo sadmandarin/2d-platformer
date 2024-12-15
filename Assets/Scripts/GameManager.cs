@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;  
+
     private bool _levelLost;
     private bool _levelWin;
     [SerializeField] private bool _isDialogActive = false;
@@ -33,30 +35,22 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Удаляем лишние экземпляры
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        Debug.Log("Instance Инициализирован");
+
         Time.timeScale = 1.0f;
 
-        _movement = FindFirstObjectByType<PlayerMovement>();
-        _player = FindFirstObjectByType<Player>();
-        _playerAttack = FindFirstObjectByType<PlayerAttack>();
-        //  _activateQuest = FindFirstObjectByType<ActivateQuest>();
-        _triggerToOpenDoor = FindFirstObjectByType<TriggerToOpenDoor>();
-        _doorToSubLocation = FindFirstObjectByType<DoorToSubLocation>();
-
-        _dialogManager = FindFirstObjectByType<DialogManager>();
-
-        _boss = FindFirstObjectByType<BossBase>();
         _playerInputs = GetComponent<PlayerInput>();
+        Debug.Log("playerInput Initialize");
         _inputs = new Inputs();
-
-        _player.OnDied += LevelLost;
-        
-        if(_boss != null)
-            _boss.BossDead += LevelWin;
-    }
-
-    private void OnEnable()
-    {
-        SubscribeAllGamePlayAction();
+        Debug.Log("Input создан");
     }
 
     private void OnDisable()
@@ -70,6 +64,55 @@ public class GameManager : MonoBehaviour
 
         if (_boss != null)
             _boss.BossDead -= LevelWin;
+    }
+
+    public void InitializeComponent<T>(T component)
+    {
+        Debug.Log("Инициализация " + component);
+
+        if (component == null) return;
+
+        switch (component)
+        {
+            case Player player:
+                _player = player;
+                _player.Subscription();
+                _player.OnDied += LevelLost;
+                break;
+
+            case PlayerMovement movement:
+                _movement = movement;
+                _movement.Subscription();
+                break;
+
+            case PlayerAttack playerAttack:
+                _playerAttack = playerAttack;
+                _playerAttack.Subscription();
+                break;
+
+            case TriggerToOpenDoor openDoor:
+                _triggerToOpenDoor = openDoor;
+                _triggerToOpenDoor.Subscription();
+                break;
+
+            case DoorToSubLocation door:
+                _doorToSubLocation = door;
+                _doorToSubLocation.Subscription();
+                break;
+
+            case DialogManager dialog:
+                _dialogManager = dialog;
+                break;
+
+            case BossBase boss:
+                _boss = boss;
+                _boss.BossDead += LevelWin;
+                break;
+
+            default:
+                Debug.LogWarning($"Unsupported component type: {typeof(T)}");
+                break;
+        }
     }
 
     public void EnterDialog()
@@ -146,31 +189,29 @@ public class GameManager : MonoBehaviour
 
     private void SubscribeAllGamePlayAction()
     {
-        _player?.Subscription();
-        _playerAttack?.Subscription();
-        _movement?.Subscription();
-        _activateQuest?.Subscription();
+        _player.Subscription();
+        _movement.Subscription();
+        _playerAttack.Subscription();
         _triggerToOpenDoor?.Subscription();
-        _doorToSubLocation?.Subscription();
+        _doorToSubLocation.Subscription();
     }
 
     private void UnsubscribeAllGamePlayAction()
     {
-        _player?.Unsubscription();
-        _playerAttack?.Unsubscription();
-        _movement?.Unsubscription();
-        _activateQuest?.Unsubscription();
-        _triggerToOpenDoor?.Unsubscription();
+        _player.Unsubscription();
+        _playerAttack.Unsubscription();
+        _movement.Unsubscription();
+        _triggerToOpenDoor.Unsubscription();
         _doorToSubLocation?.Unsubscription();
     }
 
     private void SubscribeDialogAction()
     {
-        _dialogManager?.Subscription();
+        _dialogManager.Subscription();
     }
 
     private void UnsubscribeDialogAction()
     {
-        _dialogManager?.Unsubscription();
+        _dialogManager.Unsubscription();
     }
 }

@@ -13,9 +13,11 @@ public class DoorToSubLocation : MonoBehaviour
     private Player _player;
     private bool _isPlayerNear = false;
 
-    private void Awake()
+    private void OnEnable()
     {
         _inputs = new Inputs();
+
+        GameManager.Instance.InitializeComponent(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

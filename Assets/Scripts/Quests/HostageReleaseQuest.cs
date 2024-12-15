@@ -14,6 +14,7 @@ public class HostageReleaseQuest : QuestsBase
     [SerializeField] private GameObject _questTriggerZone;
     [SerializeField] private Vector2 _questTriggerZonePosition;
     [SerializeField] private int _timeForQuest;
+    [SerializeField] private Camera _camera;
 
     private List<EnemyBase> _spawnedEnemies;
 
@@ -46,8 +47,9 @@ public class HostageReleaseQuest : QuestsBase
         trigger.GetComponent<EnterReleaseQuestTrigger>().Init(this);
 
 
-
+        //Тут внести передачу положения нпс, которого надо освободить
         //_friendlyNPC = Instantiate(_hostageToRelease);
+        //_camera.GetComponent<MoveCameraToQuest>().MoveCameraTowardsQuest()
     }
 
     // Присваивать в поле QuestEnemy название или ID квеста, искать в списках квестах по названию

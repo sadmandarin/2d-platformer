@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 28020e4cdeceae8488433ae7d8178051
+  m_SerializeEntries:
+  - m_GUID: f7eeee3d5799452408799df80497efbb
+    m_Address: Assets/ScriptableObjects/Notes/NotesTorageSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01abe9be84fe0ea45bc622a1396f0ebc
+    m_Address: Assets/ScriptableObjects/Bestiary/BestiaryStorage.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6c4f23e8fbc483c45bc14fd8c25de5d7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6666942b12326634b9007625876e760b, type: 2}
+    - {fileID: 11400000, guid: d46e6685544c9bb4cb2f44f9bbc6fe5d, type: 2}

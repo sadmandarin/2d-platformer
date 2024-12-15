@@ -275,6 +275,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""dfdeee79-d5df-4cc3-aea3-b2b549eec072"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""90c65e37-f862-49b5-8071-233e7fe84e2b"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",

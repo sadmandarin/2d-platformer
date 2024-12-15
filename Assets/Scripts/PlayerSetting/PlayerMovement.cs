@@ -20,11 +20,13 @@ public class PlayerMovement : MonoBehaviour
     private bool _jumpInput;
     private float swingForce = 5f;
 
-    private void Awake()
+    private void OnEnable()
     {
         _rb = GetComponent<Rigidbody2D>();
         _player = GetComponentInChildren<Player>();
         _inputs = new Inputs();
+
+        GameManager.Instance.InitializeComponent(this);
     }
 
     private void FixedUpdate()

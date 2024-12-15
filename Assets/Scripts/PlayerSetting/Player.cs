@@ -200,6 +200,9 @@ public class Player : MonoBehaviour
         _playerAttack = GetComponentInParent<PlayerAttack>();
 
         SetHaracteristicOnStart();
+
+        GameManager.Instance.InitializeComponent(this);
+        Debug.Log("Instance инициализирован");
     }
 
     public void Subscription()
@@ -494,7 +497,7 @@ public class Player : MonoBehaviour
         CurrentMeleeWeapon = _playerSettingsSO.MeleeWeapon;
         CurrentLongRangeWeapon = _playerSettingsSO.LongRangeWeapon;
         CurrentAbility = _playerSettingsSO.Ability;
-        _playerAttack._activeAbility = CurrentAbility.GetComponent<AbilitySOBase>();
+        //_playerAttack._activeAbility = CurrentAbility.GetComponent<AbilitySOBase>();
         CurrentArmor = _playerSettingsSO.PlayerArmor;
         MaxHP = 100;
         MaxMP = 100;

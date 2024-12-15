@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -30,6 +31,8 @@ public abstract class BossBase : MonoBehaviour
     protected Transform _playerPosition;
     protected Rigidbody2D _rb;
     protected BossState _state;
+
+    public Bestiary Bestiary;
 
     public event Action BossDead;
     public event Action OnArmorTookDamage;
@@ -62,6 +65,11 @@ public abstract class BossBase : MonoBehaviour
         InitializeStats();
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.InitializeComponent(this);
+    }
+
     protected virtual void Update()
     {
         if (_player != null)
@@ -76,6 +84,15 @@ public abstract class BossBase : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(_attackPointTransform.position, 1.7f);
+    }
+
+    protected void OnTakeBestiary()
+    {
+        Debug.Log(Bestiary.Name);
+        Debug.Log(Bestiary.Description);
+
+        NotesAndBestiaryManager.Instance.AddToReadsBestiary(Bestiary);
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
     /// <summary>
